@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>다각적 데이터 분석 및 시각화 지원 도구</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/jsgrid-theme.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/jsgrid.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/vis-tool.css"/>
+
+    <!--    <script src="./lib/jquery/jquery-2.1.4.min.js"></script>-->
+    <!--    <script src="./lib/jquery/jquery.blockUI.js"></script>-->
+    <script src="/js/jquery.js"></script>
+    <script src="/js/jquery.blockUI.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jsgrid.js"></script>
+</head>
+
+<body style="background-color: #EEEEEE;">
+<div class="container-fluid">
+    <section style="background-color:ivory">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="dropdown">
+                    <button id="btnEntity" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                        보고서를 선택하세요.
+                        <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12"><label></label></div>
+        </div>
+        <div class="row">
+            <!--<div class="dvSection">-->
+            <div class="col-md-7">
+                <div style="padding:10px;border:1px solid #7D7D7D">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label>배치할 컬럼</label>
+                        </div>
+                        <div class="col-md-2">
+                            <input id="chkDistinctYN" type="checkbox"/>
+                            <label>DISTINCT</label>
+                        </div>
+                        <div class="col-md-2 col-md-offset-6 text-right">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="addSelectItem()">
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> 추가
+                            </button>
+                            <button type="button" class="btn btn-warning btn-sm" onclick="delSelectItem()">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 삭제
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="selectGrid"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12"><label></label></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label>조회 조건</label>
+                        </div>
+                        <div class="col-md-2 col-md-offset-8 text-right">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="addFilterItem()">
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> 추가
+                            </button>
+                            <button type="button" class="btn btn-warning btn-sm" onclick="delFilterItem()">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 삭제
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="filterGrid"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12"><label></label></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label>Request</label>
+                        </div>
+                        <div class="col-md-2 col-md-offset-8 text-right">
+                            <button type="button" class="btn btn-info btn-sm" onClick="convert()">
+                                <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span> 변환
+                            </button>
+                            <button type="button" class="btn btn-success btn-sm" onClick="send()">
+                                <span class="glyphicon glyphicon-send" aria-hidden="true"></span> 전송
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <textarea id="txtRequest" style="width:100%;height:200px" rows="30"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--</div>-->
+            <!--<div class="dvSection">-->
+            <div class="col-md-5">
+                <div style="padding:10px;border:1px solid #7D7D7D">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label id="resultTime" style="float:right"></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="resultGrid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+
+</html>

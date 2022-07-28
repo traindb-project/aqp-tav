@@ -1,0 +1,61 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+#visual-tool-app {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 2fr 8fr;
+    grid-template-rows: 50px 1fr 1fr;
+}
+
+#visual-tool-app .app-title {
+    grid-column: 1/span 2;
+}
+
+#visual-tool-app .app-title h1 {
+    margin: 0;
+    text-align: center;
+}
+
+.content-area {
+    display: grid;
+    grid-template-rows: 32px 1fr;
+}
+
+.sub-title h2 {
+    margin: 0;
+    text-align: center;
+}
+
+#data-area {
+    grid-row: 2/span 2;
+}
+
+#grid-area {
+
+}
+
+#chart-area {
+
+}
+
+
+.query-selector {
+    background: none;
+    border: none;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: serif;
+    text-align: left;
+}
+.query-selector:focus {
+    outline: none;
+}
+.query-selector:active {
+    color:red;
+}
