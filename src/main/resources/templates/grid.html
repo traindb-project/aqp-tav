@@ -1,0 +1,23 @@
+<div id="spreadsheet" style="width: 100%; height: 100%; overflow: scroll"></div>
+
+<script th:inline="javascript">
+    var grid_columns = []
+    var grid_keys = Object.keys([[${domainDataList[0]}]])
+    for (var grid_key of grid_keys) {
+        grid_columns.push({
+            type: 'text',
+            title: grid_key,
+            width: 100,
+        })
+    }
+
+    var grid_data = [];
+    [# th:each="domainData : ${domainDataList}"]
+        grid_data.push(Object.values([[${domainData}]]))
+    [/]
+    
+    jspreadsheet(document.getElementById('spreadsheet'), {
+        data: grid_data,
+        columns: grid_columns
+    });
+</script>
