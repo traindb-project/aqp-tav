@@ -12,11 +12,12 @@
 	<artifactId>visualtool</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>visualizer</name>
-	<description>Demo project for Spring Boot</description>
+	<description>시각화 분석 지원 도구</description>
 	<properties>
 		<java.version>18</java.version>
 	</properties>
 	<dependencies>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -28,6 +29,18 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>2.2.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ojdbc8</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
