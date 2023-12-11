@@ -1,0 +1,40 @@
+.page-header-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    margin-top: 10px;
+}
+
+.page-header-wrapper h3 {
+    margin-top: 5px;
+}
+ 
+
+.page-header-wrapper .page-header-actions {
+    position: absolute;
+    right: 15px;
+    margin-top: 5px;
+}
+
+
+.train-model-fullscreen {
+    background: #fff;
+    padding: 0;
+    box-shadow: rgba(102, 136, 153, 0.15) 0 4px 9px -3px;
+    flex-grow: 1;
+    display: flex;
+
+    .resizable-component.react-resizable {
+        .react-resizable-handle-horizontal {
+            border-right: 1px solid #efefef;
+        }
+        .react-resizable-handle-vertical {
+            border-bottom: 1px solid #efefef;
+        }
+    }
+}
+
+.bottom-controller-contrainer {
+    justify-content: right;
+    right: 15px;
+}

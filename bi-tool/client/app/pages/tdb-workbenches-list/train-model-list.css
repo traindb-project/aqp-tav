@@ -1,0 +1,17 @@
+/* Created by wgkim 2023-04-12 */
+.search input[type="text"],
+.search input {
+  margin-top: 20px;
+}
+
+.page-train-model-list .page-header-actions {
+  width: 25%; /* same as sidebar */
+  max-width: 350px; /* same as sidebar */
+  width: 320px;
+  height: 32px;
+}
+
+.page-train-model-list .page-header-actions button {
+  width: 150px;
+  height: 32px;
+}
