@@ -1,0 +1,68 @@
+-- public.workbenches definition
+
+-- Drop table
+
+-- DROP TABLE public.workbenches;
+
+CREATE TABLE public.workbenches (
+	updated_at timestamptz NOT NULL,
+	created_at timestamptz NOT NULL,
+	id serial4 NOT NULL,
+	"version" int4 NOT NULL,
+	org_id int4 NOT NULL,
+	data_source_id int4 NULL,
+	latest_query_data_id int4 NULL,
+	name varchar(255) NOT NULL,
+	description varchar(4096) NULL,
+	query text NOT NULL,
+	query_hash varchar(32) NOT NULL,
+	api_key varchar(40) NOT NULL,
+	user_id int4 NOT NULL,
+	last_modified_by_id int4 NULL,
+	is_archived bool NOT NULL,
+	is_draft bool NOT NULL,
+	schedule text NULL,
+	schedule_failures int4 NULL,
+	"options" text NOT NULL,
+	search_vector tsvector NULL,
+	tags _varchar NULL,
+	modeltype_name varchar NULL,
+	schema_name varchar NULL,
+	table_name varchar NULL,
+	columns varchar NULL,
+	table_rows int4 NULL,
+	trained_rows int4 NULL,
+	model_options varchar NULL,
+	model_server varchar NULL,
+	status varchar NULL,
+	start_time timestamptz NULL,
+	CONSTRAINT queries_pkey_1 PRIMARY KEY (id)
+);
+CREATE INDEX ix_queries_is_archived_1 ON public.workbenches USING btree (is_archived);
+CREATE INDEX ix_queries_is_draft_1 ON public.workbenches USING btree (is_draft);
+CREATE INDEX ix_queries_search_vector_1 ON public.workbenches USING btree (search_vector);
+
+
+
+-- public.workbench_query_results definition
+
+-- Drop table
+
+-- DROP TABLE public.workbench_query_results;
+
+CREATE TABLE public.workbench_query_results (
+	id serial4 NOT NULL,
+	org_id int4 NOT NULL,
+	data_source_id int4 NOT NULL,
+	query_hash varchar(32) NOT NULL,
+	query text NOT NULL,
+	"data" text NOT NULL,
+	runtime float8 NOT NULL,
+	retrieved_at timestamptz NOT NULL,
+	CONSTRAINT workbench_query_results_pkey PRIMARY KEY (id),
+	CONSTRAINT workbench_query_results_data_source_id_fkey FOREIGN KEY (data_source_id) REFERENCES public.data_sources(id),
+	CONSTRAINT workbench_query_results_org_id_fkey FOREIGN KEY (org_id) REFERENCES public.organizations(id)
+);
+CREATE INDEX ix_workbench_query_results_query_hash ON public.workbench_query_results USING btree (query_hash);
+
+
