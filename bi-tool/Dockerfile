@@ -51,6 +51,8 @@ RUN apt-get update && \
     g++ unixodbc-dev \
     # for SAML
     xmlsec1 \
+    # Java
+    openjdk-11-jdk \
     # Additional packages required for data sources:
     libssl-dev \
     default-libmysqlclient-dev \
@@ -98,6 +100,9 @@ COPY . /app
 COPY --from=frontend-builder /frontend/client/dist /app/client/dist
 RUN chown -R redash /app
 USER redash
+
+ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64/
+RUN export JAVA_HOME
 
 ENTRYPOINT ["/app/bin/docker-entrypoint"]
 CMD ["server"]
