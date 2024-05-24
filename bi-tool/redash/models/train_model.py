@@ -51,11 +51,11 @@ class TrainModel():
         sql = "TRAIN MODEL  "+ kwargs["model_name"] + \
                 " MODELTYPE "+ kwargs["model_type"] + \
                 "    ON     "+ target + \
-                " OPTIONS ('epochs' = 1)"
-                # " OPTIONS ( "+ ", ".join(kwargs["options"]) +" )"
+                " OPTIONS ( "+ kwargs["options"].replace('"', '').replace('{', '').replace('}', '').replace(':', ' = ').replace(',', ', ') +" )"
 
         # sql = "TRAIN MODEL New_Model MODELTYPE remote_tablegan ON instacart_small.order_products( reordered ) OPTIONS ('epochs' = 1)"
 
+        logger.debug(f'kwargs["options"] : {kwargs["options"]}')
         logger.debug(f'wgkim sql : {sql}')
         return cls._execute(sql)
 
