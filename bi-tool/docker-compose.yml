@@ -5,7 +5,8 @@ x-redash-service: &redash-service
   build:
     context: .
     args:
-      skip_frontend_build: "true"
+      skip_frontend_build: ""  # set to "true" to skip
+  image: traindb/workbench:latest
   volumes:
     - .:/app
 x-redash-environment: &redash-environment
