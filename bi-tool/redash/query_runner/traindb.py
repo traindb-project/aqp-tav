@@ -39,8 +39,7 @@ types_map = {
 }
 
 class TrainDB(BaseSQLQueryRunner):
-    # noop_query = "SHOW MODELTYPES;"
-    noop_query = "SELECT 1;"
+    noop_query = "SELECT 1"
 
     @classmethod
     def configuration_schema(cls):
