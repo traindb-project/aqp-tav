@@ -206,8 +206,10 @@ class TrainDB(BaseSQLQueryRunner):
                 json_data, error = self._run_query(connection, query, user)
 
         except jaydebeapi.Error as e:
+            if not hasattr(e, 'message'):
+                pass
             json_data = None
-            error = f"jdbc error during the execution of query. error_message : {e}"
+            error = f"{e}"
         except InterruptException:
             json_data = None
             error = "Query cancelled by user."
