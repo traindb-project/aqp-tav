@@ -109,9 +109,9 @@ function WorkbenchSource(props) {
       const cleanedValue = changedValue !== undefined ? changedValue : undefined;
       values[0][key] = cleanedValue !== undefined ? cleanedValue : item.default_value;
     })
-    console.log('data :', data)
-    console.log('values :', values)
-    console.log('changedData :', changedData)
+    // console.log('data :', data)
+    // console.log('values :', values)
+    // console.log('changedData :', changedData)
     return values;
   };
 
@@ -181,14 +181,14 @@ function WorkbenchSource(props) {
       table_name: targetTable,
       // modeltype_name: modelTypes[0].modeltype_name,
       columns: JSON.stringify(targetColumns),
-      model_options: JSON.stringify({}),
+      model_options: JSON.stringify(changedHyperParameters),
     };
     updates.modeltype_name = modelTypes.length > 0 ? modelTypes[0].modeltype_name : null;
 
     setWorkbench(extend(workbench.clone(), updates));
     updateWorkbench(updates, { successMessage: null }); // show message only on error
 
-  }, [targetTable, targetColumns, modelTypes, defaultHyperParameters])
+  }, [targetTable, targetColumns, modelTypes, defaultHyperParameters, changedHyperParameters])
 
   useEffect(() => {
     // TODO: ignore new pages?
