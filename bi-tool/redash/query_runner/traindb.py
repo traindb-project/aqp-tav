@@ -118,73 +118,34 @@ class TrainDB(BaseSQLQueryRunner):
 
     def _get_tables(self, schema):
         connection = None
-        cursor = None
-        
+
         try:
             connection = self._connection()
 
-            print("TrainDB._get_tables() : step2. connection")
-
-            # USE SCHEMA query 실행 : 스키마를 지정
             schema_name = self.configuration.get('schema', '')
 
-            print("TrainDB._get_tables() : schema_name " + schema_name)
-
-            self._execute(connection, "USE " + schema_name, None)
-
-            print("TrainDB._get_tables() : step3. schema")
-
-            # 지정된 스키마의 모든 테이블 조회
-            query = "SHOW TABLES;"
+            query = "SHOW COLUMNS"
+            if schema_name != '':
+                query = query + " WHERE schema_name = '" + schema_name + "'"
             results, error = self._run_query(connection, query, None)
 
             if error is not None:
-                raise Exception("Failed getting tables.")
-
-            print("TrainDB._get_tables() : step4. tables")
+                raise Exception("Failed getting table columns.")
 
             results = json_loads(results)
 
-            print("TrainDB._get_tables() : step5. table convert")
-
             for row in results["rows"]:
-                table_name = "{}.{}".format(schema_name, row["table"])
+                table_name = "{}.{}".format(row["schema_name"], row["table_name"])
                 if table_name not in schema:
                     schema[table_name] = {"name": table_name, "columns": []}
 
-                    # 테이블의 컬럼조회
-                    query = "DESCRIBE " + table_name + ";"
-                    columns, colerror = self._run_query(connection, query, None)
-
-                    if colerror is not None:
-                        raise Exception("Failed getting columns.")
-
-                    columns = json_loads(columns)
-
-                    # Updated by wgkim 2023-10-19 : 스키마브라우저 형식에 맞게 키 변경
-                    for item in columns['rows']:
-                        if 'column name' in item:
-                            item['name'] = item.pop('column name')
-                        if 'column type' in item:
-                            item['type'] = item.pop('column type')
-
-                    schema[table_name]["columns"].extend(columns["rows"])
-
-                    print('wgkim columns["rows"] :', columns["rows"])
-                    print('wgkim schema :', schema)
-
-            print("TrainDB._get_tables() : step6. end")
+                schema[table_name]["columns"].append({ "name" : row["column_name"], "type" : row["type_name"]})
 
             return schema
             
         except Exception as e:
             raise e
-        finally :
-            try:
-                if cursor is not None:
-                    cursor.close()
-            except:
-                pass
+        finally:
             try:
                 if connection is not None:
                     connection.close()
