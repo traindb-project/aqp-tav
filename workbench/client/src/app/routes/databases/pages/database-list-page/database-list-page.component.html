@@ -1,0 +1,65 @@
+<h1>Databases</h1>
+
+<section class="section elevate flex gap-4">
+  <etri-search-input
+    class="inline-block grow max-w-lg"
+    (onKeyword)="keyword.set($event)"/>
+  <button
+    type="button"
+    routerLink="/databases/register"
+    class="ml-auto btn btn-primary btn-sm text-white no-underline rounded-none">New</button>
+</section>
+
+<section class="section elevate p-0 overflow-auto">
+  <table class="table">
+    <!-- head -->
+    <thead class="sticky top-0">
+    <tr>
+      <th class="text-right">#</th>
+      <th class="text-left">Name</th>
+      <th class="text-left">Host</th>
+      <th class="text-left">Port</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+      @for (db of databaseList() | patternFilter:keyword():'name'; track $index) {
+        <tr class="even:bg-zinc-50 hover:bg-zinc-100">
+          <th class="text-right">{{ $index + 1 | number }}</th>
+          <td>{{ db.name }}</td>
+          <td>{{ db.host | ipAnonymization }}</td>
+          <td>{{ db.port }}</td>
+          <td class="flex gap-2 py-2 px-4">
+            <button
+              type="button"
+              (click)="deleteDatabase($event, db)"
+              class="btn btn-warning btn-xs rounded-none text-white"
+            >
+              <etri-trash-icon type="solid" class="size-4"/>
+            </button>
+            <button
+              type="button"
+              [routerLink]="['/databases', db.id, 'update']"
+              class="btn btn-secondary btn-xs rounded-none no-underline text-white"
+            >
+              <etri-pencil-square-icon type="solid" class="size-4"/>
+            </button>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          @if (loading()) {
+            <td colspan="5">
+              <div class="flex flex-col gap-2 items-center py-4">
+                <etri-loading/>
+                <span class="text-zinc-500 text-xs">Loading...</span>
+              </div>
+            </td>
+          } @else {
+            <td class="text-zinc-500 text-center" colspan="5">결과가 없습니다.</td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>

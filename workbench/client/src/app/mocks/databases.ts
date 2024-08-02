@@ -1,0 +1,57 @@
+import { FindDatabase } from '../dto';
+import { TRAINDB_LIST } from './traindb';
+
+export const DATABASE_LIST: FindDatabase[] = [
+  {
+    id: 1,
+    name: 'Etri MySQL',
+    dbms: 'mysql',
+    host: TRAINDB_LIST[0].host,
+    port: 13306,
+    username: null,
+    password: null,
+    traindb_id: TRAINDB_LIST[0].id,
+    traindb: TRAINDB_LIST[0],
+    created_at: new Date(),
+    updated_at: new Date(),
+  },
+  {
+    id: 2,
+    name: 'Etri Kairos',
+    dbms: 'kairos',
+    host: TRAINDB_LIST[0].host,
+    port: 5000,
+    username: null,
+    password: null,
+    traindb_id: TRAINDB_LIST[0].id,
+    traindb: TRAINDB_LIST[0],
+    created_at: new Date(),
+    updated_at: new Date(),
+  },
+  {
+    id: 3,
+    name: 'Bimatrix MySQL',
+    dbms: 'mysql',
+    host: TRAINDB_LIST[1].host,
+    port: 3306,
+    username: null,
+    password: null,
+    traindb_id: TRAINDB_LIST[1].id,
+    traindb: TRAINDB_LIST[1],
+    created_at: new Date(),
+    updated_at: new Date(),
+  },
+  {
+    id: 3,
+    name: 'Bimatrix Kairos',
+    dbms: 'kairos',
+    host: TRAINDB_LIST[1].host,
+    port: 5000,
+    username: null,
+    password: null,
+    traindb_id: TRAINDB_LIST[1].id,
+    traindb: TRAINDB_LIST[1],
+    created_at: new Date(),
+    updated_at: new Date(),
+  }
+];

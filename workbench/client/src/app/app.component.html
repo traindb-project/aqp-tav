@@ -1,0 +1,21 @@
+@if (layoutService.navigation()) {
+  <etri-navigator
+    class="block bg-zinc-700 text-white fixed inset-y-0 left-0 w-[100px] z-50 shadow-lg"
+  />
+}
+@if (!!traindbService.currentId()) {
+  <etri-traindb-banner
+    [traindb]="traindbService.current()"
+    class="ml-[100px] sticky top-0"
+  ></etri-traindb-banner>
+}
+
+<main
+  [ngClass]="{
+    'ml-[100px]': !!traindbService.currentId()
+  }"
+  [style.min-height]="traindbService.currentId() ? 'calc(100vh - 32px)' : '100vh'"
+  class="bg-zinc-100 p-4"
+>
+  <router-outlet/>
+</main>

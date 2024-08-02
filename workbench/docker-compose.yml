@@ -1,0 +1,64 @@
+services:
+  redis:
+    image: redis:7.2.4-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+  postgres:
+    build:
+      context: postgres
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - ${POSTGRES_VOLUME}:/var/lib/postgresql/data
+  api:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ${CONFIG_VOLUME}:/etc/traindb/workbench
+    depends_on:
+      - redis
+      - postgres
+    command: uvicorn --host=0.0.0.0 --port 4000 main:app
+  # prometheus:
+  #   image: prom/prometheus
+  #   ports:
+  #     - "9090:9090"
+  #   volumes:
+  #     - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+  #   command:
+  #     - '--config.file=/etc/prometheus/prometheus.yml'
+  #     - '--web.external-url=http://localhost:9090/prometheus/'
+  # node_exporter:
+  #   image: prom/node-exporter
+  # grafana:
+  #   image: grafana/grafana
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     GF_SERVER_ROOT_URL: http://localhost:3000/grafana/
+  #   volumes:
+  #     - ${GF_DATA_VOLUME}:/var/lib/grafana
+  #     - ./config/grafana/grafana.ini:/etc/grafana/grafana.ini
+  nginx:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./config/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - api
+      # - prometheus
+      # - grafana

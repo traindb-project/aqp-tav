@@ -1,0 +1,7 @@
+.angular/cache
+.vscode/
+.storybook/
+node_modules/
+dist/
+
+Dockerfile*

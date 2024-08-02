@@ -1,0 +1,102 @@
+<etri-base-dialog
+  (onClose)="onClose.emit()"
+  [hiddenFooter]="true"
+>
+  <h1 header etriDialogHeader>Model Information</h1>
+
+  <div class="space-y-6">
+    <div class="flex flex-col gap-4 p-4 border border-zinc-300">
+      <div class="flex gap-4 items-center text-lg">
+        <span class="text-zinc-600">Model Name: </span>
+        <span class="font-semibold">{{ model().name }}</span>
+        @if (downloadLink) {
+          <a
+            [href]="downloadLink"
+            class="btn btn-info btn-xs rounded-none text-white no-underline"
+          >
+            <etri-arrow-down-tray-icon type="solid" class="size-4"/>
+            Export
+          </a>
+        }
+      </div>
+      <div class="flex gap-4 items-center text-lg">
+        <span class="text-zinc-600">Status: </span>
+        <span
+          class="badge {{ model().status === 'ENABLED' ? 'badge-primary text-white' : 'text-zinc-500' }}"
+        >{{ model().status }}</span>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-2 p-4 border border-zinc-300">
+      <table class="table table-sm">
+        <tbody>
+        <tr>
+          <th>Model Type</th>
+          <td>{{ model().modeltype }}</td>
+        </tr>
+        <tr>
+          <th>Schema</th>
+          <td>{{ model().schema }}</td>
+        </tr>
+        <tr>
+          <th>Table</th>
+          <td>{{ model().table }}</td>
+        </tr>
+        <tr>
+          <th>Columns</th>
+          <td>
+            <div class="flex gap-2 flex-wrap">
+              @for (col of model().columns; track col) {
+                <span class="py-px px-1 text-xs border border-zinc-300">{{ col }}</span>
+              }
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th>Training Samples</th>
+          <td>
+            {{ model().trained_rows / model().table_rows | percent }}
+            <span class="text-zinc-600 text-sm">
+              ({{ model().trained_rows | number }} / {{ model().table_rows | number }})
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <th>Training Server</th>
+          <td>{{ model().server || '-' }}</td>
+        </tr>
+        <tr>
+          <th>Training Start Time</th>
+          <td>{{ model().start ? (model().start | date: 'yyyy년 M월 d일 HH시 mm분') : '-' }}</td>
+        </tr>
+        <tr>
+          <th>Training Status</th>
+          <td>
+            @if (model().training_status) {
+              <span
+                class="badge badge-sm text-white {{ model().training_status === 'FINISHED' ? 'badge-primary' : 'badge-warning' }}"
+              >{{ model().training_status }}</span>
+            } @else {
+              <span>-</span>
+            }
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="flex flex-col gap-2 p-4 border border-zinc-300">
+      <h3 class="text-sm font-semibold">Hyper Parameters</h3>
+      <table class="table table-sm">
+        <tbody>
+          @for (param of hyperParameters(); track param) {
+            <tr>
+              <th>{{ param.name }}:</th>
+              <td>{{ param.value }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</etri-base-dialog>

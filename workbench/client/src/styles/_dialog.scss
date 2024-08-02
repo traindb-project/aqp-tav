@@ -1,0 +1,50 @@
+$anim-duration: 300ms;
+$anim-timing: ease-out;
+
+.cdk-overlay-backdrop {
+  @apply fixed inset-0;
+  background-color: rgba(0, 0, 0, 0.32);
+  z-index: 999;
+
+  &.cdk-overlay-backdrop-showing {
+    animation-name: dialog-backdrop-anim;
+    animation-duration: $anim-duration;
+    animation-timing-function: $anim-timing;
+  }
+}
+
+.cdk-global-overlay-wrapper {
+  z-index: 9999;
+  @apply fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-fit;
+}
+
+.cdk-overlay-pane {
+  animation-name: dialog-pane-anim;
+  animation-duration: $anim-duration;
+  animation-timing-function: $anim-timing;
+}
+
+.cdk-dialog-container {
+}
+
+@keyframes dialog-pane-anim {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(100%);
+  }
+}
+
+@keyframes dialog-backdrop-anim {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

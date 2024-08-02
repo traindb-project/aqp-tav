@@ -1,0 +1,134 @@
+<h1>Train Model</h1>
+
+<form
+  [formGroup]="formGroup"
+  (ngSubmit)="submit()"
+  class="space-y-1"
+>
+  <section class="section elevate flex items-center gap-4 w-full">
+    <label
+      class="input input-bordered flex items-center gap-4 w-full max-w-md {{ conflictName() ? 'input-error' : '' }}"
+    >
+      Name:
+      <input
+        formControlName="name"
+        type="text"
+        placeholder="Input model name"
+        class="grow"
+      />
+    </label>
+    <button
+      [disabled]="formGroup.invalid || submitting()"
+      class="ml-auto btn btn-primary text-white"
+    >
+      @if (submitting()) {
+        <etri-loading/>
+      } @else {
+        Train
+      }
+    </button>
+  </section>
+  <div class="flex gap-1">
+    <section class="section elevate shrink-0 max-w-md">
+      <h2 class="mt-0">Select Database Table</h2>
+      <div class="pb-4 border-b border-zinc-300">
+        <select
+          formControlName="database_id"
+          class="select select-bordered"
+        >
+          <option [ngValue]="null" disabled selected>Select Database</option>
+          @for (database of databaseList(); track database.id) {
+            <option
+              [ngValue]="database.id"
+            >{{ database.name }}({{ database.host | ipAnonymization }}:{{ database.port }})
+            </option>
+          }
+        </select>
+      </div>
+      <div class="p-4">
+        <div class="h-[350px] w-[300px] overflow-auto">
+          @for (schema of schemas(); track schema) {
+            <etri-database-tables
+              [schema]="schema.name"
+              [selected]="selected"
+              [tables]="schema.tables"
+              (selectTable)="selectTable($event)"
+            ></etri-database-tables>
+          } @empty {
+            @if (tableService.loading()) {
+              <etri-loading/>
+            } @else if (!formGroup.get('database')?.value) {
+              <span class="text-zinc-500">데이터베이스 서버를 선택하세요.</span>
+            } @else {
+              <span class="text-zinc-500">결과가 없습니다.</span>
+            }
+          }
+        </div>
+      </div>
+    </section>
+    <section class="section elevate grow">
+      <h2 class="mt-0">Data Selection</h2>
+      <div class="mb-4 flex gap-4 items-center">
+        <label class="flex items-center gap-4">
+          선택된 테이블:
+          @if (!selected) {
+            <span class="text-zinc-500">없음</span>
+          } @else {
+            <div
+              class="flex items-center gap-2 text-primary font-semibold"
+            >
+              <span class="badge badge-secondary badge-sm">{{ selected.table.type }}</span>
+              <span>{{ selected.schema }}.{{ selected.table.name }}</span>
+            </div>
+          }
+        </label>
+        <button
+          type="button"
+          [disabled]="selectedColumns().length === 0"
+          (click)="preview()"
+          class="ml-auto btn btn-secondary btn-sm text-white"
+        >Preview</button>
+      </div>
+      <label
+        class="input input-bordered flex items-center gap-4 w-full max-w-xs {{ conflictName() ? 'input-error' : '' }}"
+      >
+        Sample:
+        <input
+          formControlName="sample"
+          type="text"
+          placeholder="Sample, default 100"
+          class="grow text-right"
+        />
+        %
+      </label>
+      <etri-train-model-data
+        [columnsLoading]="columnsLoading()"
+        [columns]="columns()"
+        [selectedColumns]="selectedColumns()"
+        (selectedColumnsChange)="selectedColumns.set($event)"
+      />
+    </section>
+  </div>
+  <section class="section elevate grow">
+    <h2 class="mt-0">Model Type & Hyper Parameter</h2>
+    <div class="flex flex-col items-start gap-4">
+      <select
+        formControlName="modeltype"
+        class="select select-bordered"
+      >
+        <option [ngValue]="null" disabled selected>Select Model Type</option>
+        @for (modeltype of modeltypes(); track $index) {
+          <option [ngValue]="modeltype">{{ modeltype }}</option>
+        }
+      </select>
+      @if (!formGroup.get('modeltype')?.value) {
+        <span class="px-4 text-zinc-500">모델타입을 선택해주세요.</span>
+      }
+      <etri-hyper-parameter-inputs
+        [hyperparameters]="hyperParameters()"
+        (onChange)="changeHyperParameters($event)"
+      ></etri-hyper-parameter-inputs>
+
+    </div>
+  </section>
+</form>

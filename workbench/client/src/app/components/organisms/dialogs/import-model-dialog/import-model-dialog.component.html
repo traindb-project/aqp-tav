@@ -1,0 +1,43 @@
+<etri-base-dialog
+  (onClose)="onClose.emit(false)"
+>
+  <h1 header etriDialogHeader>Import Model</h1>
+  <div class="flex flex-col items-start gap-4">
+    <label
+      class="input input-bordered flex items-center gap-4 w-full max-w-md {{ conflictName ? 'input-error' : '' }}"
+    >
+      Name:
+      <input
+        [ngModel]="name"
+        (ngModelChange)="changeName($event)"
+        type="text"
+        placeholder="Input model name"
+        class="grow"
+      />
+    </label>
+
+    <input
+      type="file"
+      (change)="onFileChange($event)"
+      class="file-input file-input-bordered file-input-primary w-full max-w-xs"/>
+  </div>
+  <div footer class="flex justify-end items-center gap-4">
+    <button
+      type="button"
+      (click)="onClose.emit(false)"
+      class="btn btn-sm"
+    >Cancel</button>
+    <button
+      type="button"
+      [disabled]="loading() || !name?.trim() || !file"
+      (click)="importModel()"
+      class="btn btn-sm btn-primary text-white"
+    >
+      @if (loading()) {
+        <etri-loading/>
+      } @else {
+        Import
+      }
+    </button>
+  </div>
+</etri-base-dialog>

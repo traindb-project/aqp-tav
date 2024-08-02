@@ -1,0 +1,10 @@
+<div role="tablist" class="tabs tabs-lifted">
+  @for (option of tabOptions(); track $index) {
+    <button
+      type="button"
+      (click)="select($index, option)"
+      class="tab {{ selectedIndex() === $index ? 'tab-active' : '' }}"
+    >{{ option }}
+    </button>
+  }
+</div>

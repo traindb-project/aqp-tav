@@ -1,0 +1,101 @@
+<h1>Models</h1>
+
+<section class="section elevate flex gap-4">
+  <etri-search-input
+    class="inline-block grow max-w-lg"
+    (onKeyword)="keyword.set($event)"/>
+  <div class="ml-auto flex gap-2">
+    <button
+      type="button"
+      (click)="importModel()"
+      class="ml-auto btn btn-secondary btn-sm text-white no-underline rounded-none"
+    >
+      <etri-arrow-up-tray-icon type="solid" class="size-4"/>
+      Import
+    </button>
+    <button
+      type="button"
+      routerLink="/models/train"
+      class="btn btn-primary btn-sm text-white no-underline rounded-none">New
+    </button>
+  </div>
+</section>
+
+<section class="section elevate p-0 overflow-auto">
+  <table class="table">
+    <!-- head -->
+    <thead class="sticky top-0">
+    <tr>
+      <th class="text-right">#</th>
+      <th class="text-left">Status</th>
+      <th class="text-left">Name</th>
+      <th class="text-left">Model Type</th>
+      <th class="text-left">Schema</th>
+      <th class="text-left">Table</th>
+      <th class="text-left">Server</th>
+      <th class="text-left">Training Rows</th>
+      <th class="text-left">Training</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+      @for (model of modelList() | patternFilter:keyword():'name'; track $index) {
+        <tr class="even:bg-zinc-50 hover:bg-zinc-100">
+          <th class="text-right">{{ $index + 1 | number }}</th>
+          <td>{{ model.status }}</td>
+          <td>{{ model.name }}</td>
+          <td>{{ model.modeltype }}</td>
+          <td>{{ model.schema }}</td>
+          <td>{{ model.table }}</td>
+          <td>{{ (model.server | ipAnonymization) || '-' }}</td>
+          <td>{{ model.trained_rows | number }} / {{ model.table_rows | number }}</td>
+          <td>
+            @if (model.training_status) {
+              <div
+                class="badge {{ model.training_status === 'TRAINING' ? 'badge-warning' : '' }}">{{ model.training_status }}
+              </div>
+            } @else {
+              <span>-</span>
+            }
+          </td>
+          <td class="flex gap-2 py-2 px-4">
+            <button
+              type="button"
+              (click)="deleteModel(model)"
+              class="btn btn-warning btn-xs rounded-none text-white"
+            >
+              <etri-trash-icon type="solid" class="size-4"/>
+            </button>
+            <button
+              type="button"
+              (click)="updateModel(model)"
+              class="btn btn-secondary btn-xs rounded-none text-white"
+            >
+              <etri-pencil-square-icon type="solid" class="size-4"/>
+            </button>
+            <button
+              type="button"
+              (click)="showDetail(model)"
+              class="btn btn-primary btn-xs rounded-none text-white"
+            >
+              <etri-document-magnifying-glass-icon type="solid" class="size-4"/>
+            </button>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          @if (loading()) {
+            <td colspan="11">
+              <div class="flex flex-col gap-2 items-center py-4">
+                <etri-loading/>
+                <span class="text-zinc-500 text-xs">Loading...</span>
+              </div>
+            </td>
+          } @else {
+            <td class="text-zinc-500 text-center" colspan="11">결과가 없습니다.</td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>

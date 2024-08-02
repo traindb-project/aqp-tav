@@ -1,0 +1,26 @@
+<div class="bg-white flex flex-col">
+  <header
+    class="flex gap-4 items-center shrink-0 px-6 sticky top-0 bg-white border-zinc-300 z-10 {{ hiddenHeader() ? 'pb-0 pt-4' : 'pb-4 pt-6 border-b' }}">
+    @if (!hiddenHeader()) {
+      <ng-content select="[header]">
+        <h1 etriDialogHeader>Title</h1>
+      </ng-content>
+    }
+    @if (!hiddenCloseButton()) {
+      <button
+        type="button"
+        class="ml-auto outline-none"
+        (click)="onClose.emit()"
+      ><etri-x-mark-icon/></button>
+    }
+  </header>
+  <div
+    class="px-6 overflow-auto grow {{ hiddenHeader() ? 'pt-0' : 'pt-4' }} {{ hiddenFooter() ? 'pb-6' : 'pb-4' }}">
+    <ng-content><div>Body</div></ng-content>
+  </div>
+  @if (!hiddenFooter()) {
+    <div class="px-6 py-4 shrink-0 sticky bottom-0 bg-white border-t border-zinc-300">
+      <ng-content select="[footer]"><div>Footer</div></ng-content>
+    </div>
+  }
+</div>

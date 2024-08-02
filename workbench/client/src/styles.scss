@@ -1,0 +1,23 @@
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import './styles/dialog';
+
+//html, body {
+//  @apply w-screen;
+//}
+
+@layer components {
+  .page {
+    @apply prose prose-zinc prose-sm space-y-4;
+  }
+
+  .section {
+    @apply bg-white p-4;
+    &.elevate {
+      @apply shadow-md;
+    }
+  }
+}

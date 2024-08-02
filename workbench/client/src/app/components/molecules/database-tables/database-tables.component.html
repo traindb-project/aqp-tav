@@ -1,0 +1,28 @@
+<button
+  type="button"
+  (click)="collapse.set(!collapse())"
+  class="flex items-center gap-4 {{ selected()?.schema === schema() ? 'font-semibold' : '' }}"
+>
+  <etri-circle-stack-icon
+    [type]="selected()?.schema === schema() ? 'solid' : 'outline'"
+    class="size-5"
+  />
+  <span>{{ schema() }}</span>
+</button>
+@if (!collapse()) {
+  <div class="pl-8 text-sm my-1">
+    @for (table of tables(); track $index) {
+      <button
+        type="button"
+        (click)="selectTable.emit({schema: schema(), table: table})"
+        class="flex items-center gap-4 {{ selected()?.table === table ? 'font-semibold' : '' }}"
+      >
+        <etri-table-cells-icon
+          [type]="selected()?.table === table ? 'solid' : 'outline'"
+          class="size-4"
+        />
+        <span class="whitespace-nowrap">{{ table.name }}({{ table.type }})</span>
+      </button>
+    }
+  </div>
+}

@@ -1,0 +1,45 @@
+<etri-base-dialog
+  [hiddenFooter]="true"
+  (onClose)="onClose.emit()"
+>
+  <h1 header etriDialogHeader>{{ query().name }}</h1>
+  <div class="pb-4 text-xs"><span class="text-zinc-500">Execution Time:</span> {{ executionTime() }} sec</div>
+  <div class="overflow-auto min-h-[500px] h-[80vh]">
+    <table class="table table-xs">
+      <thead class="sticky top-0">
+      <tr class="bg-white">
+        <th>#</th>
+        @for (column of columns(); track $index) {
+          <th>{{ column }}</th>
+        }
+      </tr>
+      </thead>
+      <tbody>
+        @if (loading()) {
+          <tr>
+            <td [colSpan]="columns().length + 1">
+              <etri-loading/>
+            </td>
+          </tr>
+        } @else {
+          @for (row of data(); track $index) {
+            <tr class="even:bg-zinc-50 hover:bg-zinc-100">
+              <th>{{ $index + 1 | number }}</th>
+              @for (item of row; track $index; let i = $index) {
+                @if (isNumber(item)) {
+                  <td class="text-right">{{ item | number }}</td>
+                } @else {
+                  <td>{{ item }}</td>
+                }
+              }
+            </tr>
+          } @empty {
+            <tr>
+              <td class="text-zinc-500 text-center" [colSpan]="columns().length + 1">결과가 없습니다.</td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+</etri-base-dialog>

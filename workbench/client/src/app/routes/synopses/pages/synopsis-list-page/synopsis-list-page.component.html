@@ -1,0 +1,82 @@
+<h1>Synopses</h1>
+
+<section class="section elevate flex gap-4">
+  <etri-search-input
+    class="inline-block grow max-w-lg"
+    (onKeyword)="keyword.set($event)"/>
+  <button
+    type="button"
+    routerLink="/synopses/register"
+    class="ml-auto btn btn-primary btn-sm text-white no-underline rounded-none">New
+  </button>
+</section>
+
+<section class="section elevate p-0 overflow-auto">
+  <table class="table">
+    <!-- head -->
+    <thead class="sticky top-0">
+    <tr>
+      <th class="text-right">#</th>
+      <th class="text-left">Status</th>
+      <th class="text-left">Name</th>
+      <th class="text-left">Model</th>
+      <th class="text-left">Schema</th>
+      <th class="text-left">Table</th>
+      <th class="text-left">Columns</th>
+      <th class="text-left">Rows</th>
+      <th class="text-left">Ratio</th>
+      <th class="text-left">External</th>
+      <th class="text-left">Statistics</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+      @if (loading()) {
+        <tr>
+          <td colspan="12">
+            <div class="flex flex-col gap-2 items-center py-4">
+              <etri-loading/>
+              <span class="text-zinc-500 text-xs">Loading...</span>
+            </div>
+          </td>
+        </tr>
+      } @else {
+        @for (synopsis of synopsisList() | patternFilter:keyword():'name'; track $index) {
+          <tr class="even:bg-zinc-50 hover:bg-zinc-100">
+            <th class="text-right">{{ $index + 1 | number }}</th>
+            <td>{{ synopsis.status }}</td>
+            <td>{{ synopsis.name }}</td>
+            <td>{{ synopsis.model }}</td>
+            <td>{{ synopsis.schema }}</td>
+            <td>{{ synopsis.table }}</td>
+            <td>{{ synopsis.columns }}</td>
+            <td>{{ synopsis.rows | number }}</td>
+            <td>{{ synopsis.ratio }}</td>
+            <td>{{ synopsis.external }}</td>
+            <td>{{ synopsis.statistics || '-' }}</td>
+            <td class="flex gap-2 py-2 px-4">
+              <button
+                type="button"
+                (click)="deleteSynopsis(synopsis)"
+                class="btn btn-warning btn-xs rounded-none text-white"
+              >
+                <etri-trash-icon type="solid" class="size-4"/>
+              </button>
+              <button
+                type="button"
+                (click)="updateSynopsis(synopsis)"
+                class="btn btn-secondary btn-xs rounded-none text-white"
+              >
+                <etri-pencil-square-icon type="solid" class="size-4"/>
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td class="text-zinc-500 text-center" colspan="12">결과가 없습니다.</td>
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+</section>

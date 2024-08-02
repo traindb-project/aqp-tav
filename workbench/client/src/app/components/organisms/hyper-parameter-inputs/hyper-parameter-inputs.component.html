@@ -1,0 +1,17 @@
+@for (param of hyperparameters(); track param; let i = $index) {
+  <div>
+    <label
+      class="input input-bordered flex items-center gap-4 w-full max-w-md"
+    >
+      <span class="font-semibold">{{ param.name }}:</span>
+      <input
+        type="text"
+        [ngModel]="value[i].value"
+        (ngModelChange)="changeValue(i, $event)"
+        placeholder="Input value, default: {{ param.default_value }}"
+        class="grow"
+      />
+    </label>
+    <span class="text-xs text-info -mt-1">{{ param.description }}(Type: {{ param.type }})</span>
+  </div>
+}

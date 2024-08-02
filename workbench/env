@@ -1,0 +1,19 @@
+PORT=80
+
+REDIS_VOLUME=./data/redis
+
+POSTGRES_VOLUME=./data/postgres
+POSTGRES_PASSWORD=asdf1234
+POSTGRES_DB=workbench
+POSTGRES_HOST=postgres
+
+PGADMIN_VOLUME=./data/pgadmin
+PGADMIN_DEFAULT_EMAIL: admin@test.com
+PGADMIN_DEFAULT_PASSWORD: asdf1234
+
+CONFIG_VOLUME=./data/config/traindb/workbench
+
+GF_SECURITY_ADMIN_USER=admin
+GF_SECURITY_ADMIN_PASSWORD=asdf1234
+GF_DATA_VOLUME=./data/grafana
+

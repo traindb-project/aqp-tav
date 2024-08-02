@@ -1,0 +1,21 @@
+<a
+  type="button"
+  routerLink="/traindb"
+  class="flex justify-center no-underline text-center mt-8"
+>
+  <etri-chevron-left-icon class="size-10 text-white"></etri-chevron-left-icon>
+</a>
+<nav
+  class="flex flex-col items-center py-8 gap-8"
+>
+  @for (item of menuItems; track $index) {
+    <a
+      [routerLink]="item.link"
+      [queryParams]="route.snapshot.queryParams"
+      class="flex flex-col gap-1 items-center  hover:text-amber-500 {{ isActive(item.link) ? 'text-amber-400' : '' }}"
+    >
+      <ng-container *ngComponentOutlet="item.icon; inputs: iconInputs"/>
+      <span class="text-xs">{{ item.name }}</span>
+    </a>
+  }
+</nav>

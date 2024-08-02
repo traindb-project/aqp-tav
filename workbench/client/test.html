@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monaco SQL Editor with Custom Autocomplete and Syntax Highlighting</title>
+  <style>
+      #container {
+          width: 100%;
+          height: 100vh;
+      }
+  </style>
+</head>
+<body>
+<div id="container"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+<script>
+  require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs' }});
+  require(['vs/editor/editor.main'], function() {
+    // Customize SQL language definition
+    monaco.languages.register({ id: 'sql' });
+    monaco.languages.setMonarchTokensProvider('sql', {
+      tokenizer: {
+        root: [
+          [/\bSELECT\b/, 'keyword'],
+          [/\bFROM\b/, 'keyword'],
+          [/\bWHERE\b/, 'keyword'],
+          [/\bAPPROXIMATE\b/, 'keyword'],
+          // Add other SQL keywords as needed
+        ]
+      }
+    });
+
+    const editor = monaco.editor.create(document.getElementById('container'), {
+      value: [
+        'SELECT * FROM users WHERE id = 1;'
+      ].join('\n'),
+      language: 'sql',
+      theme: 'vs-dark',
+      automaticLayout: true,
+      wordWrap: 'on',
+      minimap: {
+        enabled: false
+      }
+    });
+
+    // Define completion items
+    const sqlKeywords = [
+      { label: 'SELECT', kind: monaco.languages.CompletionItemKind.Keyword, insertText: 'SELECT' },
+      { label: 'FROM', kind: monaco.languages.CompletionItemKind.Keyword, insertText: 'FROM' },
+      { label: 'WHERE', kind: monaco.languages.CompletionItemKind.Keyword, insertText: 'WHERE' },
+      { label: 'APPROXIMATE', kind: monaco.languages.CompletionItemKind.Keyword, insertText: 'APPROXIMATE' },
+      { label: 'INSERT', kind: monaco.languages.CompletionItemKind.Keyword, insertText: 'INSERT' },
+      { label: 'INTO', kind: monaco.languages.CompletionItemKind.Keyword, insertText: 'INTO' },
+      { label: 'UPDATE', kind: monaco.languages.CompletionItemKind.Keyword, insertText: 'UPDATE' },
+      { label: 'DELETE', kind: monaco.languages.CompletionItemKind.Keyword, insertText: 'DELETE' }
+    ];
+
+    const tableColumns = [
+      { label: 'id', kind: monaco.languages.CompletionItemKind.Field, insertText: 'id' },
+      { label: 'name', kind: monaco.languages.CompletionItemKind.Field, insertText: 'name' },
+      { label: 'email', kind: monaco.languages.CompletionItemKind.Field, insertText: 'email' }
+    ];
+
+    monaco.languages.registerCompletionItemProvider('sql', {
+      provideCompletionItems: (model, position) => {
+        const textUntilPosition = model.getValueInRange({
+          startLineNumber: 1,
+          startColumn: 1,
+          endLineNumber: position.lineNumber,
+          endColumn: position.column
+        }).toUpperCase();
+
+        const word = model.getWordUntilPosition(position);
+        const range = {
+          startLineNumber: position.lineNumber,
+          startColumn: word.startColumn,
+          endLineNumber: position.lineNumber,
+          endColumn: word.endColumn
+        };
+
+        const suggestions = [];
+
+        if (textUntilPosition.match(/\bSELECT\s*$/)) {
+          suggestions.push({
+            label: 'APPROXIMATE',
+            kind: monaco.languages.CompletionItemKind.Keyword,
+            insertText: 'APPROXIMATE',
+            range: range
+          });
+        }
+
+        if (textUntilPosition.match(/\bSELECT\s+APPROXIMATE\s*$/) || textUntilPosition.match(/\bSELECT\s*$/)) {
+          tableColumns.forEach(column => suggestions.push({
+            ...column,
+            range: range
+          }));
+        }
+
+        // 기본 SQL 키워드 추가
+        sqlKeywords.forEach(keyword => {
+          suggestions.push({
+            ...keyword,
+            range: range
+          });
+        });
+
+        return { suggestions: suggestions };
+      }
+    });
+  });
+</script>
+</body>
+</html>

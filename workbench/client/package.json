@@ -1,0 +1,67 @@
+{
+  "name": "client",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve --host 0.0.0.0 --port 4200",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "storybook": "ng run client:storybook",
+    "build-storybook": "ng run client:build-storybook"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^18.0.0",
+    "@angular/cdk": "^18.1.0",
+    "@angular/common": "^18.0.0",
+    "@angular/compiler": "^18.0.0",
+    "@angular/core": "^18.0.0",
+    "@angular/forms": "^18.0.0",
+    "@angular/platform-browser": "^18.0.0",
+    "@angular/platform-browser-dynamic": "^18.0.0",
+    "@angular/router": "^18.0.0",
+    "d3": "^7.9.0",
+    "ngx-monaco-editor-v2": "^18.0.1",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.14.3"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^18.0.6",
+    "@angular/cli": "^18.0.6",
+    "@angular/compiler-cli": "^18.0.0",
+    "@chromatic-com/storybook": "^1.6.1",
+    "@compodoc/compodoc": "^1.1.25",
+    "@storybook/addon-docs": "^8.2.2",
+    "@storybook/addon-essentials": "^8.2.2",
+    "@storybook/addon-interactions": "^8.2.2",
+    "@storybook/addon-links": "^8.2.2",
+    "@storybook/addon-onboarding": "^8.2.2",
+    "@storybook/angular": "^8.2.2",
+    "@storybook/blocks": "^8.2.2",
+    "@storybook/test": "^8.2.2",
+    "@tailwindcss/typography": "^0.5.13",
+    "@types/d3": "^7.4.3",
+    "@types/jasmine": "~5.1.0",
+    "autoprefixer": "^10.4.19",
+    "daisyui": "^4.12.10",
+    "jasmine-core": "~5.1.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "msw": "^2.3.1",
+    "msw-storybook-addon": "^2.0.3",
+    "postcss": "^8.4.39",
+    "storybook": "^8.2.2",
+    "tailwindcss": "^3.4.4",
+    "typescript": "~5.4.2"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
+  }
+}

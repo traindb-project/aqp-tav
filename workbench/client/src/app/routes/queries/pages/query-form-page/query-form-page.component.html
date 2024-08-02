@@ -1,0 +1,61 @@
+<h1>{{ id ? 'Update Query' : 'Register Query' }}</h1>
+
+<form
+  [formGroup]="formGroup"
+  (ngSubmit)="submit()"
+  class="section elevate p-8 space-y-8"
+>
+  <div class="flex flex-col gap-8">
+    <label
+      class="input input-bordered flex items-center gap-4"
+    >
+      Name:
+      <input
+        formControlName="name"
+        type="text"
+        placeholder="e.g. tablegan"
+        class="grow"
+      />
+    </label>
+
+    <select
+      formControlName="database_id"
+      class="select select-bordered"
+    >
+      <option [ngValue]="null" disabled selected>Select DBMS</option>
+      @for (database of databases(); track database) {
+        <option [ngValue]="database.id">
+          {{ database.name }} ({{database.host | ipAnonymization }}:{{ database.port}})
+        </option>
+      }
+    </select>
+
+    <label class="textarea textarea-bordered flex flex-col">
+      SQL:
+      <ngx-monaco-editor
+        formControlName="sql"
+        [style.height]="'100px'"
+        [options]="editorOptions"
+      ></ngx-monaco-editor>
+    </label>
+  </div>
+
+  <div class="flex gap-4">
+    <button
+      type="button"
+      routerLink="/queries"
+      class="btn grow no-underline"
+    >Cancel
+    </button>
+    <button
+      [disabled]="formGroup.invalid || submitting"
+      class="btn btn-primary grow text-white disabled:btn-disabled"
+    >
+      @if (submitting) {
+        <etri-loading size="xs"></etri-loading>
+      } @else {
+        Register
+      }
+    </button>
+  </div>
+</form>
