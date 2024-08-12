@@ -12,9 +12,9 @@
 
 <main
   [ngClass]="{
-    'ml-[100px]': !!traindbService.currentId()
+    'ml-[100px]': layoutService.navigation()
   }"
-  [style.min-height]="traindbService.currentId() ? 'calc(100vh - 32px)' : '100vh'"
+  [style.min-height]="layoutService.navigation() ? 'calc(100vh - 32px)' : '100vh'"
   class="bg-zinc-100 p-4"
 >
   <router-outlet/>
