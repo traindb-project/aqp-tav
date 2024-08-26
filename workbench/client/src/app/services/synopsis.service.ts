@@ -23,6 +23,13 @@ export class SynopsisService {
     return this.httpClient.post<void>(this.BASE_URL, dto, { params });
   }
 
+  importSynopsis(traindb_id: number, name: string, file: File) {
+    const params = { traindb_id };
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.httpClient.post<void>(`${this.BASE_URL}/${name}/import`, formData, { params });
+  }
+
   updateSynopsis(traindb_id: number, name: string, dto: UpdateSynopsis) {
     const params = { traindb_id };
     return this.httpClient.put<void>(`${this.BASE_URL}/${name}`, dto, { params });

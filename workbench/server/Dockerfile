@@ -21,15 +21,14 @@ RUN apt-get update && \
 WORKDIR /app
 COPY requirements.txt ./
 
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt && \
-    pip cache purge
+ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64/
+RUN export JAVA_HOME
 
-COPY ./app ./
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 3000
 
-ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64/
-RUN export JAVA_HOME
+COPY ./app ./
 
 CMD uvicorn --host=0.0.0.0 --port 3000 main:app

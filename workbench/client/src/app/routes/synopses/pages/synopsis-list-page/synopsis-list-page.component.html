@@ -4,11 +4,20 @@
   <etri-search-input
     class="inline-block grow max-w-lg"
     (onKeyword)="keyword.set($event)"/>
-  <button
-    type="button"
-    routerLink="/synopses/register"
-    class="ml-auto btn btn-primary btn-sm text-white no-underline rounded-none">New
-  </button>
+  <div class="ml-auto flex gap-2">
+    <button
+      type="button"
+      (click)="importSynopsis()"
+      class="btn btn-info btn-sm text-white no-underline rounded-none">
+      <etri-arrow-up-tray-icon type="solid" class="size-4"/>
+      Import
+    </button>
+    <button
+      type="button"
+      routerLink="/synopses/register"
+      class="btn btn-primary btn-sm text-white no-underline rounded-none">New
+    </button>
+  </div>
 </section>
 
 <section class="section elevate p-0 overflow-auto">
@@ -69,6 +78,12 @@
               >
                 <etri-pencil-square-icon type="solid" class="size-4"/>
               </button>
+              <a
+                [href]="apiHost + '/synopses/' + synopsis.name + '/export?traindb_id=' + traindbId()"
+                class="btn btn-info btn-xs rounded-none no-underline"
+              >
+                <etri-arrow-down-tray-icon type="solid" class="size-4 text-white"/>
+              </a>
             </td>
           </tr>
         } @empty {

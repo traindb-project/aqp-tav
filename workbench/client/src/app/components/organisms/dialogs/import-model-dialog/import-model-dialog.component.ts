@@ -68,7 +68,7 @@ export class ImportModelDialogComponent {
   standalone: true,
   template: `
     <etri-import-model-dialog_
-      (onClose)="dialogRef.close()"
+      (onClose)="dialogRef.close($event)"
     />`
 })
 export class ImportModelDialog {

@@ -2,7 +2,10 @@ import { Dialog } from '@angular/cdk/dialog';
 import { DecimalPipe } from '@angular/common';
 import { Component, computed, inject, signal, WritableSignal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { environment } from '../../../../../environments/environment';
 import {
+  ArrowDownTrayIconComponent,
+  ArrowUpTrayIconComponent, ImportSynopsisDialog,
   LoadingComponent,
   PencilSquareIconComponent,
   SearchInputComponent,
@@ -20,7 +23,9 @@ import { SynopsisService, TraindbService } from '../../../../services';
     PatternFilterPipe,
     SearchInputComponent,
     TrashIconComponent,
-    PencilSquareIconComponent
+    PencilSquareIconComponent,
+    ArrowUpTrayIconComponent,
+    ArrowDownTrayIconComponent
   ],
   selector: 'etri-synopsis-list-page',
   standalone: true,
@@ -31,12 +36,21 @@ export class SynopsisListPageComponent {
   readonly synopsisList: WritableSignal<Synopsis[]> = signal([]);
   readonly loading = computed(() => this.synopsisService.loading());
   readonly keyword = signal('');
+  readonly apiHost = environment.apiHost;
   private readonly traindbService = inject(TraindbService);
   private readonly synopsisService =inject(SynopsisService);
   private readonly dialog = inject(Dialog);
+  readonly traindbId = computed(() => this.traindbService.currentId());
 
   constructor() {
     this.loadSynopses();
+  }
+
+  importSynopsis() {
+    const dialog = this.dialog.open(ImportSynopsisDialog);
+    dialog.closed.subscribe(res => {
+      if (res) this.loadSynopses();
+    })
   }
 
   deleteSynopsis(synopsis: Synopsis) {

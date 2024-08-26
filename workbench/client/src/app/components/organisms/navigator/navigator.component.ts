@@ -2,7 +2,6 @@ import { NgComponentOutlet, NgOptimizedImage } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
-  ChartBarIconComponent,
   ChevronLeftIconComponent,
   CircleStackIconComponent,
   CommandLineIconComponent,
@@ -38,11 +37,11 @@ export class NavigatorComponent {
       name: 'Dashboard',
       link: '/dashboard',
     },
-    {
-      icon: ChartBarIconComponent,
-      name: 'Benchmarks',
-      link: '/benchmarks',
-    },
+    // {
+    //   icon: ChartBarIconComponent,
+    //   name: 'Benchmarks',
+    //   link: '/benchmarks',
+    // },
     // {
     //   icon: RectangleStackIconComponent,
     //   name: 'TrainDB',

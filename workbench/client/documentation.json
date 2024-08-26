@@ -1929,7 +1929,7 @@
         },
         {
             "name": "LayoutService",
-            "id": "injectable-LayoutService-05ca20e1b772ff522ac8041767f3b6b85d65763b6f789430d68d933f4e5a67b0d5d4b73e49706c641931c60927746fb95e668cd304224862525d380c1e84d7a9",
+            "id": "injectable-LayoutService-f2adbfa05b049a8e35805d283e0e7f1b2d3f42822b89475b59c369d7172ca4ff0809647403fac8e79f2459efd946170436b3138f6ef4e894bd10d615dea09e4d",
             "file": "src/app/services/layout.service.ts",
             "properties": [
                 {
@@ -2011,7 +2011,7 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { computed, Injectable, signal, WritableSignal } from '@angular/core';\nimport { NavigationEnd, Router } from '@angular/router';\nimport { filter } from 'rxjs';\n\n@Injectable({ providedIn: 'root' })\nexport class LayoutService {\n  readonly navigation = computed(() => this.showNavigator());\n  private readonly showNavigator: WritableSignal<boolean> = signal(false);\n  private readonly router  = new Router();\n\n  constructor() {\n    this.router.events.pipe(\n      filter(event => event instanceof NavigationEnd),\n    ).subscribe({\n      next: event => {\n        if (event instanceof NavigationEnd)this.setNavigator(event.url);\n      }\n    });\n  }\n\n  private setNavigator(url: string) {\n    const hiddenPattern = [\n      /(^\\/traindb$|^\\/traindb\\/.*)/\n    ];\n    const hidden = hiddenPattern.some(pattern => pattern.test(url));\n    this.showNavigator.set(!hidden);\n  }\n}\n",
+            "sourceCode": "import { computed, Injectable, signal, WritableSignal } from '@angular/core';\nimport { NavigationEnd, Router } from '@angular/router';\nimport { filter } from 'rxjs';\n\n@Injectable({ providedIn: 'root' })\nexport class LayoutService {\n  readonly navigation = computed(() => this.showNavigator());\n  private readonly showNavigator: WritableSignal<boolean> = signal(false);\n  private readonly router = new Router();\n\n  constructor() {\n    this.router.events.pipe(\n      filter(event => event instanceof NavigationEnd),\n    ).subscribe({\n      next: event => {\n        if (event instanceof NavigationEnd) this.setNavigator(event.url);\n      }\n    });\n  }\n\n  private setNavigator(url: string) {\n    const hiddenPattern = [\n      /(^(\\/$|\\/traindb$|^\\/traindb\\/).*)/\n    ];\n    const hidden = hiddenPattern.some(pattern => pattern.test(url));\n    this.showNavigator.set(!hidden);\n  }\n}\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -2025,7 +2025,7 @@
         },
         {
             "name": "ModelService",
-            "id": "injectable-ModelService-fc993c935d1fea48a4b99dcba1328821e8b822f1ddc047f9d1c42a270e54934b4edc58ad9ac4db3e509af60f9af8ae543435424f6dd8676b4e592c17e8a80fb2",
+            "id": "injectable-ModelService-a4288d2cd3548de3c8cea84ce45a565ded1aa0f3417a09d85f5f157e4d382dc47a2bbfc6a7196130a9bfd46f6237a4f476cac95f73eb53aa02855201d32c4a90",
             "file": "src/app/services/model.service.ts",
             "properties": [
                 {
@@ -2090,7 +2090,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 30,
+                    "line": 37,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -2106,6 +2106,64 @@
                         {
                             "name": "name",
                             "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "importModel",
+                    "args": [
+                        {
+                            "name": "traindb_id",
+                            "type": "number",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "name",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "file",
+                            "type": "File",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "any",
+                    "typeParameters": [],
+                    "line": 21,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "traindb_id",
+                            "type": "number",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "name",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "file",
+                            "type": "File",
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
@@ -2155,7 +2213,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 21,
+                    "line": 28,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -2195,7 +2253,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 25,
+                    "line": 32,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -2233,7 +2291,7 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { HttpClient } from '@angular/common/http';\nimport { inject, Injectable, signal } from '@angular/core';\nimport { finalize } from 'rxjs';\nimport { environment } from '../../environments/environment';\nimport { Model, TrainModel, UpdateModel } from '../dto';\n\n@Injectable({ providedIn: 'root' })\nexport class ModelService {\n  readonly loading = signal(false);\n  private readonly httpClient = inject(HttpClient);\n  private readonly BASE_URL = environment.apiHost + '/models';\n\n  searchModels(traindb_id: number) {\n    const params = { traindb_id };\n    this.loading.set(true);\n    return this.httpClient.get<Model[]>(this.BASE_URL, { params }).pipe(\n      finalize(() => this.loading.set(false))\n    );\n  }\n\n  trainModel(dto: TrainModel) {\n    return this.httpClient.post<void>(`${this.BASE_URL}/train`, dto);\n  }\n\n  updateModel(traindb_id: number, oldName: string, dto: UpdateModel) {\n    const params = { traindb_id };\n    return this.httpClient.put<void>(`${this.BASE_URL}/${oldName}`, dto, { params });\n  }\n\n  deleteModel(traindb_id: number, name: string) {\n    const params = { traindb_id };\n    return this.httpClient.delete<void>(`${this.BASE_URL}/${name}`, { params });\n  }\n}\n",
+            "sourceCode": "import { HttpClient } from '@angular/common/http';\nimport { inject, Injectable, signal } from '@angular/core';\nimport { finalize } from 'rxjs';\nimport { environment } from '../../environments/environment';\nimport { Model, TrainModel, UpdateModel } from '../dto';\n\n@Injectable({ providedIn: 'root' })\nexport class ModelService {\n  readonly loading = signal(false);\n  private readonly httpClient = inject(HttpClient);\n  private readonly BASE_URL = environment.apiHost + '/models';\n\n  searchModels(traindb_id: number) {\n    const params = { traindb_id };\n    this.loading.set(true);\n    return this.httpClient.get<Model[]>(this.BASE_URL, { params }).pipe(\n      finalize(() => this.loading.set(false))\n    );\n  }\n\n  importModel(traindb_id: number, name: string, file: File) {\n    const params = { traindb_id };\n    const formData = new FormData();\n    formData.append('file', file);\n    return this.httpClient.post<void>(`${this.BASE_URL}/${name}/import`, formData, { params });\n  }\n\n  trainModel(dto: TrainModel) {\n    return this.httpClient.post<void>(`${this.BASE_URL}/train`, dto);\n  }\n\n  updateModel(traindb_id: number, oldName: string, dto: UpdateModel) {\n    const params = { traindb_id };\n    return this.httpClient.put<void>(`${this.BASE_URL}/${oldName}`, dto, { params });\n  }\n\n  deleteModel(traindb_id: number, name: string) {\n    const params = { traindb_id };\n    return this.httpClient.delete<void>(`${this.BASE_URL}/${name}`, { params });\n  }\n}\n",
             "extends": [],
             "type": "injectable"
         },
@@ -2650,7 +2708,7 @@
         },
         {
             "name": "SynopsisService",
-            "id": "injectable-SynopsisService-050db10da026120fa0fbfaca2f029ba465e15a051fb3ed36c09a82d4e7aa421502e6254accd81b23f07203c44064abbf2b3bb9f5fda8217aecc259afb722b6a6",
+            "id": "injectable-SynopsisService-bc8c7ff8e37cc5ec06a003cd6d07f2bbbb4202175648dda2ad4175fdbe260940c5d5de3b79d6c09bbed695501d97d4eeb1929e6c3945cd66de04ac29aa794cbc",
             "file": "src/app/services/synopsis.service.ts",
             "properties": [
                 {
@@ -2758,7 +2816,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 31,
+                    "line": 38,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -2774,6 +2832,64 @@
                         {
                             "name": "name",
                             "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "importSynopsis",
+                    "args": [
+                        {
+                            "name": "traindb_id",
+                            "type": "number",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "name",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "file",
+                            "type": "File",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "any",
+                    "typeParameters": [],
+                    "line": 26,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "traindb_id",
+                            "type": "number",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "name",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "file",
+                            "type": "File",
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
@@ -2835,7 +2951,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 26,
+                    "line": 33,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -2873,7 +2989,7 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { HttpClient } from '@angular/common/http';\nimport { inject, Injectable, signal } from '@angular/core';\nimport { finalize } from 'rxjs';\nimport { environment } from '../../environments/environment';\nimport { CreateSynopsis, Synopsis, UpdateSynopsis } from '../dto';\n\n@Injectable({ providedIn: 'root' })\nexport class SynopsisService {\n  readonly loading = signal(false);\n  private readonly httpClient = inject(HttpClient);\n  private readonly BASE_URL = environment.apiHost + '/synopses';\n\n  searchSynopses(traindb_id: number) {\n    const params = { traindb_id };\n    this.loading.set(true);\n    return this.httpClient.get<Synopsis[]>(this.BASE_URL, { params }).pipe(\n      finalize(() => this.loading.set(false)),\n    );\n  }\n\n  createSynopsis(database_id: number, dto: CreateSynopsis) {\n    const params = { database_id };\n    return this.httpClient.post<void>(this.BASE_URL, dto, { params });\n  }\n\n  updateSynopsis(traindb_id: number, name: string, dto: UpdateSynopsis) {\n    const params = { traindb_id };\n    return this.httpClient.put<void>(`${this.BASE_URL}/${name}`, dto, { params });\n  }\n\n  deleteSynopsis(traindb_id: number, name: string) {\n    const params = { traindb_id };\n    return this.httpClient.delete<void>(`${this.BASE_URL}/${name}`, { params });\n  }\n}\n",
+            "sourceCode": "import { HttpClient } from '@angular/common/http';\nimport { inject, Injectable, signal } from '@angular/core';\nimport { finalize } from 'rxjs';\nimport { environment } from '../../environments/environment';\nimport { CreateSynopsis, Synopsis, UpdateSynopsis } from '../dto';\n\n@Injectable({ providedIn: 'root' })\nexport class SynopsisService {\n  readonly loading = signal(false);\n  private readonly httpClient = inject(HttpClient);\n  private readonly BASE_URL = environment.apiHost + '/synopses';\n\n  searchSynopses(traindb_id: number) {\n    const params = { traindb_id };\n    this.loading.set(true);\n    return this.httpClient.get<Synopsis[]>(this.BASE_URL, { params }).pipe(\n      finalize(() => this.loading.set(false)),\n    );\n  }\n\n  createSynopsis(database_id: number, dto: CreateSynopsis) {\n    const params = { database_id };\n    return this.httpClient.post<void>(this.BASE_URL, dto, { params });\n  }\n\n  importSynopsis(traindb_id: number, name: string, file: File) {\n    const params = { traindb_id };\n    const formData = new FormData();\n    formData.append('file', file);\n    return this.httpClient.post<void>(`${this.BASE_URL}/${name}/import`, formData, { params });\n  }\n\n  updateSynopsis(traindb_id: number, name: string, dto: UpdateSynopsis) {\n    const params = { traindb_id };\n    return this.httpClient.put<void>(`${this.BASE_URL}/${name}`, dto, { params });\n  }\n\n  deleteSynopsis(traindb_id: number, name: string) {\n    const params = { traindb_id };\n    return this.httpClient.delete<void>(`${this.BASE_URL}/${name}`, { params });\n  }\n}\n",
             "extends": [],
             "type": "injectable"
         },
@@ -3483,7 +3599,7 @@
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "@if (layoutService.navigation()) {\n  <etri-navigator\n    class=\"block bg-zinc-700 text-white fixed inset-y-0 left-0 w-[100px] z-50 shadow-lg\"\n  />\n}\n@if (!!traindbService.currentId()) {\n  <etri-traindb-banner\n    [traindb]=\"traindbService.current()\"\n    class=\"ml-[100px] sticky top-0\"\n  ></etri-traindb-banner>\n}\n\n<main\n  [ngClass]=\"{\n    'ml-[100px]': !!traindbService.currentId()\n  }\"\n  [style.min-height]=\"traindbService.currentId() ? 'calc(100vh - 32px)' : '100vh'\"\n  class=\"bg-zinc-100 p-4\"\n>\n  <router-outlet/>\n</main>\n"
+            "templateData": "@if (layoutService.navigation()) {\n  <etri-navigator\n    class=\"block bg-zinc-700 text-white fixed inset-y-0 left-0 w-[100px] z-50 shadow-lg\"\n  />\n}\n@if (!!traindbService.currentId()) {\n  <etri-traindb-banner\n    [traindb]=\"traindbService.current()\"\n    class=\"ml-[100px] sticky top-0\"\n  ></etri-traindb-banner>\n}\n\n<main\n  [ngClass]=\"{\n    'ml-[100px]': layoutService.navigation()\n  }\"\n  [style.min-height]=\"layoutService.navigation() ? 'calc(100vh - 32px)' : '100vh'\"\n  class=\"bg-zinc-100 p-4\"\n>\n  <router-outlet/>\n</main>\n"
         },
         {
             "name": "ArrowDownTrayIconComponent",
@@ -3615,7 +3731,7 @@
         },
         {
             "name": "BarChartComponent",
-            "id": "component-BarChartComponent-d8751118c113fc59a9e491933ed2439f16aed9e875824e696da545ba49e330aa9ddb42039de903ef11fbee269f86daa541349348a102fff32c491501c305666d",
+            "id": "component-BarChartComponent-e7b7656390af4abc27b491b2a27604402031179a8ab554362f5a79d15379bb35aba721bb149d4d2827976fbea8237cb55fc8e3e8b588dfaf7fa694efd644e759",
             "file": "src/app/components/organisms/charts/bar-chart/bar-chart.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -3706,6 +3822,18 @@
                     "line": 24
                 },
                 {
+                    "name": "tooltip",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "d3.Selection<HTMLDivElement |  |  | undefined>",
+                    "optional": false,
+                    "description": "",
+                    "line": 31,
+                    "modifierKind": [
+                        123
+                    ]
+                },
+                {
                     "name": "x",
                     "defaultValue": "input<(string | number)[]>([])",
                     "deprecated": false,
@@ -3753,7 +3881,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 40,
+                    "line": 41,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -3766,7 +3894,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 36,
+                    "line": 37,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -3776,7 +3904,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 32,
+                    "line": 33,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "decorators": [
@@ -3795,7 +3923,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 46,
+                    "line": 63,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -3813,7 +3941,7 @@
                     "argsDecorator": [],
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 32
+                    "line": 33
                 }
             ],
             "standalone": true,
@@ -3821,11 +3949,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {\n  AfterViewInit,\n  Component,\n  ElementRef,\n  HostBinding,\n  HostListener,\n  Input,\n  input,\n  viewChild\n} from '@angular/core';\nimport * as d3 from 'd3';\n\n@Component({\n  selector: 'etri-bar-chart',\n  standalone: true,\n  styleUrls: ['bar-chart.component.scss'],\n  templateUrl: 'bar-chart.component.html',\n})\nexport class BarChartComponent implements AfterViewInit {\n  x = input<(string | number)[]>([]);\n  y = input<number[]>([]);\n  xAxisLabel = input<string | null>(null);\n  yAxisLabel = input<string | null>(null);\n  title = input<string | null>(null);\n  chartRef = viewChild<ElementRef<HTMLDivElement>>('chartRef');\n  @HostBinding('style.min-height') @Input() minHeight = '500px';\n\n  private readonly MAX = 10;\n  private readonly MIN = 0;\n  private svg!: d3.Selection<SVGSVGElement, unknown, null, undefined>;\n\n  @HostListener('window:resize') onResize() {\n    this.updateChart();\n  }\n\n  ngAfterViewInit() {\n    this.createChart();\n  }\n\n  private createChart() {\n    const element = this.chartRef()!.nativeElement;\n    this.svg = d3.select(element).append('svg');\n    this.updateChart();\n  }\n\n  private updateChart() {\n    const element = this.chartRef()!.nativeElement;\n    const width = element.offsetWidth;\n    const height = element.offsetHeight;\n    const margin = { top: 60, right: 20, bottom: 70, left: 90 };\n\n    this.svg\n      .attr('width', width)\n      .attr('height', height);\n\n    const x = d3.scaleBand()\n      .domain(this.x().map(String))\n      .range([margin.left, width - margin.right])\n      .padding(0.1);\n\n    const y = d3.scaleLinear()\n      .domain([d3.min(this.y()) ?? this.MIN, d3.max(this.y()) ?? this.MAX])\n      .nice()\n      .range([height - margin.bottom, margin.top]);\n\n    const xAxis = (g: any) => g\n      .attr('transform', `translate(0,${height - margin.bottom})`)\n      .call(d3.axisBottom(x).tickSizeOuter(0));\n\n    const yAxis = (g: any) => g\n      .attr('transform', `translate(${margin.left},0)`)\n      .call(d3.axisLeft(y));\n\n    const xGrid = (g: any) => g\n      .attr('transform', `translate(0,${height - margin.bottom})`)\n      .call(d3.axisBottom(x)\n        .tickSize(-height + margin.top + margin.bottom)\n        .tickFormat('' as any)\n      )\n      .call((g: any) => g.selectAll('.tick line')\n        .attr('stroke', 'lightgrey')\n        .attr('stroke-opacity', 0.7))\n      .call((g: any) => g.select('.domain').remove());\n\n    const yGrid = (g: any) => g\n      .attr('transform', `translate(${margin.left},0)`)\n      .call(d3.axisLeft(y)\n        .tickSize(-width + margin.left + margin.right)\n        .tickFormat('' as any)\n      )\n      .call((g: any) => g.selectAll('.tick line')\n        .attr('stroke', 'lightgrey')\n        .attr('stroke-opacity', 0.7))\n      .call((g: any) => g.select('.domain').remove());\n\n    this.svg.selectAll('*').remove();\n\n    // 그리드를 먼저 그립니다.\n    this.svg.append('g').call(xGrid);\n    this.svg.append('g').call(yGrid);\n\n    // 컬러 스케일 정의\n    const positiveColor = d3.scaleSequential(d3.interpolateBlues)\n      .domain([0, (d3.max(this.y().filter(d => d > 0)) ?? this.MAX) * 0.5]); // 양수 값 더 진하게\n\n    const negativeColor = d3.scaleSequential(d3.interpolateReds)\n      .domain([0, (d3.min(this.y().filter(d => d < 0)) ?? this.MIN) * 0.5]); // 음수 값 더 진하게\n\n    // 막대를 나중에 그립니다.\n    this.svg.append('g')\n      .selectAll('rect')\n      .data(this.y)\n      .join('rect')\n      .attr('x', (d, i) => x(String(this.x()[i]))!)\n      .attr('y', y(0))\n      .attr('height', 0)\n      .attr('width', x.bandwidth())\n      .attr('fill', d => d > 0 ? positiveColor(d) : negativeColor(d))\n      .transition()\n      .duration(800)\n      .attr('y', d => y(Math.max(0, d)))\n      .attr('height', d => Math.abs(y(d) - y(0)));\n\n    this.svg.append('g').call(xAxis);\n\n    if (this.xAxisLabel()) {\n      this.svg.append('text')\n        .attr('class', 'x label')\n        .attr('text-anchor', 'middle')\n        .attr('x', width / 2)\n        .attr('y', height - margin.bottom + 40) // x축 레이블 위치 조정\n        .text(this.xAxisLabel());\n    }\n\n    this.svg.append('g').call(yAxis);\n\n    if (this.yAxisLabel()) {\n      this.svg.append('text')\n        .attr('class', 'y label')\n        .attr('text-anchor', 'middle')\n        .attr('transform', 'rotate(-90)')\n        .attr('x', -height / 2)\n        .attr('y', margin.left - 60) // y축 레이블 위치 조정\n        .text(this.yAxisLabel());\n    }\n\n    if (this.title()) {\n      this.svg.append('text')\n        .attr('x', width / 2)\n        .attr('y', margin.top / 2)\n        .attr('text-anchor', 'middle')\n        .attr('class', 'chart-title')\n        .text(this.title());\n    }\n\n    const tooltip = d3.select(element)\n      .append('div')\n      .attr('class', 'tooltip')\n      .style('opacity', 0);\n\n    this.svg.selectAll('rect')\n      .on('mouseover', (event, d: any) => {\n        tooltip.transition()\n          .duration(200)\n          .style('opacity', .9);\n        tooltip.html(`x: ${this.x()[this.y().indexOf(d)]}<br/>y: ${d}`)\n          .style('left', (event.pageX) + 'px')\n          .style('top', (event.pageY - 28) + 'px');\n      })\n      .on('mouseout', () => {\n        tooltip.transition()\n          .duration(500)\n          .style('opacity', 0);\n      });\n  }\n}\n",
+            "sourceCode": "import {\n  AfterViewInit,\n  Component,\n  ElementRef,\n  HostBinding,\n  HostListener,\n  Input,\n  input,\n  viewChild\n} from '@angular/core';\nimport * as d3 from 'd3';\n\n@Component({\n  selector: 'etri-bar-chart',\n  standalone: true,\n  styleUrls: ['bar-chart.component.scss'],\n  templateUrl: 'bar-chart.component.html',\n})\nexport class BarChartComponent implements AfterViewInit {\n  x = input<(string | number)[]>([]);\n  y = input<number[]>([]);\n  xAxisLabel = input<string | null>(null);\n  yAxisLabel = input<string | null>(null);\n  title = input<string | null>(null);\n  chartRef = viewChild<ElementRef<HTMLDivElement>>('chartRef');\n  @HostBinding('style.height') @Input() minHeight = '500px';\n\n  private readonly MAX = 10;\n  private readonly MIN = 0;\n  private svg!: d3.Selection<SVGSVGElement, unknown, null, undefined>;\n  private tooltip!: d3.Selection<HTMLDivElement, unknown, null, undefined>;\n\n  @HostListener('window:resize') onResize() {\n    this.updateChart();\n  }\n\n  ngAfterViewInit() {\n    this.createChart();\n  }\n\n  private createChart() {\n    const element = this.chartRef()!.nativeElement;\n    this.svg = d3.select(element).append('svg');\n    this.tooltip = d3.select(element)\n      .append('div')\n      .style('position', 'absolute')\n      .style('display', 'flex')\n      .style('align-items', 'center')\n      .style('justify-content', 'center')\n      .style('text-align', 'center')\n      .style('width', 'fit-content')\n      .style('height', 'fit-content')\n      .style('padding', '0.5rem')\n      .style('border-radius', '0.5rem')\n      .style('color', 'white')\n      .style('background-color', 'rgba(0, 0, 0, 0.8)')\n      .style('box-shadow', '2px 2px 2px rgba(0, 0, 0. 0.5)')\n      .style('pointer-events', 'none')\n      .style('opacity', 0);\n    this.updateChart();\n  }\n\n  private updateChart() {\n    const element = this.chartRef()!.nativeElement;\n    const width = element.offsetWidth;\n    const height = element.offsetHeight;\n    const margin = { top: 60, right: 20, bottom: 70, left: 90 };\n\n    this.svg\n      .attr('width', width)\n      .attr('height', height);\n\n    const x = d3.scaleBand()\n      .domain(this.x().map(String))\n      .range([margin.left, width - margin.right])\n      .padding(0.1);\n\n    const y = d3.scaleLinear()\n      .domain([d3.min(this.y()) ?? this.MIN, d3.max(this.y()) ?? this.MAX])\n      .nice()\n      .range([height - margin.bottom, margin.top]);\n\n    const xAxis = (g: any) => g\n      .attr('transform', `translate(0,${height - margin.bottom})`)\n      .call(d3.axisBottom(x).tickSizeOuter(0));\n\n    const yAxis = (g: any) => g\n      .attr('transform', `translate(${margin.left},0)`)\n      .call(d3.axisLeft(y));\n\n    const xGrid = (g: any) => g\n      .attr('transform', `translate(0,${height - margin.bottom})`)\n      .call(d3.axisBottom(x)\n        .tickSize(-height + margin.top + margin.bottom)\n        .tickFormat('' as any)\n      )\n      .call((g: any) => g.selectAll('.tick line')\n        .attr('stroke', 'lightgrey')\n        .attr('stroke-opacity', 0.7))\n      .call((g: any) => g.select('.domain').remove());\n\n    const yGrid = (g: any) => g\n      .attr('transform', `translate(${margin.left},0)`)\n      .call(d3.axisLeft(y)\n        .tickSize(-width + margin.left + margin.right)\n        .tickFormat('' as any)\n      )\n      .call((g: any) => g.selectAll('.tick line')\n        .attr('stroke', 'lightgrey')\n        .attr('stroke-opacity', 0.7))\n      .call((g: any) => g.select('.domain').remove());\n\n    this.svg.selectAll('*').remove();\n\n    // 그리드를 먼저 그립니다.\n    this.svg.append('g').call(xGrid);\n    this.svg.append('g').call(yGrid);\n\n    // 컬러 스케일 정의\n    const positiveColor = d3.scaleSequential(d3.interpolateBlues)\n      .domain([0, (d3.max(this.y().filter(d => d > 0)) ?? this.MAX) * 0.5]); // 양수 값 더 진하게\n\n    const negativeColor = d3.scaleSequential(d3.interpolateReds)\n      .domain([0, (d3.min(this.y().filter(d => d < 0)) ?? this.MIN) * 0.5]); // 음수 값 더 진하게\n\n    // 막대를 나중에 그립니다.\n    this.svg.append('g')\n      .selectAll('rect')\n      .data(this.y)\n      .join('rect')\n      .attr('x', (d, i) => x(String(this.x()[i]))!)\n      .attr('y', y(0))\n      .attr('height', 0)\n      .attr('width', x.bandwidth())\n      .attr('fill', d => d > 0 ? positiveColor(d) : negativeColor(d))\n      .transition()\n      .duration(800)\n      .attr('y', d => y(Math.max(0, d)))\n      .attr('height', d => Math.abs(y(d) - y(0)));\n\n    this.svg.append('g').call(xAxis);\n\n    if (this.xAxisLabel()) {\n      this.svg.append('text')\n        .attr('class', 'x label')\n        .attr('text-anchor', 'middle')\n        .attr('x', width / 2)\n        .attr('y', height - margin.bottom + 40) // x축 레이블 위치 조정\n        .text(this.xAxisLabel());\n    }\n\n    this.svg.append('g').call(yAxis);\n\n    if (this.yAxisLabel()) {\n      this.svg.append('text')\n        .attr('class', 'y label')\n        .attr('text-anchor', 'middle')\n        .attr('transform', 'rotate(-90)')\n        .attr('x', -height / 2)\n        .attr('y', margin.left - 60) // y축 레이블 위치 조정\n        .text(this.yAxisLabel());\n    }\n\n    if (this.title()) {\n      this.svg.append('text')\n        .attr('x', width / 2)\n        .attr('y', margin.top / 2)\n        .attr('text-anchor', 'middle')\n        .attr('class', 'chart-title')\n        .text(this.title());\n    }\n\n    this.svg.selectAll('rect')\n      .on('mouseover', (event, d: any) => {\n        this.tooltip.transition()\n          .duration(200)\n          .style('opacity', .9);\n        this.tooltip.html(`x: ${this.x()[this.y().indexOf(d)]}<br/>y: ${d}`)\n          .style('left', (event.pageX + 5) + 'px')\n          .style('top', (event.pageY - 5) + 'px'); // 툴팁 위치를 조정\n      })\n      .on('mouseout', () => {\n        this.tooltip.transition()\n          .duration(500)\n          .style('opacity', 0);\n      });\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ":host {\n  @apply block w-full h-full;\n}\n\n.chart-container {\n  width: 100%;\n  height: 400px;\n  position: relative;\n}\n\n.tooltip {\n  position: absolute;\n  text-align: center;\n  width: 60px;\n  height: 28px;\n  padding: 2px;\n  font: 12px sans-serif;\n  background: lightsteelblue;\n  border: 0;\n  border-radius: 8px;\n  pointer-events: none;\n}\n",
+                    "data": ":host {\n  @apply block w-full;\n}\n",
                     "styleUrl": "bar-chart.component.scss"
                 }
             ],
@@ -3834,7 +3962,7 @@
             "implements": [
                 "AfterViewInit"
             ],
-            "templateData": "<div #chartRef class=\"w-full h-full\"></div>\n"
+            "templateData": "<div #chartRef class=\"w-full h-full relative\"></div>\n"
         },
         {
             "name": "BaseDialogComponent",
@@ -5272,8 +5400,557 @@
             "templateData": "@for (param of hyperparameters(); track param; let i = $index) {\n  <div>\n    <label\n      class=\"input input-bordered flex items-center gap-4 w-full max-w-md\"\n    >\n      <span class=\"font-semibold\">{{ param.name }}:</span>\n      <input\n        type=\"text\"\n        [ngModel]=\"value[i].value\"\n        (ngModelChange)=\"changeValue(i, $event)\"\n        placeholder=\"Input value, default: {{ param.default_value }}\"\n        class=\"grow\"\n      />\n    </label>\n    <span class=\"text-xs text-info -mt-1\">{{ param.description }}(Type: {{ param.type }})</span>\n  </div>\n}\n"
         },
         {
+            "name": "ImportModelDialog",
+            "id": "component-ImportModelDialog-75a9239264de996903a1879a10627aa3acdcbc70f85701fd759d937ceeef9538719d644ba61fb771980bae8dd4d6ae95d1315c59db7c61b0f99c9ebf709c955f",
+            "file": "src/app/components/organisms/dialogs/import-model-dialog/import-model-dialog.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "etri-import-model-dialog",
+            "styleUrls": [],
+            "styles": [],
+            "template": "<etri-import-model-dialog_\n  (onClose)=\"dialogRef.close($event)\"\n/>",
+            "templateUrl": [],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "dialogRef",
+                    "defaultValue": "inject(DialogRef)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 75,
+                    "modifierKind": [
+                        148
+                    ]
+                }
+            ],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "ImportModelDialogComponent",
+                    "type": "component"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { DialogRef } from '@angular/cdk/dialog';\nimport { Component, inject, output, signal } from '@angular/core';\nimport { FormsModule, ReactiveFormsModule } from '@angular/forms';\nimport { finalize } from 'rxjs';\nimport { ModelService, TraindbService } from '../../../../services';\nimport { DialogHeaderDirective, LoadingComponent } from '../../../atoms';\nimport { BaseDialogComponent } from '../base-dialog';\n\n@Component({\n  selector: 'etri-import-model-dialog_',\n  standalone: true,\n  styleUrls: ['import-model-dialog.component.scss'],\n  templateUrl: 'import-model-dialog.component.html',\n  imports: [\n    BaseDialogComponent,\n    DialogHeaderDirective,\n    ReactiveFormsModule,\n    FormsModule,\n    LoadingComponent\n  ]\n})\nexport class ImportModelDialogComponent {\n  name: string | null = null;\n  file: File | null = null;\n  conflictName = false;\n  readonly onClose = output<boolean>();\n  readonly loading = signal(false);\n\n  private readonly traindbService = inject(TraindbService);\n  private readonly modelService = inject(ModelService);\n\n  changeName(name: string) {\n    this.name = name;\n    if (this.conflictName) this.conflictName = false;\n  }\n\n  importModel() {\n    const traindbId = this.traindbService.currentId();\n    const name = this.name!.trim();\n    this.loading.set(true);\n    this.modelService.importModel(traindbId!, name, this.file!).pipe(\n      finalize(() => this.loading.set(false))\n    ).subscribe({\n      next: () => this.onClose.emit(true),\n      error: err => {\n        console.error(err);\n        if (err.status === 409) {\n          this.conflictName = true;\n          alert('이미 사용 중인 모델명입니다.');\n          return;\n        }\n        alert(`Error: ${err.error?.detail ?? err.message}`);\n      }\n    })\n  }\n\n  onFileChange(event: any) {\n    this.file = event.target.files[0];\n  }\n}\n\n\n@Component({\n  imports: [\n    ImportModelDialogComponent\n  ],\n  selector: 'etri-import-model-dialog',\n  standalone: true,\n  template: `\n    <etri-import-model-dialog_\n      (onClose)=\"dialogRef.close($event)\"\n    />`\n})\nexport class ImportModelDialog {\n  readonly dialogRef = inject(DialogRef);\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": []
+        },
+        {
+            "name": "ImportModelDialogComponent",
+            "id": "component-ImportModelDialogComponent-75a9239264de996903a1879a10627aa3acdcbc70f85701fd759d937ceeef9538719d644ba61fb771980bae8dd4d6ae95d1315c59db7c61b0f99c9ebf709c955f",
+            "file": "src/app/components/organisms/dialogs/import-model-dialog/import-model-dialog.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "etri-import-model-dialog_",
+            "styleUrls": [
+                "import-model-dialog.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "import-model-dialog.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [
+                {
+                    "name": "onClose",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 26,
+                    "modifierKind": [
+                        148
+                    ],
+                    "required": false
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "conflictName",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 25
+                },
+                {
+                    "name": "file",
+                    "defaultValue": "null",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "File | null",
+                    "optional": false,
+                    "description": "",
+                    "line": 24
+                },
+                {
+                    "name": "loading",
+                    "defaultValue": "signal(false)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 27,
+                    "modifierKind": [
+                        148
+                    ]
+                },
+                {
+                    "name": "modelService",
+                    "defaultValue": "inject(ModelService)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 30,
+                    "modifierKind": [
+                        123,
+                        148
+                    ]
+                },
+                {
+                    "name": "name",
+                    "defaultValue": "null",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string | null",
+                    "optional": false,
+                    "description": "",
+                    "line": 23
+                },
+                {
+                    "name": "onClose",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 26,
+                    "modifierKind": [
+                        148
+                    ],
+                    "required": false
+                },
+                {
+                    "name": "traindbService",
+                    "defaultValue": "inject(TraindbService)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 29,
+                    "modifierKind": [
+                        123,
+                        148
+                    ]
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "changeName",
+                    "args": [
+                        {
+                            "name": "name",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 32,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "name",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "importModel",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 37,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "onFileChange",
+                    "args": [
+                        {
+                            "name": "event",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 57,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "event",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "BaseDialogComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "DialogHeaderDirective",
+                    "type": "directive"
+                },
+                {
+                    "name": "ReactiveFormsModule",
+                    "type": "module"
+                },
+                {
+                    "name": "FormsModule",
+                    "type": "module"
+                },
+                {
+                    "name": "LoadingComponent",
+                    "type": "component"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { DialogRef } from '@angular/cdk/dialog';\nimport { Component, inject, output, signal } from '@angular/core';\nimport { FormsModule, ReactiveFormsModule } from '@angular/forms';\nimport { finalize } from 'rxjs';\nimport { ModelService, TraindbService } from '../../../../services';\nimport { DialogHeaderDirective, LoadingComponent } from '../../../atoms';\nimport { BaseDialogComponent } from '../base-dialog';\n\n@Component({\n  selector: 'etri-import-model-dialog_',\n  standalone: true,\n  styleUrls: ['import-model-dialog.component.scss'],\n  templateUrl: 'import-model-dialog.component.html',\n  imports: [\n    BaseDialogComponent,\n    DialogHeaderDirective,\n    ReactiveFormsModule,\n    FormsModule,\n    LoadingComponent\n  ]\n})\nexport class ImportModelDialogComponent {\n  name: string | null = null;\n  file: File | null = null;\n  conflictName = false;\n  readonly onClose = output<boolean>();\n  readonly loading = signal(false);\n\n  private readonly traindbService = inject(TraindbService);\n  private readonly modelService = inject(ModelService);\n\n  changeName(name: string) {\n    this.name = name;\n    if (this.conflictName) this.conflictName = false;\n  }\n\n  importModel() {\n    const traindbId = this.traindbService.currentId();\n    const name = this.name!.trim();\n    this.loading.set(true);\n    this.modelService.importModel(traindbId!, name, this.file!).pipe(\n      finalize(() => this.loading.set(false))\n    ).subscribe({\n      next: () => this.onClose.emit(true),\n      error: err => {\n        console.error(err);\n        if (err.status === 409) {\n          this.conflictName = true;\n          alert('이미 사용 중인 모델명입니다.');\n          return;\n        }\n        alert(`Error: ${err.error?.detail ?? err.message}`);\n      }\n    })\n  }\n\n  onFileChange(event: any) {\n    this.file = event.target.files[0];\n  }\n}\n\n\n@Component({\n  imports: [\n    ImportModelDialogComponent\n  ],\n  selector: 'etri-import-model-dialog',\n  standalone: true,\n  template: `\n    <etri-import-model-dialog_\n      (onClose)=\"dialogRef.close($event)\"\n    />`\n})\nexport class ImportModelDialog {\n  readonly dialogRef = inject(DialogRef);\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ":host {\n  @apply block w-[90vw] max-w-[600px] max-h-[95vh];\n}\n",
+                    "styleUrl": "import-model-dialog.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "extends": [],
+            "templateData": "<etri-base-dialog\n  (onClose)=\"onClose.emit(false)\"\n>\n  <h1 header etriDialogHeader>Import Model</h1>\n  <div class=\"flex flex-col items-start gap-4\">\n    <label\n      class=\"input input-bordered flex items-center gap-4 w-full max-w-md {{ conflictName ? 'input-error' : '' }}\"\n    >\n      Name:\n      <input\n        [ngModel]=\"name\"\n        (ngModelChange)=\"changeName($event)\"\n        type=\"text\"\n        placeholder=\"Input model name\"\n        class=\"grow\"\n      />\n    </label>\n\n    <input\n      type=\"file\"\n      (change)=\"onFileChange($event)\"\n      class=\"file-input file-input-bordered file-input-primary w-full max-w-xs\"/>\n  </div>\n  <div footer class=\"flex justify-end items-center gap-4\">\n    <button\n      type=\"button\"\n      (click)=\"onClose.emit(false)\"\n      class=\"btn btn-sm\"\n    >Cancel</button>\n    <button\n      type=\"button\"\n      [disabled]=\"loading() || !name?.trim() || !file\"\n      (click)=\"importModel()\"\n      class=\"btn btn-sm btn-primary text-white\"\n    >\n      @if (loading()) {\n        <etri-loading/>\n      } @else {\n        Import\n      }\n    </button>\n  </div>\n</etri-base-dialog>\n"
+        },
+        {
+            "name": "ImportSynopsisDialog",
+            "id": "component-ImportSynopsisDialog-da80edcba7809c731fa45789a1f728c3886ad96ed1f5130ed0c8e9456b06056d386c240da99de80db0b6753aa91239b9aa5e8a02e87fb7db7cbf613b1d434de1",
+            "file": "src/app/components/organisms/dialogs/import-synopsis-dialog/import-synopsis-dialog.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "etri-import-synopsis-dialog",
+            "styleUrls": [],
+            "styles": [],
+            "template": "<etri-import-synopsis-dialog_\n  (onClose)=\"dialogRef.close($event)\"\n/>\n",
+            "templateUrl": [],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "dialogRef",
+                    "defaultValue": "inject(DialogRef)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 65,
+                    "modifierKind": [
+                        148
+                    ]
+                }
+            ],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "ImportSynopsisDialogComponent",
+                    "type": "component"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { DialogRef } from '@angular/cdk/dialog';\nimport { Component, inject, output, signal } from '@angular/core';\nimport { finalize } from 'rxjs';\nimport { SynopsisService, TraindbService } from '../../../../services';\n\n@Component({\n  selector: 'etri-import-synopsis-dialog_',\n  standalone: true,\n  styleUrls: ['import-synopsis-dialog.component.scss'],\n  templateUrl: 'import-synopsis-dialog.component.html',\n})\nexport class ImportSynopsisDialogComponent {\n  name: string | null = null;\n  file: File | null = null;\n  conflictName = false;\n  readonly onClose = output<boolean>();\n  readonly loading = signal(false);\n\n  private readonly traindbService = inject(TraindbService);\n  private readonly synopsisService = inject(SynopsisService);\n\n  changeName(name: string) {\n    this.name = name;\n    if (this.conflictName) this.conflictName = false;\n  }\n\n  importSynopsis() {\n    const traindbId = this.traindbService.currentId();\n    const name = this.name!.trim();\n    this.loading.set(true);\n    this.synopsisService.importSynopsis(traindbId!, name, this.file!).pipe(\n      finalize(() => this.loading.set(false))\n    ).subscribe({\n      next: () => this.onClose.emit(true),\n      error: err => {\n        console.error(err);\n        if (err.status === 409) {\n          this.conflictName = true;\n          alert('이미 사용 중인 시놉시스명입니다.');\n          return;\n        }\n        alert(`Error: ${err.error?.detail ?? err.message}`);\n      }\n    })\n  }\n\n  onFileChange(event: any) {\n    this.file = event.target.files[0];\n  }\n}\n\n@Component({\n  imports: [\n    ImportSynopsisDialogComponent\n  ],\n  selector: 'etri-import-synopsis-dialog',\n  standalone: true,\n  template: `\n    <etri-import-synopsis-dialog_\n      (onClose)=\"dialogRef.close($event)\"\n    />\n  `\n})\nexport class ImportSynopsisDialog {\n  readonly dialogRef = inject(DialogRef);\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": []
+        },
+        {
+            "name": "ImportSynopsisDialogComponent",
+            "id": "component-ImportSynopsisDialogComponent-da80edcba7809c731fa45789a1f728c3886ad96ed1f5130ed0c8e9456b06056d386c240da99de80db0b6753aa91239b9aa5e8a02e87fb7db7cbf613b1d434de1",
+            "file": "src/app/components/organisms/dialogs/import-synopsis-dialog/import-synopsis-dialog.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "etri-import-synopsis-dialog_",
+            "styleUrls": [
+                "import-synopsis-dialog.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "import-synopsis-dialog.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [
+                {
+                    "name": "onClose",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 16,
+                    "modifierKind": [
+                        148
+                    ],
+                    "required": false
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "conflictName",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 15
+                },
+                {
+                    "name": "file",
+                    "defaultValue": "null",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "File | null",
+                    "optional": false,
+                    "description": "",
+                    "line": 14
+                },
+                {
+                    "name": "loading",
+                    "defaultValue": "signal(false)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 17,
+                    "modifierKind": [
+                        148
+                    ]
+                },
+                {
+                    "name": "name",
+                    "defaultValue": "null",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string | null",
+                    "optional": false,
+                    "description": "",
+                    "line": 13
+                },
+                {
+                    "name": "onClose",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 16,
+                    "modifierKind": [
+                        148
+                    ],
+                    "required": false
+                },
+                {
+                    "name": "synopsisService",
+                    "defaultValue": "inject(SynopsisService)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 20,
+                    "modifierKind": [
+                        123,
+                        148
+                    ]
+                },
+                {
+                    "name": "traindbService",
+                    "defaultValue": "inject(TraindbService)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 19,
+                    "modifierKind": [
+                        123,
+                        148
+                    ]
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "changeName",
+                    "args": [
+                        {
+                            "name": "name",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 22,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "name",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "importSynopsis",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 27,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "onFileChange",
+                    "args": [
+                        {
+                            "name": "event",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 47,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "event",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { DialogRef } from '@angular/cdk/dialog';\nimport { Component, inject, output, signal } from '@angular/core';\nimport { finalize } from 'rxjs';\nimport { SynopsisService, TraindbService } from '../../../../services';\n\n@Component({\n  selector: 'etri-import-synopsis-dialog_',\n  standalone: true,\n  styleUrls: ['import-synopsis-dialog.component.scss'],\n  templateUrl: 'import-synopsis-dialog.component.html',\n})\nexport class ImportSynopsisDialogComponent {\n  name: string | null = null;\n  file: File | null = null;\n  conflictName = false;\n  readonly onClose = output<boolean>();\n  readonly loading = signal(false);\n\n  private readonly traindbService = inject(TraindbService);\n  private readonly synopsisService = inject(SynopsisService);\n\n  changeName(name: string) {\n    this.name = name;\n    if (this.conflictName) this.conflictName = false;\n  }\n\n  importSynopsis() {\n    const traindbId = this.traindbService.currentId();\n    const name = this.name!.trim();\n    this.loading.set(true);\n    this.synopsisService.importSynopsis(traindbId!, name, this.file!).pipe(\n      finalize(() => this.loading.set(false))\n    ).subscribe({\n      next: () => this.onClose.emit(true),\n      error: err => {\n        console.error(err);\n        if (err.status === 409) {\n          this.conflictName = true;\n          alert('이미 사용 중인 시놉시스명입니다.');\n          return;\n        }\n        alert(`Error: ${err.error?.detail ?? err.message}`);\n      }\n    })\n  }\n\n  onFileChange(event: any) {\n    this.file = event.target.files[0];\n  }\n}\n\n@Component({\n  imports: [\n    ImportSynopsisDialogComponent\n  ],\n  selector: 'etri-import-synopsis-dialog',\n  standalone: true,\n  template: `\n    <etri-import-synopsis-dialog_\n      (onClose)=\"dialogRef.close($event)\"\n    />\n  `\n})\nexport class ImportSynopsisDialog {\n  readonly dialogRef = inject(DialogRef);\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ":host {\n  @apply block w-[90vw] max-w-[600px] max-h-[95vh];\n}\n",
+                    "styleUrl": "import-synopsis-dialog.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "extends": [],
+            "templateData": ""
+        },
+        {
             "name": "LineChartComponent",
-            "id": "component-LineChartComponent-8c6dc7ea4a573bef47af3adee29e920c03928015fe5e7bc53aba28498fde57272694608ce610008b39515975bed469babc0e77396c30f0d81c6eecd3598bb48f",
+            "id": "component-LineChartComponent-d28ff1c8661af3c614ab75534e47dfa4cbbf4e23a6b11c697253133552f1ed78a2efc3323855cd29e87970878150b31c8e53fca5a1f6c755c4ee05c65ee88153",
             "file": "src/app/components/organisms/charts/line-chart/line-chart.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -5292,7 +5969,7 @@
             "hostDirectives": [],
             "inputsClass": [
                 {
-                    "name": "minHeight",
+                    "name": "height",
                     "defaultValue": "'500px'",
                     "deprecated": false,
                     "deprecationMessage": "",
@@ -5364,6 +6041,18 @@
                     "line": 24
                 },
                 {
+                    "name": "tooltip",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "d3.Selection<HTMLDivElement |  |  | undefined>",
+                    "optional": false,
+                    "description": "",
+                    "line": 31,
+                    "modifierKind": [
+                        123
+                    ]
+                },
+                {
                     "name": "x",
                     "defaultValue": "input<(string | number)[]>([])",
                     "deprecated": false,
@@ -5411,7 +6100,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 40,
+                    "line": 41,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -5424,7 +6113,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 36,
+                    "line": 37,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -5434,7 +6123,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 32,
+                    "line": 33,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "decorators": [
@@ -5453,7 +6142,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 46,
+                    "line": 63,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -5471,7 +6160,7 @@
                     "argsDecorator": [],
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 32
+                    "line": 33
                 }
             ],
             "standalone": true,
@@ -5479,11 +6168,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {\n  AfterViewInit,\n  Component,\n  ElementRef,\n  HostBinding,\n  HostListener,\n  Input,\n  input,\n  viewChild\n} from '@angular/core';\nimport * as d3 from 'd3';\n\n@Component({\n  selector: 'etri-line-chart',\n  standalone: true,\n  styleUrls: ['line-chart.component.scss'],\n  templateUrl: 'line-chart.component.html',\n})\nexport class LineChartComponent implements AfterViewInit {\n  x = input<(string | number)[]>([]);\n  y = input<number[]>([]);\n  xAxisLabel = input<string | null>(null);\n  yAxisLabel = input<string | null>(null);\n  title = input<string | null>(null);\n  chartRef = viewChild<ElementRef<HTMLDivElement>>('chartRef');\n  @HostBinding('style.min-height') @Input() minHeight = '500px';\n\n  private readonly MAX = 10;\n  private readonly MIN = 0;\n  private svg!: d3.Selection<SVGSVGElement, unknown, null, undefined>;\n\n  @HostListener('window:resize') onResize() {\n    this.updateChart();\n  }\n\n  ngAfterViewInit() {\n    this.createChart();\n  }\n\n  private createChart() {\n    const element = this.chartRef()!.nativeElement;\n    this.svg = d3.select(element).append('svg');\n    this.updateChart();\n  }\n\n  private updateChart() {\n    const element = this.chartRef()!.nativeElement;\n    const width = element.offsetWidth;\n    const height = element.offsetHeight;\n    const margin = { top: 60, right: 20, bottom: 70, left: 90 };\n\n    this.svg\n      .attr('width', width)\n      .attr('height', height);\n\n    const x = d3.scaleBand()\n      .domain(this.x().map(String))\n      .range([margin.left, width - margin.right])\n      .padding(0.1);\n\n    const y = d3.scaleLinear()\n      .domain([d3.min(this.y()) ?? this.MIN, d3.max(this.y()) ?? this.MAX])\n      .nice()\n      .range([height - margin.bottom, margin.top]);\n\n    const xAxis = (g: any) => g\n      .attr('transform', `translate(0,${height - margin.bottom})`)\n      .call(d3.axisBottom(x).tickSizeOuter(0));\n\n    const yAxis = (g: any) => g\n      .attr('transform', `translate(${margin.left},0)`)\n      .call(d3.axisLeft(y));\n\n    const xGrid = (g: any) => g\n      .attr('transform', `translate(0,${height - margin.bottom})`)\n      .call(d3.axisBottom(x)\n        .tickSize(-height + margin.top + margin.bottom)\n        .tickFormat('' as any)\n      )\n      .call((g: any) => g.selectAll('.tick line')\n        .attr('stroke', 'lightgrey')\n        .attr('stroke-opacity', 0.7))\n      .call((g: any) => g.select('.domain').remove());\n\n    const yGrid = (g: any) => g\n      .attr('transform', `translate(${margin.left},0)`)\n      .call(d3.axisLeft(y)\n        .tickSize(-width + margin.left + margin.right)\n        .tickFormat('' as any)\n      )\n      .call((g: any) => g.selectAll('.tick line')\n        .attr('stroke', 'lightgrey')\n        .attr('stroke-opacity', 0.7))\n      .call((g: any) => g.select('.domain').remove());\n\n    this.svg.selectAll('*').remove();\n\n    // 그리드를 먼저 그립니다.\n    this.svg.append('g').call(xGrid);\n    this.svg.append('g').call(yGrid);\n\n    // 라인 생성\n    const line = d3.line<any>()\n      .x((d, i) => x(String(this.x()[i]))!)\n      .y(d => y(d))\n      .curve(d3.curveMonotoneX);\n\n    this.svg.append('path')\n      .datum(this.y)\n      .attr('fill', 'none')\n      .attr('stroke', 'steelblue')\n      .attr('stroke-width', 2)\n      .attr('d', line);\n\n    this.svg.append('g').call(xAxis);\n\n    if (this.xAxisLabel()) {\n      this.svg.append('text')\n        .attr('class', 'x label')\n        .attr('text-anchor', 'middle')\n        .attr('x', width / 2)\n        .attr('y', height - margin.bottom + 40) // x축 레이블 위치 조정\n        .text(this.xAxisLabel());\n    }\n\n    this.svg.append('g').call(yAxis);\n\n    if (this.yAxisLabel()) {\n      this.svg.append('text')\n        .attr('class', 'y label')\n        .attr('text-anchor', 'middle')\n        .attr('transform', 'rotate(-90)')\n        .attr('x', -height / 2)\n        .attr('y', margin.left - 60) // y축 레이블 위치 조정\n        .text(this.yAxisLabel);\n    }\n\n    if (this.title()) {\n      this.svg.append('text')\n        .attr('x', width / 2)\n        .attr('y', margin.top / 2)\n        .attr('text-anchor', 'middle')\n        .attr('class', 'chart-title')\n        .text(this.title());\n    }\n\n    const tooltip = d3.select(element)\n      .append('div')\n      .attr('class', 'tooltip')\n      .style('opacity', 0);\n\n    this.svg.selectAll('circle')\n      .data(this.y)\n      .enter().append('circle')\n      .attr('cx', (d, i) => x(String(this.x()[i]))!)\n      .attr('cy', d => y(d))\n      .attr('r', 3)\n      .attr('fill', 'steelblue')\n      .on('mouseover', (event: any, d: any) => {\n        tooltip.transition().duration(200).style('opacity', .9);\n        tooltip.html(`x: ${this.x()[this.y().indexOf(d)]}<br/>y: ${d}`)\n          .style('left', (event.pageX) + 'px')\n          .style('top', (event.pageY - 28) + 'px');\n      })\n      .on('mouseout', () => {\n        tooltip.transition()\n          .duration(500)\n          .style('opacity', 0);\n      });\n  }\n}\n",
+            "sourceCode": "import {\n  AfterViewInit,\n  Component,\n  ElementRef,\n  HostBinding,\n  HostListener,\n  Input,\n  input,\n  viewChild\n} from '@angular/core';\nimport * as d3 from 'd3';\n\n@Component({\n  selector: 'etri-line-chart',\n  standalone: true,\n  styleUrls: ['line-chart.component.scss'],\n  templateUrl: 'line-chart.component.html',\n})\nexport class LineChartComponent implements AfterViewInit {\n  x = input<(string | number)[]>([]);\n  y = input<number[]>([]);\n  xAxisLabel = input<string | null>(null);\n  yAxisLabel = input<string | null>(null);\n  title = input<string | null>(null);\n  chartRef = viewChild<ElementRef<HTMLDivElement>>('chartRef');\n  @HostBinding('style.height') @Input() height = '500px';\n\n  private readonly MAX = 10;\n  private readonly MIN = 0;\n  private svg!: d3.Selection<SVGSVGElement, unknown, null, undefined>;\n  private tooltip!: d3.Selection<HTMLDivElement, unknown, null, undefined>;\n\n  @HostListener('window:resize') onResize() {\n    this.updateChart();\n  }\n\n  ngAfterViewInit() {\n    this.createChart();\n  }\n\n  private createChart() {\n    const element = this.chartRef()!.nativeElement;\n    this.svg = d3.select(element).append('svg');\n    this.tooltip = d3.select(element)\n      .append('div')\n      .style('position', 'absolute')\n      .style('display', 'flex')\n      .style('align-items', 'center')\n      .style('justify-content', 'center')\n      .style('text-align', 'center')\n      .style('width', 'fit-content')\n      .style('height', 'fit-content')\n      .style('padding', '0.5rem')\n      .style('border-radius', '0.5rem')\n      .style('color', 'white')\n      .style('background-color', 'rgba(0, 0, 0, 0.8)')\n      .style('box-shadow', '2px 2px 2px rgba(0, 0, 0. 0.5)')\n      .style('pointer-events', 'none')\n      .style('opacity', 0);\n    this.updateChart();\n  }\n\n  private updateChart() {\n    const element = this.chartRef()!.nativeElement;\n    const width = element.offsetWidth;\n    const height = element.offsetHeight;\n    const margin = { top: 60, right: 20, bottom: 70, left: 90 };\n\n    this.svg\n      .attr('width', width)\n      .attr('height', height);\n\n    const x = d3.scaleLinear()\n      .domain([0, this.x().length - 1])\n      .range([margin.left, width - margin.right]);\n\n    const y = d3.scaleLinear()\n      .domain([d3.min(this.y()) ?? this.MIN, d3.max(this.y()) ?? this.MAX])\n      .nice()\n      .range([height - margin.bottom, margin.top]);\n\n    const xAxis = (g: any) => g\n      .attr('transform', `translate(0,${height - margin.bottom})`)\n      .call(d3.axisBottom(x).ticks(this.x().length - 1).tickFormat((i: any) => String(this.x()[i])));\n\n    const yAxis = (g: any) => g\n      .attr('transform', `translate(${margin.left},0)`)\n      .call(d3.axisLeft(y));\n\n    const xGrid = (g: any) => g\n      .attr('transform', `translate(0,${height - margin.bottom})`)\n      .call(d3.axisBottom(x)\n        .tickSize(-height + margin.top + margin.bottom)\n        .tickFormat('' as any)\n      )\n      .call((g: any) => g.selectAll('.tick line')\n        .attr('stroke', 'lightgrey')\n        .attr('stroke-opacity', 0.7))\n      .call((g: any) => g.select('.domain').remove());\n\n    const yGrid = (g: any) => g\n      .attr('transform', `translate(${margin.left},0)`)\n      .call(d3.axisLeft(y)\n        .tickSize(-width + margin.left + margin.right)\n        .tickFormat('' as any)\n      )\n      .call((g: any) => g.selectAll('.tick line')\n        .attr('stroke', 'lightgrey')\n        .attr('stroke-opacity', 0.7))\n      .call((g: any) => g.select('.domain').remove());\n\n    this.svg.selectAll('*').remove();\n\n    // 그리드를 먼저 그립니다.\n    this.svg.append('g').call(xGrid);\n    this.svg.append('g').call(yGrid);\n\n    // 라인 생성\n    const line = d3.line<any>()\n      .x((d, i) => x(i))\n      .y(d => y(d));\n\n    const path = this.svg.append('path')\n      .datum(this.y)\n      .attr('fill', 'none')\n      .attr('stroke', 'steelblue')\n      .attr('stroke-width', 2)\n      .attr('d', line);\n\n    // 애니메이션 추가\n    const totalLength = path.node()?.getTotalLength();\n    if (totalLength) {\n      path\n        .attr('stroke-dasharray', `${totalLength} ${totalLength}`)\n        .attr('stroke-dashoffset', totalLength)\n        .transition()\n        .duration(2000)\n        .attr('stroke-dashoffset', 0);\n    }\n\n    this.svg.append('g').call(xAxis);\n\n    if (this.xAxisLabel()) {\n      this.svg.append('text')\n        .attr('class', 'x label')\n        .attr('text-anchor', 'middle')\n        .attr('x', width / 2)\n        .attr('y', height - margin.bottom + 40) // x축 레이블 위치 조정\n        .text(this.xAxisLabel());\n    }\n\n    this.svg.append('g').call(yAxis);\n\n    if (this.yAxisLabel()) {\n      this.svg.append('text')\n        .attr('class', 'y label')\n        .attr('text-anchor', 'middle')\n        .attr('transform', 'rotate(-90)')\n        .attr('x', -height / 2)\n        .attr('y', margin.left - 60) // y축 레이블 위치 조정\n        .text(this.yAxisLabel());\n    }\n\n    if (this.title()) {\n      this.svg.append('text')\n        .attr('x', width / 2)\n        .attr('y', margin.top / 2)\n        .attr('text-anchor', 'middle')\n        .attr('class', 'chart-title')\n        .text(this.title());\n    }\n\n    this.svg.selectAll('circle')\n      .data(this.y())\n      .enter()\n      .append('circle')\n      .attr('cx', (d, i) => x(i))\n      .attr('cy', d => y(d))\n      .attr('r', 3)\n      .attr('fill', 'steelblue')\n      .on('mouseover', (event, d: any) => {\n        d3.select(event.currentTarget)\n          .attr('fill', 'orange')\n          .attr('r', 5);\n        this.tooltip.transition()\n          .duration(200)\n          .style('opacity', .9);\n        this.tooltip.html(`x: ${this.x()[this.y().indexOf(d)]}<br/>y: ${d}`)\n          .style('left', (event.pageX + 10) + 'px')\n          .style('top', (event.pageY - 30) + 'px');\n      })\n      .on('mouseout', (event) => {\n        d3.select(event.currentTarget)\n          .attr('fill', 'steelblue')\n          .attr('r', 3);\n        this.tooltip.transition()\n          .duration(500)\n          .style('opacity', 0);\n      });\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ":host {\n  @apply block w-full h-full;\n}\n\n.chart-container {\n  width: 100%;\n  height: 400px;\n  position: relative;\n}\n\n.tooltip {\n  position: absolute;\n  text-align: center;\n  width: 60px;\n  height: 28px;\n  padding: 2px;\n  font: 12px sans-serif;\n  background: lightsteelblue;\n  border: 0;\n  border-radius: 8px;\n  pointer-events: none;\n}\n",
+                    "data": ":host {\n  @apply block w-full;\n}\n",
                     "styleUrl": "line-chart.component.scss"
                 }
             ],
@@ -5492,7 +6181,7 @@
             "implements": [
                 "AfterViewInit"
             ],
-            "templateData": "<div #chartRef class=\"w-full h-full\"></div>\n"
+            "templateData": "<div #chartRef class=\"w-full h-full relative\"></div>\n"
         },
         {
             "name": "LoadingComponent",
@@ -5620,7 +6309,7 @@
         },
         {
             "name": "ModelDialog",
-            "id": "component-ModelDialog-554d8c316b55272df53bd06a4bf484e8235e3cafbe12d6f7114807b580f456122ce2c42262d8e2d40ce0f982d259ca4cf3d750855ebb4d09557cdc16c0634620",
+            "id": "component-ModelDialog-95b99279d31854cc1a9a630aba851cea1e2430c49536cf194ba1c5525327c54e1f3bd4c146fd9c0b22b26557c96f348ad2b0155159b666d5bd186f541dfca936",
             "file": "src/app/components/organisms/dialogs/model-dialog/model-dialog.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -5645,7 +6334,7 @@
                     "type": "Model",
                     "optional": false,
                     "description": "",
-                    "line": 53,
+                    "line": 60,
                     "modifierKind": [
                         148
                     ]
@@ -5658,7 +6347,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 52,
+                    "line": 59,
                     "modifierKind": [
                         148
                     ]
@@ -5679,7 +6368,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';\nimport { DatePipe, DecimalPipe, PercentPipe } from '@angular/common';\nimport { Component, computed, effect, inject, input, output } from '@angular/core';\nimport { Model } from '../../../../dto';\nimport { ArrowDownTrayIconComponent, DialogHeaderDirective } from '../../../atoms';\nimport { BaseDialogComponent } from '../base-dialog';\n\n@Component({\n  imports: [\n    BaseDialogComponent,\n    DialogHeaderDirective,\n    PercentPipe,\n    DecimalPipe,\n    DatePipe,\n    ArrowDownTrayIconComponent\n  ],\n  selector: 'etri-model-dialog_',\n  standalone: true,\n  styleUrls: ['model-dialog.component.scss'],\n  templateUrl: 'model-dialog.component.html'\n})\nexport class ModelDialogComponent {\n  readonly model = input.required<Model>();\n  readonly hyperParameters = computed(() => {\n    const options = this.model().options;\n    return Object.keys(options).map(key => ({ name: key, value: options[key] }));\n  });\n  readonly onClose = output();\n\n  constructor() {\n    effect(() => {\n      console.log(this.model());\n    });\n  }\n}\n\n\n@Component({\n  imports: [\n    ModelDialogComponent\n  ],\n  selector: 'etri-model-dialog',\n  standalone: true,\n  template: `\n    <etri-model-dialog_\n      [model]=\"data\"\n      (onClose)=\"dialogRef.close()\"\n    />\n  `\n})\nexport class ModelDialog {\n  readonly dialogRef = inject(DialogRef);\n  readonly data: Model = inject(DIALOG_DATA);\n}\n",
+            "sourceCode": "import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';\nimport { DatePipe, DecimalPipe, PercentPipe } from '@angular/common';\nimport { Component, computed, effect, inject, input, output } from '@angular/core';\nimport { environment } from '../../../../../environments/environment';\nimport { Model } from '../../../../dto';\nimport { TraindbService } from '../../../../services';\nimport { ArrowDownTrayIconComponent, DialogHeaderDirective } from '../../../atoms';\nimport { BaseDialogComponent } from '../base-dialog';\n\n@Component({\n  imports: [\n    BaseDialogComponent,\n    DialogHeaderDirective,\n    PercentPipe,\n    DecimalPipe,\n    DatePipe,\n    ArrowDownTrayIconComponent\n  ],\n  selector: 'etri-model-dialog_',\n  standalone: true,\n  styleUrls: ['model-dialog.component.scss'],\n  templateUrl: 'model-dialog.component.html'\n})\nexport class ModelDialogComponent {\n  downloadLink: string | null = null;\n  readonly model = input.required<Model>();\n  readonly hyperParameters = computed(() => {\n    const options = this.model().options;\n    return Object.keys(options).map(key => ({ name: key, value: options[key] }));\n  });\n  readonly onClose = output();\n\n  private readonly traindbService = inject(TraindbService);\n\n  constructor() {\n    effect(() => {\n      const model = this.model();\n      const traindbId = this.traindbService.currentId();\n      if (model) this.downloadLink = environment.apiHost + `/models/${model.name}/export?traindb_id=${traindbId}`;\n    });\n  }\n}\n\n\n@Component({\n  imports: [\n    ModelDialogComponent\n  ],\n  selector: 'etri-model-dialog',\n  standalone: true,\n  template: `\n    <etri-model-dialog_\n      [model]=\"data\"\n      (onClose)=\"dialogRef.close()\"\n    />\n  `\n})\nexport class ModelDialog {\n  readonly dialogRef = inject(DialogRef);\n  readonly data: Model = inject(DIALOG_DATA);\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -5687,7 +6376,7 @@
         },
         {
             "name": "ModelDialogComponent",
-            "id": "component-ModelDialogComponent-554d8c316b55272df53bd06a4bf484e8235e3cafbe12d6f7114807b580f456122ce2c42262d8e2d40ce0f982d259ca4cf3d750855ebb4d09557cdc16c0634620",
+            "id": "component-ModelDialogComponent-95b99279d31854cc1a9a630aba851cea1e2430c49536cf194ba1c5525327c54e1f3bd4c146fd9c0b22b26557c96f348ad2b0155159b666d5bd186f541dfca936",
             "file": "src/app/components/organisms/dialogs/model-dialog/model-dialog.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -5712,7 +6401,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 24,
+                    "line": 27,
                     "modifierKind": [
                         148
                     ],
@@ -5725,7 +6414,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 23,
+                    "line": 26,
                     "modifierKind": [
                         148
                     ],
@@ -5740,7 +6429,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 28,
+                    "line": 31,
                     "modifierKind": [
                         148
                     ],
@@ -5749,13 +6438,23 @@
             ],
             "propertiesClass": [
                 {
+                    "name": "downloadLink",
+                    "defaultValue": "null",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string | null",
+                    "optional": false,
+                    "description": "",
+                    "line": 25
+                },
+                {
                     "name": "hyperParameters",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 24,
+                    "line": 27,
                     "modifierKind": [
                         148
                     ],
@@ -5768,7 +6467,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 23,
+                    "line": 26,
                     "modifierKind": [
                         148
                     ],
@@ -5781,11 +6480,25 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 28,
+                    "line": 31,
                     "modifierKind": [
                         148
                     ],
                     "required": false
+                },
+                {
+                    "name": "traindbService",
+                    "defaultValue": "inject(TraindbService)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 33,
+                    "modifierKind": [
+                        123,
+                        148
+                    ]
                 }
             ],
             "methodsClass": [],
@@ -5823,7 +6536,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';\nimport { DatePipe, DecimalPipe, PercentPipe } from '@angular/common';\nimport { Component, computed, effect, inject, input, output } from '@angular/core';\nimport { Model } from '../../../../dto';\nimport { ArrowDownTrayIconComponent, DialogHeaderDirective } from '../../../atoms';\nimport { BaseDialogComponent } from '../base-dialog';\n\n@Component({\n  imports: [\n    BaseDialogComponent,\n    DialogHeaderDirective,\n    PercentPipe,\n    DecimalPipe,\n    DatePipe,\n    ArrowDownTrayIconComponent\n  ],\n  selector: 'etri-model-dialog_',\n  standalone: true,\n  styleUrls: ['model-dialog.component.scss'],\n  templateUrl: 'model-dialog.component.html'\n})\nexport class ModelDialogComponent {\n  readonly model = input.required<Model>();\n  readonly hyperParameters = computed(() => {\n    const options = this.model().options;\n    return Object.keys(options).map(key => ({ name: key, value: options[key] }));\n  });\n  readonly onClose = output();\n\n  constructor() {\n    effect(() => {\n      console.log(this.model());\n    });\n  }\n}\n\n\n@Component({\n  imports: [\n    ModelDialogComponent\n  ],\n  selector: 'etri-model-dialog',\n  standalone: true,\n  template: `\n    <etri-model-dialog_\n      [model]=\"data\"\n      (onClose)=\"dialogRef.close()\"\n    />\n  `\n})\nexport class ModelDialog {\n  readonly dialogRef = inject(DialogRef);\n  readonly data: Model = inject(DIALOG_DATA);\n}\n",
+            "sourceCode": "import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';\nimport { DatePipe, DecimalPipe, PercentPipe } from '@angular/common';\nimport { Component, computed, effect, inject, input, output } from '@angular/core';\nimport { environment } from '../../../../../environments/environment';\nimport { Model } from '../../../../dto';\nimport { TraindbService } from '../../../../services';\nimport { ArrowDownTrayIconComponent, DialogHeaderDirective } from '../../../atoms';\nimport { BaseDialogComponent } from '../base-dialog';\n\n@Component({\n  imports: [\n    BaseDialogComponent,\n    DialogHeaderDirective,\n    PercentPipe,\n    DecimalPipe,\n    DatePipe,\n    ArrowDownTrayIconComponent\n  ],\n  selector: 'etri-model-dialog_',\n  standalone: true,\n  styleUrls: ['model-dialog.component.scss'],\n  templateUrl: 'model-dialog.component.html'\n})\nexport class ModelDialogComponent {\n  downloadLink: string | null = null;\n  readonly model = input.required<Model>();\n  readonly hyperParameters = computed(() => {\n    const options = this.model().options;\n    return Object.keys(options).map(key => ({ name: key, value: options[key] }));\n  });\n  readonly onClose = output();\n\n  private readonly traindbService = inject(TraindbService);\n\n  constructor() {\n    effect(() => {\n      const model = this.model();\n      const traindbId = this.traindbService.currentId();\n      if (model) this.downloadLink = environment.apiHost + `/models/${model.name}/export?traindb_id=${traindbId}`;\n    });\n  }\n}\n\n\n@Component({\n  imports: [\n    ModelDialogComponent\n  ],\n  selector: 'etri-model-dialog',\n  standalone: true,\n  template: `\n    <etri-model-dialog_\n      [model]=\"data\"\n      (onClose)=\"dialogRef.close()\"\n    />\n  `\n})\nexport class ModelDialog {\n  readonly dialogRef = inject(DialogRef);\n  readonly data: Model = inject(DIALOG_DATA);\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -5838,14 +6551,14 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "args": [],
-                "line": 28
+                "line": 33
             },
             "extends": [],
-            "templateData": "<etri-base-dialog\n  (onClose)=\"onClose.emit()\"\n  [hiddenFooter]=\"true\"\n>\n  <h1 header etriDialogHeader>Model Information</h1>\n\n  <div class=\"space-y-6\">\n    <div class=\"flex flex-col gap-4 p-4 border border-zinc-300\">\n      <div class=\"flex gap-4 items-center text-lg\">\n        <span class=\"text-zinc-600\">Model Name: </span>\n        <span class=\"font-semibold\">{{ model().name }}</span>\n        <button\n          type=\"button\"\n          class=\"btn btn-info btn-xs rounded-none text-white\"\n        >\n          <etri-arrow-down-tray-icon type=\"solid\" class=\"size-4\"/>\n          Export\n        </button>\n      </div>\n      <div class=\"flex gap-4 items-center text-lg\">\n        <span class=\"text-zinc-600\">Status: </span>\n        <span\n          class=\"badge {{ model().status === 'ENABLED' ? 'badge-primary text-white' : 'text-zinc-500' }}\"\n        >{{ model().status }}</span>\n      </div>\n    </div>\n\n    <div class=\"flex flex-col gap-2 p-4 border border-zinc-300\">\n      <table class=\"table table-sm\">\n        <tbody>\n        <tr>\n          <th>Model Type</th>\n          <td>{{ model().modeltype }}</td>\n        </tr>\n        <tr>\n          <th>Schema</th>\n          <td>{{ model().schema }}</td>\n        </tr>\n        <tr>\n          <th>Table</th>\n          <td>{{ model().table }}</td>\n        </tr>\n        <tr>\n          <th>Columns</th>\n          <td>\n            <div class=\"flex gap-2 flex-wrap\">\n              @for (col of model().columns; track col) {\n                <span class=\"py-px px-1 text-xs border border-zinc-300\">{{ col }}</span>\n              }\n            </div>\n          </td>\n        </tr>\n        <tr>\n          <th>Training Samples</th>\n          <td>\n            {{ model().trained_rows / model().table_rows | percent }}\n            <span class=\"text-zinc-600 text-sm\">\n              ({{ model().trained_rows | number }} / {{ model().table_rows | number }})\n            </span>\n          </td>\n        </tr>\n        <tr>\n          <th>Training Server</th>\n          <td>{{ model().server || '-' }}</td>\n        </tr>\n        <tr>\n          <th>Training Start Time</th>\n          <td>{{ model().start ? (model().start | date: 'yyyy년 M월 d일 HH시 mm분') : '-' }}</td>\n        </tr>\n        <tr>\n          <th>Training Status</th>\n          <td>\n            @if (model().training_status) {\n              <span\n                class=\"badge badge-sm text-white {{ model().training_status === 'FINISHED' ? 'badge-primary' : 'badge-warning' }}\"\n              >{{ model().training_status }}</span>\n            } @else {\n              <span>-</span>\n            }\n          </td>\n        </tr>\n        </tbody>\n      </table>\n    </div>\n\n    <div class=\"flex flex-col gap-2 p-4 border border-zinc-300\">\n      <h3 class=\"text-sm font-semibold\">Hyper Parameters</h3>\n      <table class=\"table table-sm\">\n        <tbody>\n          @for (param of hyperParameters(); track param) {\n            <tr>\n              <th>{{ param.name }}:</th>\n              <td>{{ param.value }}</td>\n            </tr>\n          }\n        </tbody>\n      </table>\n    </div>\n  </div>\n</etri-base-dialog>\n"
+            "templateData": "<etri-base-dialog\n  (onClose)=\"onClose.emit()\"\n  [hiddenFooter]=\"true\"\n>\n  <h1 header etriDialogHeader>Model Information</h1>\n\n  <div class=\"space-y-6\">\n    <div class=\"flex flex-col gap-4 p-4 border border-zinc-300\">\n      <div class=\"flex gap-4 items-center text-lg\">\n        <span class=\"text-zinc-600\">Model Name: </span>\n        <span class=\"font-semibold\">{{ model().name }}</span>\n        @if (downloadLink) {\n          <a\n            [href]=\"downloadLink\"\n            class=\"btn btn-info btn-xs rounded-none text-white no-underline\"\n          >\n            <etri-arrow-down-tray-icon type=\"solid\" class=\"size-4\"/>\n            Export\n          </a>\n        }\n      </div>\n      <div class=\"flex gap-4 items-center text-lg\">\n        <span class=\"text-zinc-600\">Status: </span>\n        <span\n          class=\"badge {{ model().status === 'ENABLED' ? 'badge-primary text-white' : 'text-zinc-500' }}\"\n        >{{ model().status }}</span>\n      </div>\n    </div>\n\n    <div class=\"flex flex-col gap-2 p-4 border border-zinc-300\">\n      <table class=\"table table-sm\">\n        <tbody>\n        <tr>\n          <th>Model Type</th>\n          <td>{{ model().modeltype }}</td>\n        </tr>\n        <tr>\n          <th>Schema</th>\n          <td>{{ model().schema }}</td>\n        </tr>\n        <tr>\n          <th>Table</th>\n          <td>{{ model().table }}</td>\n        </tr>\n        <tr>\n          <th>Columns</th>\n          <td>\n            <div class=\"flex gap-2 flex-wrap\">\n              @for (col of model().columns; track col) {\n                <span class=\"py-px px-1 text-xs border border-zinc-300\">{{ col }}</span>\n              }\n            </div>\n          </td>\n        </tr>\n        <tr>\n          <th>Training Samples</th>\n          <td>\n            {{ model().trained_rows / model().table_rows | percent }}\n            <span class=\"text-zinc-600 text-sm\">\n              ({{ model().trained_rows | number }} / {{ model().table_rows | number }})\n            </span>\n          </td>\n        </tr>\n        <tr>\n          <th>Training Server</th>\n          <td>{{ model().server || '-' }}</td>\n        </tr>\n        <tr>\n          <th>Training Start Time</th>\n          <td>{{ model().start ? (model().start | date: 'yyyy년 M월 d일 HH시 mm분') : '-' }}</td>\n        </tr>\n        <tr>\n          <th>Training Status</th>\n          <td>\n            @if (model().training_status) {\n              <span\n                class=\"badge badge-sm text-white {{ model().training_status === 'FINISHED' ? 'badge-primary' : 'badge-warning' }}\"\n              >{{ model().training_status }}</span>\n            } @else {\n              <span>-</span>\n            }\n          </td>\n        </tr>\n        </tbody>\n      </table>\n    </div>\n\n    <div class=\"flex flex-col gap-2 p-4 border border-zinc-300\">\n      <h3 class=\"text-sm font-semibold\">Hyper Parameters</h3>\n      <table class=\"table table-sm\">\n        <tbody>\n          @for (param of hyperParameters(); track param) {\n            <tr>\n              <th>{{ param.name }}:</th>\n              <td>{{ param.value }}</td>\n            </tr>\n          }\n        </tbody>\n      </table>\n    </div>\n  </div>\n</etri-base-dialog>\n"
         },
         {
             "name": "ModelListPageComponent",
-            "id": "component-ModelListPageComponent-25e8bac9a41ed41cef8060f34215ed3f3ca8819b5d9e7ee7ea34bd2cdd81ff1a9aa4099e1bf2885803aebad9c502c6918fa39aab9e3d11c57f9970f675f6cb2f",
+            "id": "component-ModelListPageComponent-9672ba58604def8004e405a7c7d91f5ad380170c0105c15a258258feee2d3743cf005d9dd499bb55187e37e156313cf09d5f6e497b750cfc84dbfec2ca554f84",
             "file": "src/app/routes/models/pages/model-list-page/model-list-page.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -5977,12 +6690,22 @@
                     ]
                 },
                 {
-                    "name": "loadModels",
+                    "name": "importModel",
                     "args": [],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
                     "line": 75,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "loadModels",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 82,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -6099,7 +6822,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Dialog } from '@angular/cdk/dialog';\nimport { DecimalPipe, JsonPipe } from '@angular/common';\nimport { Component, computed, inject, signal, WritableSignal } from '@angular/core';\nimport { RouterLink } from '@angular/router';\nimport {\n  ArrowUpTrayIconComponent,\n  DocumentMagnifyingGlassIconComponent,\n  LoadingComponent,\n  ModelDialog,\n  PencilSquareIconComponent,\n  SearchInputComponent,\n  TrashIconComponent,\n  UpdateModelDialog\n} from '../../../../components';\nimport { Model } from '../../../../dto';\nimport { IpAnonymizationPipe, PatternFilterPipe } from '../../../../pipes';\nimport { ModelService, TraindbService } from '../../../../services';\n\n@Component({\n  imports: [\n    RouterLink,\n    DecimalPipe,\n    LoadingComponent,\n    JsonPipe,\n    PatternFilterPipe,\n    SearchInputComponent,\n    IpAnonymizationPipe,\n    TrashIconComponent,\n    PencilSquareIconComponent,\n    DocumentMagnifyingGlassIconComponent,\n    ArrowUpTrayIconComponent,\n  ],\n  selector: 'etri-model-list-page',\n  standalone: true,\n  styleUrls: ['model-list-page.component.scss'],\n  templateUrl: 'model-list-page.component.html'\n})\nexport class ModelListPageComponent {\n  readonly modelList: WritableSignal<Model[]> = signal([]);\n  readonly loading = computed(() => this.modelService.loading());\n  readonly keyword = signal('');\n  private readonly traindbService = inject(TraindbService);\n  private readonly modelService = inject(ModelService);\n  private readonly dialog = inject(Dialog);\n\n  constructor() {\n    this.loadModels();\n  }\n\n  updateModel(model: Model) {\n    const dialog = this.dialog.open(UpdateModelDialog, {\n      data: model\n    });\n    dialog.closed.subscribe(res => {\n      if (res) this.loadModels();\n    });\n  }\n\n  deleteModel(model: Model) {\n    if (!confirm(`${model.name}을 삭제하시겠습니까?`)) return;\n    const traindbId = this.traindbService.currentId();\n    this.modelService.deleteModel(traindbId!, model.name).subscribe({\n      next: () => this.loadModels(),\n      error: err => {\n        console.error(err);\n        alert(`Error: ${err.error?.detail ?? err.message}`);\n      }\n    })\n  }\n\n  showDetail(model: Model) {\n    this.dialog.open(ModelDialog, { data: model });\n  }\n\n  private loadModels() {\n    const traindbId = this.traindbService.currentId();\n    this.modelService.searchModels(traindbId!).subscribe({\n      next: list => this.modelList.set(list),\n      error: console.error,\n    });\n  }\n}\n",
+            "sourceCode": "import { Dialog } from '@angular/cdk/dialog';\nimport { DecimalPipe, JsonPipe } from '@angular/common';\nimport { Component, computed, inject, signal, WritableSignal } from '@angular/core';\nimport { RouterLink } from '@angular/router';\nimport {\n  ArrowUpTrayIconComponent,\n  DocumentMagnifyingGlassIconComponent, ImportModelDialog,\n  LoadingComponent,\n  ModelDialog,\n  PencilSquareIconComponent,\n  SearchInputComponent,\n  TrashIconComponent,\n  UpdateModelDialog\n} from '../../../../components';\nimport { Model } from '../../../../dto';\nimport { IpAnonymizationPipe, PatternFilterPipe } from '../../../../pipes';\nimport { ModelService, TraindbService } from '../../../../services';\n\n@Component({\n  imports: [\n    RouterLink,\n    DecimalPipe,\n    LoadingComponent,\n    JsonPipe,\n    PatternFilterPipe,\n    SearchInputComponent,\n    IpAnonymizationPipe,\n    TrashIconComponent,\n    PencilSquareIconComponent,\n    DocumentMagnifyingGlassIconComponent,\n    ArrowUpTrayIconComponent,\n  ],\n  selector: 'etri-model-list-page',\n  standalone: true,\n  styleUrls: ['model-list-page.component.scss'],\n  templateUrl: 'model-list-page.component.html'\n})\nexport class ModelListPageComponent {\n  readonly modelList: WritableSignal<Model[]> = signal([]);\n  readonly loading = computed(() => this.modelService.loading());\n  readonly keyword = signal('');\n  private readonly traindbService = inject(TraindbService);\n  private readonly modelService = inject(ModelService);\n  private readonly dialog = inject(Dialog);\n\n  constructor() {\n    this.loadModels();\n  }\n\n  updateModel(model: Model) {\n    const dialog = this.dialog.open(UpdateModelDialog, {\n      data: model\n    });\n    dialog.closed.subscribe(res => {\n      if (res) this.loadModels();\n    });\n  }\n\n  deleteModel(model: Model) {\n    if (!confirm(`${model.name}을 삭제하시겠습니까?`)) return;\n    const traindbId = this.traindbService.currentId();\n    this.modelService.deleteModel(traindbId!, model.name).subscribe({\n      next: () => this.loadModels(),\n      error: err => {\n        console.error(err);\n        alert(`Error: ${err.error?.detail ?? err.message}`);\n      }\n    })\n  }\n\n  showDetail(model: Model) {\n    this.dialog.open(ModelDialog, { data: model });\n  }\n\n  importModel() {\n    const dialog = this.dialog.open(ImportModelDialog);\n    dialog.closed.subscribe(res => {\n      if (res) this.loadModels();\n    });\n  }\n\n  private loadModels() {\n    const traindbId = this.traindbService.currentId();\n    this.modelService.searchModels(traindbId!).subscribe({\n      next: list => this.modelList.set(list),\n      error: console.error,\n    });\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -6117,7 +6840,7 @@
                 "line": 44
             },
             "extends": [],
-            "templateData": "<h1>Models</h1>\n\n<section class=\"section elevate flex gap-4\">\n  <etri-search-input\n    class=\"inline-block grow max-w-lg\"\n    (onKeyword)=\"keyword.set($event)\"/>\n  <div class=\"ml-auto flex gap-2\">\n    <button\n      type=\"button\"\n      class=\"ml-auto btn btn-secondary btn-sm text-white no-underline rounded-none\"\n    >\n      <etri-arrow-up-tray-icon type=\"solid\" class=\"size-4\"/>\n      Import\n    </button>\n    <button\n      type=\"button\"\n      routerLink=\"/models/train\"\n      class=\"btn btn-primary btn-sm text-white no-underline rounded-none\">New\n    </button>\n  </div>\n</section>\n\n<section class=\"section elevate p-0 overflow-auto\">\n  <table class=\"table\">\n    <!-- head -->\n    <thead class=\"sticky top-0\">\n    <tr>\n      <th class=\"text-right\">#</th>\n      <th class=\"text-left\">Status</th>\n      <th class=\"text-left\">Name</th>\n      <th class=\"text-left\">Model Type</th>\n      <th class=\"text-left\">Schema</th>\n      <th class=\"text-left\">Table</th>\n      <th class=\"text-left\">Server</th>\n      <th class=\"text-left\">Training Rows</th>\n      <th class=\"text-left\">Training</th>\n      <th></th>\n    </tr>\n    </thead>\n    <tbody>\n      @for (model of modelList() | patternFilter:keyword():'name'; track $index) {\n        <tr class=\"even:bg-zinc-50 hover:bg-zinc-100\">\n          <th class=\"text-right\">{{ $index + 1 | number }}</th>\n          <td>{{ model.status }}</td>\n          <td>{{ model.name }}</td>\n          <td>{{ model.modeltype }}</td>\n          <td>{{ model.schema }}</td>\n          <td>{{ model.table }}</td>\n          <td>{{ (model.server | ipAnonymization) || '-' }}</td>\n          <td>{{ model.trained_rows | number }} / {{ model.table_rows | number }}</td>\n          <td>\n            @if (model.training_status) {\n              <div\n                class=\"badge {{ model.training_status === 'TRAINING' ? 'badge-warning' : '' }}\">{{ model.training_status }}\n              </div>\n            } @else {\n              <span>-</span>\n            }\n          </td>\n          <td class=\"flex gap-2 py-2 px-4\">\n            <button\n              type=\"button\"\n              (click)=\"deleteModel(model)\"\n              class=\"btn btn-warning btn-xs rounded-none text-white\"\n            >\n              <etri-trash-icon type=\"solid\" class=\"size-4\"/>\n            </button>\n            <button\n              type=\"button\"\n              (click)=\"updateModel(model)\"\n              class=\"btn btn-secondary btn-xs rounded-none text-white\"\n            >\n              <etri-pencil-square-icon type=\"solid\" class=\"size-4\"/>\n            </button>\n            <button\n              type=\"button\"\n              (click)=\"showDetail(model)\"\n              class=\"btn btn-primary btn-xs rounded-none text-white\"\n            >\n              <etri-document-magnifying-glass-icon type=\"solid\" class=\"size-4\"/>\n            </button>\n          </td>\n        </tr>\n      } @empty {\n        <tr>\n          @if (loading()) {\n            <td colspan=\"11\">\n              <div class=\"flex flex-col gap-2 items-center py-4\">\n                <etri-loading/>\n                <span class=\"text-zinc-500 text-xs\">Loading...</span>\n              </div>\n            </td>\n          } @else {\n            <td class=\"text-zinc-500 text-center\" colspan=\"11\">결과가 없습니다.</td>\n          }\n        </tr>\n      }\n    </tbody>\n  </table>\n</section>\n"
+            "templateData": "<h1>Models</h1>\n\n<section class=\"section elevate flex gap-4\">\n  <etri-search-input\n    class=\"inline-block grow max-w-lg\"\n    (onKeyword)=\"keyword.set($event)\"/>\n  <div class=\"ml-auto flex gap-2\">\n    <button\n      type=\"button\"\n      (click)=\"importModel()\"\n      class=\"btn btn-info btn-sm text-white rounded-none\"\n    >\n      <etri-arrow-up-tray-icon type=\"solid\" class=\"size-4\"/>\n      Import\n    </button>\n    <button\n      type=\"button\"\n      routerLink=\"/models/train\"\n      class=\"btn btn-primary btn-sm text-white rounded-none\">New\n    </button>\n  </div>\n</section>\n\n<section class=\"section elevate p-0 overflow-auto\">\n  <table class=\"table\">\n    <!-- head -->\n    <thead class=\"sticky top-0\">\n    <tr>\n      <th class=\"text-right\">#</th>\n      <th class=\"text-left\">Status</th>\n      <th class=\"text-left\">Name</th>\n      <th class=\"text-left\">Model Type</th>\n      <th class=\"text-left\">Schema</th>\n      <th class=\"text-left\">Table</th>\n      <th class=\"text-left\">Server</th>\n      <th class=\"text-left\">Training Rows</th>\n      <th class=\"text-left\">Training</th>\n      <th></th>\n    </tr>\n    </thead>\n    <tbody>\n      @for (model of modelList() | patternFilter:keyword():'name'; track $index) {\n        <tr class=\"even:bg-zinc-50 hover:bg-zinc-100\">\n          <th class=\"text-right\">{{ $index + 1 | number }}</th>\n          <td>{{ model.status }}</td>\n          <td>{{ model.name }}</td>\n          <td>{{ model.modeltype }}</td>\n          <td>{{ model.schema }}</td>\n          <td>{{ model.table }}</td>\n          <td>{{ (model.server | ipAnonymization) || '-' }}</td>\n          <td>{{ model.trained_rows | number }} / {{ model.table_rows | number }}</td>\n          <td>\n            @if (model.training_status) {\n              <div\n                class=\"badge {{ model.training_status === 'TRAINING' ? 'badge-warning' : '' }}\">{{ model.training_status }}\n              </div>\n            } @else {\n              <span>-</span>\n            }\n          </td>\n          <td class=\"flex gap-2 py-2 px-4\">\n            <button\n              type=\"button\"\n              (click)=\"deleteModel(model)\"\n              class=\"btn btn-warning btn-xs rounded-none text-white\"\n            >\n              <etri-trash-icon type=\"solid\" class=\"size-4\"/>\n            </button>\n            <button\n              type=\"button\"\n              (click)=\"updateModel(model)\"\n              class=\"btn btn-secondary btn-xs rounded-none text-white\"\n            >\n              <etri-pencil-square-icon type=\"solid\" class=\"size-4\"/>\n            </button>\n            <button\n              type=\"button\"\n              (click)=\"showDetail(model)\"\n              class=\"btn btn-primary btn-xs rounded-none text-white\"\n            >\n              <etri-document-magnifying-glass-icon type=\"solid\" class=\"size-4\"/>\n            </button>\n          </td>\n        </tr>\n      } @empty {\n        <tr>\n          @if (loading()) {\n            <td colspan=\"11\">\n              <div class=\"flex flex-col gap-2 items-center py-4\">\n                <etri-loading/>\n                <span class=\"text-zinc-500 text-xs\">Loading...</span>\n              </div>\n            </td>\n          } @else {\n            <td class=\"text-zinc-500 text-center\" colspan=\"11\">결과가 없습니다.</td>\n          }\n        </tr>\n      }\n    </tbody>\n  </table>\n</section>\n"
         },
         {
             "name": "ModeltypeFormPageComponent",
@@ -8363,7 +9086,7 @@
         },
         {
             "name": "SynopsisListPageComponent",
-            "id": "component-SynopsisListPageComponent-25f294f13b64e49a36ea45eb038509e8bbc9e11f14128d505b196aa62b94b0da78ab86380bd7b61e49ec1f674215357ab6fbd4850c4ffabb9bd77c1d51bf6d16",
+            "id": "component-SynopsisListPageComponent-69b9a8cfb5ad2e2e0399a7b445f18de34393c74b4fcf9a0cbb4f1b42e818f65ef3c8cad26008d5d92c0bc8033e72d62057f64832f81b6d604b3bced11be3b417",
             "file": "src/app/routes/synopses/pages/synopsis-list-page/synopsis-list-page.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -8384,6 +9107,19 @@
             "outputsClass": [],
             "propertiesClass": [
                 {
+                    "name": "apiHost",
+                    "defaultValue": "environment.apiHost",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 39,
+                    "modifierKind": [
+                        148
+                    ]
+                },
+                {
                     "name": "dialog",
                     "defaultValue": "inject(Dialog)",
                     "deprecated": false,
@@ -8391,7 +9127,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 36,
+                    "line": 42,
                     "modifierKind": [
                         123,
                         148
@@ -8405,7 +9141,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 33,
+                    "line": 38,
                     "modifierKind": [
                         148
                     ]
@@ -8418,7 +9154,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 32,
+                    "line": 37,
                     "modifierKind": [
                         148
                     ]
@@ -8431,7 +9167,7 @@
                     "type": "WritableSignal<Synopsis[]>",
                     "optional": false,
                     "description": "",
-                    "line": 31,
+                    "line": 36,
                     "modifierKind": [
                         148
                     ]
@@ -8444,9 +9180,22 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 35,
+                    "line": 41,
                     "modifierKind": [
                         123,
+                        148
+                    ]
+                },
+                {
+                    "name": "traindbId",
+                    "defaultValue": "computed(() => this.traindbService.currentId())",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 43,
+                    "modifierKind": [
                         148
                     ]
                 },
@@ -8458,7 +9207,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 34,
+                    "line": 40,
                     "modifierKind": [
                         123,
                         148
@@ -8479,7 +9228,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 42,
+                    "line": 53,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -8495,12 +9244,22 @@
                     ]
                 },
                 {
+                    "name": "importSynopsis",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 49,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
                     "name": "loadSynopses",
                     "args": [],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 63,
+                    "line": 74,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -8520,7 +9279,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 54,
+                    "line": 65,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -8568,12 +9327,20 @@
                 {
                     "name": "PencilSquareIconComponent",
                     "type": "component"
+                },
+                {
+                    "name": "ArrowUpTrayIconComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "ArrowDownTrayIconComponent",
+                    "type": "component"
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Dialog } from '@angular/cdk/dialog';\nimport { DecimalPipe } from '@angular/common';\nimport { Component, computed, inject, signal, WritableSignal } from '@angular/core';\nimport { RouterLink } from '@angular/router';\nimport {\n  LoadingComponent,\n  PencilSquareIconComponent,\n  SearchInputComponent,\n  TrashIconComponent, UpdateSynopsisDialog\n} from '../../../../components';\nimport { Synopsis } from '../../../../dto';\nimport { PatternFilterPipe } from '../../../../pipes';\nimport { SynopsisService, TraindbService } from '../../../../services';\n\n@Component({\n  imports: [\n    RouterLink,\n    DecimalPipe,\n    LoadingComponent,\n    PatternFilterPipe,\n    SearchInputComponent,\n    TrashIconComponent,\n    PencilSquareIconComponent\n  ],\n  selector: 'etri-synopsis-list-page',\n  standalone: true,\n  styleUrls: ['synopsis-list-page.component.scss'],\n  templateUrl: 'synopsis-list-page.component.html'\n})\nexport class SynopsisListPageComponent {\n  readonly synopsisList: WritableSignal<Synopsis[]> = signal([]);\n  readonly loading = computed(() => this.synopsisService.loading());\n  readonly keyword = signal('');\n  private readonly traindbService = inject(TraindbService);\n  private readonly synopsisService =inject(SynopsisService);\n  private readonly dialog = inject(Dialog);\n\n  constructor() {\n    this.loadSynopses();\n  }\n\n  deleteSynopsis(synopsis: Synopsis) {\n    if (!confirm(`${synopsis.name}을 삭제하시겠습니까?`)) return;\n    const traindbId = this.traindbService.currentId();\n    this.synopsisService.deleteSynopsis(traindbId!, synopsis.name).subscribe({\n      next: () => this.loadSynopses(),\n      error: err => {\n        console.error(err);\n        alert(`Error: ${err.error?.detail ?? err.message}`);\n      }\n    })\n  }\n\n  updateSynopsis(synopsis: Synopsis) {\n    const dialog = this.dialog.open(UpdateSynopsisDialog, {\n      data: synopsis\n    });\n    dialog.closed.subscribe(res => {\n      if (res) this.loadSynopses();\n    });\n  }\n\n  private loadSynopses() {\n    const traindbId = this.traindbService.currentId();\n    this.synopsisService.searchSynopses(traindbId!).subscribe({\n      next: list => this.synopsisList.set([...list]),\n      error: console.error,\n    })\n  }\n}\n",
+            "sourceCode": "import { Dialog } from '@angular/cdk/dialog';\nimport { DecimalPipe } from '@angular/common';\nimport { Component, computed, inject, signal, WritableSignal } from '@angular/core';\nimport { RouterLink } from '@angular/router';\nimport { environment } from '../../../../../environments/environment';\nimport {\n  ArrowDownTrayIconComponent,\n  ArrowUpTrayIconComponent,\n  LoadingComponent,\n  PencilSquareIconComponent,\n  SearchInputComponent,\n  TrashIconComponent, UpdateSynopsisDialog\n} from '../../../../components';\nimport { Synopsis } from '../../../../dto';\nimport { PatternFilterPipe } from '../../../../pipes';\nimport { SynopsisService, TraindbService } from '../../../../services';\n\n@Component({\n  imports: [\n    RouterLink,\n    DecimalPipe,\n    LoadingComponent,\n    PatternFilterPipe,\n    SearchInputComponent,\n    TrashIconComponent,\n    PencilSquareIconComponent,\n    ArrowUpTrayIconComponent,\n    ArrowDownTrayIconComponent\n  ],\n  selector: 'etri-synopsis-list-page',\n  standalone: true,\n  styleUrls: ['synopsis-list-page.component.scss'],\n  templateUrl: 'synopsis-list-page.component.html'\n})\nexport class SynopsisListPageComponent {\n  readonly synopsisList: WritableSignal<Synopsis[]> = signal([]);\n  readonly loading = computed(() => this.synopsisService.loading());\n  readonly keyword = signal('');\n  readonly apiHost = environment.apiHost;\n  private readonly traindbService = inject(TraindbService);\n  private readonly synopsisService =inject(SynopsisService);\n  private readonly dialog = inject(Dialog);\n  readonly traindbId = computed(() => this.traindbService.currentId());\n\n  constructor() {\n    this.loadSynopses();\n  }\n\n  importSynopsis() {\n    alert('import synopsis');\n  }\n\n  deleteSynopsis(synopsis: Synopsis) {\n    if (!confirm(`${synopsis.name}을 삭제하시겠습니까?`)) return;\n    const traindbId = this.traindbService.currentId();\n    this.synopsisService.deleteSynopsis(traindbId!, synopsis.name).subscribe({\n      next: () => this.loadSynopses(),\n      error: err => {\n        console.error(err);\n        alert(`Error: ${err.error?.detail ?? err.message}`);\n      }\n    })\n  }\n\n  updateSynopsis(synopsis: Synopsis) {\n    const dialog = this.dialog.open(UpdateSynopsisDialog, {\n      data: synopsis\n    });\n    dialog.closed.subscribe(res => {\n      if (res) this.loadSynopses();\n    });\n  }\n\n  private loadSynopses() {\n    const traindbId = this.traindbService.currentId();\n    this.synopsisService.searchSynopses(traindbId!).subscribe({\n      next: list => this.synopsisList.set([...list]),\n      error: console.error,\n    })\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -8588,10 +9355,10 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "args": [],
-                "line": 36
+                "line": 43
             },
             "extends": [],
-            "templateData": "<h1>Synopses</h1>\n\n<section class=\"section elevate flex gap-4\">\n  <etri-search-input\n    class=\"inline-block grow max-w-lg\"\n    (onKeyword)=\"keyword.set($event)\"/>\n  <button\n    type=\"button\"\n    routerLink=\"/synopses/register\"\n    class=\"ml-auto btn btn-primary btn-sm text-white no-underline rounded-none\">New\n  </button>\n</section>\n\n<section class=\"section elevate p-0 overflow-auto\">\n  <table class=\"table\">\n    <!-- head -->\n    <thead class=\"sticky top-0\">\n    <tr>\n      <th class=\"text-right\">#</th>\n      <th class=\"text-left\">Status</th>\n      <th class=\"text-left\">Name</th>\n      <th class=\"text-left\">Model</th>\n      <th class=\"text-left\">Schema</th>\n      <th class=\"text-left\">Table</th>\n      <th class=\"text-left\">Columns</th>\n      <th class=\"text-left\">Rows</th>\n      <th class=\"text-left\">Ratio</th>\n      <th class=\"text-left\">External</th>\n      <th class=\"text-left\">Statistics</th>\n      <th></th>\n    </tr>\n    </thead>\n    <tbody>\n      @if (loading()) {\n        <tr>\n          <td colspan=\"12\">\n            <div class=\"flex flex-col gap-2 items-center py-4\">\n              <etri-loading/>\n              <span class=\"text-zinc-500 text-xs\">Loading...</span>\n            </div>\n          </td>\n        </tr>\n      } @else {\n        @for (synopsis of synopsisList() | patternFilter:keyword():'name'; track $index) {\n          <tr class=\"even:bg-zinc-50 hover:bg-zinc-100\">\n            <th class=\"text-right\">{{ $index + 1 | number }}</th>\n            <td>{{ synopsis.status }}</td>\n            <td>{{ synopsis.name }}</td>\n            <td>{{ synopsis.model }}</td>\n            <td>{{ synopsis.schema }}</td>\n            <td>{{ synopsis.table }}</td>\n            <td>{{ synopsis.columns }}</td>\n            <td>{{ synopsis.rows | number }}</td>\n            <td>{{ synopsis.ratio }}</td>\n            <td>{{ synopsis.external }}</td>\n            <td>{{ synopsis.statistics || '-' }}</td>\n            <td class=\"flex gap-2 py-2 px-4\">\n              <button\n                type=\"button\"\n                (click)=\"deleteSynopsis(synopsis)\"\n                class=\"btn btn-warning btn-xs rounded-none text-white\"\n              >\n                <etri-trash-icon type=\"solid\" class=\"size-4\"/>\n              </button>\n              <button\n                type=\"button\"\n                (click)=\"updateSynopsis(synopsis)\"\n                class=\"btn btn-secondary btn-xs rounded-none text-white\"\n              >\n                <etri-pencil-square-icon type=\"solid\" class=\"size-4\"/>\n              </button>\n            </td>\n          </tr>\n        } @empty {\n          <tr>\n            <td class=\"text-zinc-500 text-center\" colspan=\"12\">결과가 없습니다.</td>\n          </tr>\n        }\n      }\n    </tbody>\n  </table>\n</section>\n"
+            "templateData": "<h1>Synopses</h1>\n\n<section class=\"section elevate flex gap-4\">\n  <etri-search-input\n    class=\"inline-block grow max-w-lg\"\n    (onKeyword)=\"keyword.set($event)\"/>\n  <div class=\"ml-auto flex gap-2\">\n    <button\n      type=\"button\"\n      (click)=\"importSynopsis()\"\n      class=\"btn btn-info btn-sm text-white no-underline rounded-none\">\n      <etri-arrow-up-tray-icon type=\"solid\" class=\"size-4\"/>\n      Import\n    </button>\n    <button\n      type=\"button\"\n      routerLink=\"/synopses/register\"\n      class=\"btn btn-primary btn-sm text-white no-underline rounded-none\">New\n    </button>\n  </div>\n</section>\n\n<section class=\"section elevate p-0 overflow-auto\">\n  <table class=\"table\">\n    <!-- head -->\n    <thead class=\"sticky top-0\">\n    <tr>\n      <th class=\"text-right\">#</th>\n      <th class=\"text-left\">Status</th>\n      <th class=\"text-left\">Name</th>\n      <th class=\"text-left\">Model</th>\n      <th class=\"text-left\">Schema</th>\n      <th class=\"text-left\">Table</th>\n      <th class=\"text-left\">Columns</th>\n      <th class=\"text-left\">Rows</th>\n      <th class=\"text-left\">Ratio</th>\n      <th class=\"text-left\">External</th>\n      <th class=\"text-left\">Statistics</th>\n      <th></th>\n    </tr>\n    </thead>\n    <tbody>\n      @if (loading()) {\n        <tr>\n          <td colspan=\"12\">\n            <div class=\"flex flex-col gap-2 items-center py-4\">\n              <etri-loading/>\n              <span class=\"text-zinc-500 text-xs\">Loading...</span>\n            </div>\n          </td>\n        </tr>\n      } @else {\n        @for (synopsis of synopsisList() | patternFilter:keyword():'name'; track $index) {\n          <tr class=\"even:bg-zinc-50 hover:bg-zinc-100\">\n            <th class=\"text-right\">{{ $index + 1 | number }}</th>\n            <td>{{ synopsis.status }}</td>\n            <td>{{ synopsis.name }}</td>\n            <td>{{ synopsis.model }}</td>\n            <td>{{ synopsis.schema }}</td>\n            <td>{{ synopsis.table }}</td>\n            <td>{{ synopsis.columns }}</td>\n            <td>{{ synopsis.rows | number }}</td>\n            <td>{{ synopsis.ratio }}</td>\n            <td>{{ synopsis.external }}</td>\n            <td>{{ synopsis.statistics || '-' }}</td>\n            <td class=\"flex gap-2 py-2 px-4\">\n              <button\n                type=\"button\"\n                (click)=\"deleteSynopsis(synopsis)\"\n                class=\"btn btn-warning btn-xs rounded-none text-white\"\n              >\n                <etri-trash-icon type=\"solid\" class=\"size-4\"/>\n              </button>\n              <button\n                type=\"button\"\n                (click)=\"updateSynopsis(synopsis)\"\n                class=\"btn btn-secondary btn-xs rounded-none text-white\"\n              >\n                <etri-pencil-square-icon type=\"solid\" class=\"size-4\"/>\n              </button>\n              <a\n                [href]=\"apiHost + '/synopses/' + synopsis.name + '/export?traindb_id=' + traindbId()\"\n                class=\"btn btn-info btn-xs rounded-none no-underline\"\n              >\n                <etri-arrow-down-tray-icon type=\"solid\" class=\"size-4 text-white\"/>\n              </a>\n            </td>\n          </tr>\n        } @empty {\n          <tr>\n            <td class=\"text-zinc-500 text-center\" colspan=\"12\">결과가 없습니다.</td>\n          </tr>\n        }\n      }\n    </tbody>\n  </table>\n</section>\n"
         },
         {
             "name": "TableCellsIconComponent",
@@ -11244,7 +12011,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "object",
-                "defaultValue": "{\n  production: false,\n  apiHost: 'http://61.32.68.66/api'\n}"
+                "defaultValue": "{\n  production: false,\n  // apiHost: 'http://192.168.10.39/api',\n  apiHost: 'http://61.32.68.66/api',\n}"
             },
             {
                 "name": "environment",
@@ -11434,7 +12201,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "object",
-                    "defaultValue": "{\n  production: false,\n  apiHost: 'http://61.32.68.66/api'\n}"
+                    "defaultValue": "{\n  production: false,\n  // apiHost: 'http://192.168.10.39/api',\n  apiHost: 'http://61.32.68.66/api',\n}"
                 }
             ],
             "src/environments/environment.ts": [
@@ -11868,7 +12635,7 @@
                 "linktype": "component",
                 "name": "BarChartComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/16",
+                "coverageCount": "0/17",
                 "status": "low"
             },
             {
@@ -11877,7 +12644,7 @@
                 "linktype": "component",
                 "name": "LineChartComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/16",
+                "coverageCount": "0/17",
                 "status": "low"
             },
             {
@@ -11887,6 +12654,42 @@
                 "name": "BaseDialogComponent",
                 "coveragePercent": 0,
                 "coverageCount": "0/9",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/components/organisms/dialogs/import-model-dialog/import-model-dialog.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "ImportModelDialog",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/components/organisms/dialogs/import-model-dialog/import-model-dialog.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "ImportModelDialogComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/12",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/components/organisms/dialogs/import-synopsis-dialog/import-synopsis-dialog.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "ImportSynopsisDialog",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/components/organisms/dialogs/import-synopsis-dialog/import-synopsis-dialog.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "ImportSynopsisDialogComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/12",
                 "status": "low"
             },
             {
@@ -11904,7 +12707,7 @@
                 "linktype": "component",
                 "name": "ModelDialogComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/8",
+                "coverageCount": "0/10",
                 "status": "low"
             },
             {
@@ -12502,7 +13305,7 @@
                 "linktype": "component",
                 "name": "ModelListPageComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/12",
+                "coverageCount": "0/13",
                 "status": "low"
             },
             {
@@ -12565,7 +13368,7 @@
                 "linktype": "component",
                 "name": "SynopsisListPageComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/11",
+                "coverageCount": "0/14",
                 "status": "low"
             },
             {
@@ -12619,7 +13422,7 @@
                 "linktype": "injectable",
                 "name": "ModelService",
                 "coveragePercent": 0,
-                "coverageCount": "0/8",
+                "coverageCount": "0/9",
                 "status": "low"
             },
             {
@@ -12646,7 +13449,7 @@
                 "linktype": "injectable",
                 "name": "SynopsisService",
                 "coveragePercent": 0,
-                "coverageCount": "0/8",
+                "coverageCount": "0/9",
                 "status": "low"
             },
             {

@@ -1,5 +1,7 @@
 PORT=80
 
+REDIS_URL=redis://redis:6379
+REDIS_WORKER_INDEX=0
 REDIS_VOLUME=./data/redis
 
 POSTGRES_VOLUME=./data/postgres
@@ -16,4 +18,3 @@ CONFIG_VOLUME=./data/config/traindb/workbench
 GF_SECURITY_ADMIN_USER=admin
 GF_SECURITY_ADMIN_PASSWORD=asdf1234
 GF_DATA_VOLUME=./data/grafana
-

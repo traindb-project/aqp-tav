@@ -3,7 +3,9 @@ __all__ = [
     "DB_URL",
     "IS_DEV",
     "LOG_DIR",
-    "TRAINDB_DRIVER_PATH"
+    "TRAINDB_DRIVER_PATH",
+    "REDIS_URL",
+    "REDIS_WORKER_INDEX"
 ]
 
 import os
@@ -22,6 +24,10 @@ DB_USER = os.environ.get("POSTGRES_USER", "postgres")
 DB_PASSWORD = os.environ.get("POSTGRES_PASSWORD", "")
 DB_NAME = os.environ.get("POSTGRES_DB", "workbench")
 DB_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+
+# celery broker
+REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379")
+REDIS_WORKER_INDEX = os.environ.get("REDIS_WORKER_INDEX", "0")
 
 # Config
 APP_KEY_FILE = "app.key"

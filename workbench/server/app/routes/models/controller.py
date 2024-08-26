@@ -2,8 +2,7 @@ import json
 from io import BytesIO
 from typing import List
 
-import jpype
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 
@@ -89,8 +88,15 @@ async def import_model(
         traindb.username,
         traindb.password,
     )
+    if name in map(lambda x: x[0], handler.show_models()):
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Model name already exists")
+
+    response = handler.execute_query("SHOW SYNOPSES")
+    print("SHOW SYNOPSES:::", response)
+    print("BEFORE IMPORT MODEL...")
     binary = await file.read()
     handler.execute_statement(f"IMPORT MODEL {name} FROM ?", [binary])
+    print("AFTER IMPORT MODEL!!!")
     # ByteArray = jpype.JArray(jpype.JByte)
     # model_bytes = ByteArray(binary)
     # handler.execute_statement(f"IMPORT MODEL {name} FROM ?", [model_bytes])

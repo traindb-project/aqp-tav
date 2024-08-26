@@ -67,6 +67,7 @@ class BaseQueryHandler(object):
         try:
             with self.connect() as conn:
                 with conn.cursor() as cursor:
+                    print("EXECUTE QUERY:", query)
                     cursor.execute(query)
                     return cursor.fetchall()
         except Exception as e:
@@ -76,16 +77,17 @@ class BaseQueryHandler(object):
         try:
             with self.connect() as conn:
                 with conn.cursor() as cursor:
+                    print("EXECUTE QUERY:", query)
                     cursor.execute(query)
                     return cursor.fetchone()
         except Exception as e:
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
     def execute_query_and_description(self, query: str):
-        print("QUERY:", query)
         try:
             with self.connect() as conn:
                 with conn.cursor() as cursor:
+                    print("EXECUTE QUERY:", query)
                     cursor.execute(query)
                     desc = [desc[0] for desc in cursor.description]
                     data = cursor.fetchall()
@@ -100,6 +102,7 @@ class BaseQueryHandler(object):
         try:
             with self.connect() as conn:
                 with conn.jconn.createStatement() as stmt:
+                    print(f"EXECUTE STATEMENT: {query}")
                     stmt.execute(query, *args, **kwargs)
         except Exception as e:
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
