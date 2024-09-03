@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>D3 Bar Chart with Responsive Size</title>
+  <style>
+      .bar {
+          transition: fill 0.3s;
+      }
+      .tooltip {
+          position: absolute;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          width: 80px;
+          height: 40px;
+          padding: 2px;
+          font: 12px sans-serif;
+          background: white;
+          border: 0px;
+          border-radius: 8px;
+          pointer-events: none;
+      }
+      .grid line {
+          stroke: lightgrey;
+          stroke-opacity: 0.7;
+          shape-rendering: crispEdges;
+      }
+      .grid path {
+          stroke-width: 0;
+      }
+      #bar-chart {
+          width: 100%;
+          height: 100%;
+      }
+  </style>
+</head>
+<body>
+<div id="bar-chart-container" style="width: 800px; height: 500px;">
+  <div id="bar-chart"></div>
+</div>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const data = {
+      x: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'],
+      y: [30, 80, 45, 60, 20, 50, 75, 40, 90, 70, 100]
+    };
+
+    const container = document.getElementById('bar-chart-container');
+    const margin = {top: 50, right: 30, bottom: 70, left: 60};
+    let width = container.clientWidth - margin.left - margin.right;
+    let height = container.clientHeight - margin.top - margin.bottom;
+
+    const svg = d3.select("#bar-chart").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    const x = d3.scaleBand()
+      .domain(data.x)
+      .range([0, width])
+      .padding(0.1);
+
+    const y = d3.scaleLinear()
+      .domain([0, d3.max(data.y)])
+      .nice()
+      .range([height, 0]);
+
+    const colorScale = d3.scaleSequential(d3.interpolateBlues)
+      .domain([0, d3.max(data.y)]);
+
+    function makeXGridlines() {
+      return d3.axisBottom(x)
+        .ticks(5);
+    }
+
+    function makeYGridlines() {
+      return d3.axisLeft(y)
+        .ticks(5);
+    }
+
+    svg.append("g")
+      .attr("class", "grid x-grid")
+      .attr("transform", `translate(0,${height})`)
+      .call(makeXGridlines()
+        .tickSize(-height)
+        .tickFormat(""));
+
+    svg.append("g")
+      .attr("class", "grid y-grid")
+      .call(makeYGridlines()
+        .tickSize(-width)
+        .tickFormat(""));
+
+    svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", `translate(0,${height})`)
+      .call(d3.axisBottom(x))
+      .selectAll("text")
+      .style("text-anchor", "end")
+      .attr("dx", "-0.8em")
+      .attr("dy", "0.15em")
+      .attr("transform", "rotate(-65)");
+
+    svg.append("g")
+      .attr("class", "y axis")
+      .call(d3.axisLeft(y));
+
+    svg.selectAll(".bar")
+      .data(data.y)
+      .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", (d, i) => x(data.x[i]))
+      .attr("y", height)
+      .attr("width", x.bandwidth())
+      .attr("height", 0)
+      .attr("fill", d => colorScale(d))
+      .transition()
+      .duration(400)  // Faster duration
+      .delay((d, i) => i * 50)  // Faster delay
+      .attr("y", d => y(d))
+      .attr("height", d => height - y(d));
+
+    const tooltip = d3.select("body").append("div")
+      .attr("class", "tooltip")
+      .style("opacity", 0);
+
+    svg.selectAll(".bar")
+      .on("mouseover", function(event, d) {
+        const index = svg.selectAll(".bar").nodes().indexOf(this);
+        d3.select(this).attr("fill", d3.rgb(colorScale(d)).darker(2));  // Darken color on mouseover
+        tooltip.transition()
+          .duration(200)
+          .style("opacity", .9);
+        tooltip.html(`x: ${data.x[index]}<br>y: ${d}`)
+          .style("left", (event.pageX) + "px")
+          .style("top", (event.pageY - 28) + "px");
+      })
+      .on("mouseout", function(event, d) {
+        d3.select(this).attr("fill", colorScale(d));  // Reset color on mouseout
+        tooltip.transition()
+          .duration(500)
+          .style("opacity", 0);
+      });
+
+    const xAxisLabel = svg.append("text")
+      .attr("x", width / 2)
+      .attr("y", height + margin.bottom - 10)
+      .style("text-anchor", "middle")
+      .style("font-size", "16px")
+      .text("수행시간(sec)");
+
+    const yAxisLabel = svg.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left)
+      .attr("x", 0 - (height / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Y Axis Label");
+
+    const chartTitle = svg.append("text")
+      .attr("x", width / 2)
+      .attr("y", 0 - margin.top / 2)
+      .attr("text-anchor", "middle")
+      .style("font-size", "24px")
+      .style("text-decoration", "underline")
+      .text("My Bar Chart");
+
+    // Handle window resize
+    window.addEventListener('resize', function() {
+      const newWidth = container.clientWidth - margin.left - margin.right;
+      const newHeight = container.clientHeight - margin.top - margin.bottom;
+
+      // Update SVG size
+      d3.select("#bar-chart svg")
+        .attr("width", newWidth + margin.left + margin.right)
+        .attr("height", newHeight + margin.top + margin.bottom);
+
+      // Update scales
+      x.range([0, newWidth]);
+      y.range([newHeight, 0]);
+
+      // Update axes
+      svg.select(".x.axis")
+        .attr("transform", `translate(0,${newHeight})`)
+        .call(d3.axisBottom(x));
+      svg.select(".y.axis")
+        .call(d3.axisLeft(y));
+
+      // Update gridlines
+      svg.select(".grid.x-grid")
+        .attr("transform", `translate(0,${newHeight})`)
+        .call(makeXGridlines()
+          .tickSize(-newHeight)
+          .tickFormat(""));
+      svg.select(".grid.y-grid")
+        .call(makeYGridlines()
+          .tickSize(-newWidth)
+          .tickFormat(""));
+
+      // Update bars
+      svg.selectAll(".bar")
+        .attr("x", (d, i) => x(data.x[i]))
+        .attr("width", x.bandwidth())
+        .attr("y", d => y(d))
+        .attr("height", d => newHeight - y(d));
+
+      // Update labels
+      xAxisLabel
+        .attr("x", newWidth / 2)
+        .attr("y", newHeight + margin.bottom - 10);
+      yAxisLabel
+        .attr("x", 0 - (newHeight / 2))
+        .attr("y", 0 - margin.left);
+      chartTitle
+        .attr("x", newWidth / 2)
+        .attr("y", 0 - margin.top / 2);
+    });
+  });
+</script>
+</body>
+</html>

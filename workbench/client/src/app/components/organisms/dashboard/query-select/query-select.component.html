@@ -1,0 +1,57 @@
+<etri-search-input
+  class="inline-block w-full max-w-lg"
+  (onKeyword)="keyword.set($event)"/>
+<div class="overflow-auto max-h-[300px]">
+  <table class="table table-sm">
+    <thead class="sticky top-0 bg-white">
+    <tr>
+      <th>Select</th>
+      <th>Name</th>
+      <th>Query</th>
+    </tr>
+    </thead>
+    <tbody>
+      @for (query of queries() | patternFilter:keyword():'name'; track query.id) {
+        <tr class="even:bg-zinc-50 hover:bg-zinc-100">
+          <td>
+            <input
+              type="radio"
+              class="radio radio-sm"
+              [ngModel]="value()"
+              (ngModelChange)="change(query.id)"
+              [value]="query.id"
+            />
+          </td>
+          <td>{{ query.name }}</td>
+          <td class="truncate">{{ query.sql }}</td>
+        </tr>
+      } @empty {
+        <tr>
+          @if (queryService.loading()) {
+            <td colspan="3">
+              <etri-loading size="sm"/>
+            </td>
+          } @else {
+            <td colspan="3" class="text-zinc-500">
+              결과가 없습니다. <a routerLink="/queries" class="text-primary">쿼리 관리 페이지</a>로 이동
+            </td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+<div class="flex flex-col gap-2 items-end">
+  <pre
+    [class.text-zinc-500]="!value()"
+    class="border border-zinc-300 px-4 py-2 text-sm w-full"
+  >{{ sql() ?? '선택된 쿼리가 없습니다.' }}</pre>
+  <button
+    (click)="onExecute.emit(query()!)"
+    type="button"
+    class="btn btn-sm btn-secondary text-white"
+    [disabled]="!value()"
+  >Execute
+  </button>
+</div>

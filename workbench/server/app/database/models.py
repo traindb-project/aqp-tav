@@ -4,14 +4,14 @@ from sqlalchemy import (
     Boolean,
     Column,
     DateTime,
-    ForeignKey,
+    Enum, ForeignKey,
     Integer,
     String,
 )
 
 from sqlalchemy.orm import relationship
 from .engine import Base, init_db
-from .types import EncryptedString
+from .types import ChartType, EncryptedString
 
 
 class TrainDB(Base):
@@ -53,6 +53,28 @@ class Query(Base):
     database = relationship("Database", foreign_keys=[database_id])
     created_at = Column(DateTime, default=datetime.now())
     updated_at = Column(DateTime, default=datetime.now(), onupdate=datetime.now())
+
+
+class Dashboard(Base):
+    __tablename__ = 'dashboards'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    traindb_id = Column(Integer, ForeignKey("traindbs.id", ondelete="CASCADE"))
+    name = Column(String, index=True, nullable=False)
+    query_id = Column(Integer, ForeignKey("queries.id", ondelete="CASCADE"))
+    query = relationship("Query", foreign_keys=[query_id])
+    created_at = Column(DateTime, default=datetime.now())
+    updated_at = Column(DateTime, default=datetime.now(), onupdate=datetime.now())
+
+    items = relationship("DashboardItem", backref="dashboard")
+
+
+class DashboardItem(Base):
+    __tablename__ = 'dashboard_items'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    dashboard_id = Column(Integer, ForeignKey("dashboards.id", ondelete="CASCADE"))
+    x_column = Column(String, nullable=False)
+    y_column = Column(String, nullable=False)
+    type = Column(Enum(ChartType), nullable=False)
 
 
 init_db()

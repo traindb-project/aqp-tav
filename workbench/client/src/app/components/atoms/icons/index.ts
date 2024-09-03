@@ -10,6 +10,7 @@ export * from './document-magnifying-glass-icon';
 export * from './magnifying-glass-icon';
 export * from './pencil-square-icon';
 export * from './play-icon';
+export * from './plus-icon';
 export * from './rectangle-group-icon';
 export * from './rectangle-stack-icon';
 export * from './square-3-stack-3d-icon';

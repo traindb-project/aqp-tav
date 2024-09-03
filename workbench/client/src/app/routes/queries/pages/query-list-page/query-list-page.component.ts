@@ -55,7 +55,8 @@ export class QueryListPageComponent {
 
   runQuery(query: FindQuery) {
     this.dialog.open(RunQueryDialog, {
-      data: query
+      data: query,
+      width: '90vw',
     });
   }
 

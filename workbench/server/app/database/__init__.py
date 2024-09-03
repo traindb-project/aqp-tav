@@ -1,4 +1,5 @@
 __all__ = [
     "engine",
-    "models"
+    "models",
+    "types"
 ]

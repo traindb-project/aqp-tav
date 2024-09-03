@@ -4535,6 +4535,44 @@
             ]
         },
         {
+            "name": "DashboardButtonComponent",
+            "id": "component-DashboardButtonComponent-6080c358535ca29877955ce7d09a9c1be26a99069b80a2708c290039c144231f18cac408be5786349ab45c747a45478b2367659a521bc598730e85185da7633d",
+            "file": "src/app/components/atoms/buttons/dashboard-button/dashboard-button.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "etri-dashboard-button",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./dashboard-button.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'etri-dashboard-button',\n  standalone: true,\n  imports: [],\n  templateUrl: './dashboard-button.component.html',\n  styleUrl: './dashboard-button.component.scss'\n})\nexport class DashboardButtonComponent {\n\n}\n",
+            "styleUrl": "./dashboard-button.component.scss",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": [],
+            "templateData": "<p>dashboard-button works!</p>\n"
+        },
+        {
             "name": "DashboardPageComponent",
             "id": "component-DashboardPageComponent-bff2b8b8860165acdc8d8e4d4dab3daf1e6d30a3c4a58369489c4948eb96fc0c525d19bc0ebba9a50dc7a9bee07a214a4294398b1a619b3224eeccd5c1baffb9",
             "file": "src/app/routes/dashboard/pages/dashboard-page/dashboard-page.component.ts",
@@ -4577,7 +4615,7 @@
             ],
             "stylesData": "",
             "extends": [],
-            "templateData": "<h1 class=\"prose\">Dashboard</h1>\n"
+            "templateData": "<button type=\"button\">\n  대시보드 추가\n</button>\n"
         },
         {
             "name": "DatabaseFormPageComponent",
@@ -5686,7 +5724,7 @@
         },
         {
             "name": "ImportSynopsisDialog",
-            "id": "component-ImportSynopsisDialog-da80edcba7809c731fa45789a1f728c3886ad96ed1f5130ed0c8e9456b06056d386c240da99de80db0b6753aa91239b9aa5e8a02e87fb7db7cbf613b1d434de1",
+            "id": "component-ImportSynopsisDialog-4d1a3c948b8e8bee8cd534a414c0a11101cad9b37af8c087d9452968260d4a769e28dfa1f65b4dd22081b52cecb1c0304c1250cabea2fd8f368970516f76a233",
             "file": "src/app/components/organisms/dialogs/import-synopsis-dialog/import-synopsis-dialog.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -5711,7 +5749,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 65,
+                    "line": 74,
                     "modifierKind": [
                         148
                     ]
@@ -5732,7 +5770,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { DialogRef } from '@angular/cdk/dialog';\nimport { Component, inject, output, signal } from '@angular/core';\nimport { finalize } from 'rxjs';\nimport { SynopsisService, TraindbService } from '../../../../services';\n\n@Component({\n  selector: 'etri-import-synopsis-dialog_',\n  standalone: true,\n  styleUrls: ['import-synopsis-dialog.component.scss'],\n  templateUrl: 'import-synopsis-dialog.component.html',\n})\nexport class ImportSynopsisDialogComponent {\n  name: string | null = null;\n  file: File | null = null;\n  conflictName = false;\n  readonly onClose = output<boolean>();\n  readonly loading = signal(false);\n\n  private readonly traindbService = inject(TraindbService);\n  private readonly synopsisService = inject(SynopsisService);\n\n  changeName(name: string) {\n    this.name = name;\n    if (this.conflictName) this.conflictName = false;\n  }\n\n  importSynopsis() {\n    const traindbId = this.traindbService.currentId();\n    const name = this.name!.trim();\n    this.loading.set(true);\n    this.synopsisService.importSynopsis(traindbId!, name, this.file!).pipe(\n      finalize(() => this.loading.set(false))\n    ).subscribe({\n      next: () => this.onClose.emit(true),\n      error: err => {\n        console.error(err);\n        if (err.status === 409) {\n          this.conflictName = true;\n          alert('이미 사용 중인 시놉시스명입니다.');\n          return;\n        }\n        alert(`Error: ${err.error?.detail ?? err.message}`);\n      }\n    })\n  }\n\n  onFileChange(event: any) {\n    this.file = event.target.files[0];\n  }\n}\n\n@Component({\n  imports: [\n    ImportSynopsisDialogComponent\n  ],\n  selector: 'etri-import-synopsis-dialog',\n  standalone: true,\n  template: `\n    <etri-import-synopsis-dialog_\n      (onClose)=\"dialogRef.close($event)\"\n    />\n  `\n})\nexport class ImportSynopsisDialog {\n  readonly dialogRef = inject(DialogRef);\n}\n",
+            "sourceCode": "import { DialogRef } from '@angular/cdk/dialog';\nimport { Component, inject, output, signal } from '@angular/core';\nimport { FormsModule } from '@angular/forms';\nimport { finalize } from 'rxjs';\nimport { SynopsisService, TraindbService } from '../../../../services';\nimport { DialogHeaderDirective, LoadingComponent } from '../../../atoms';\nimport { BaseDialogComponent } from '../base-dialog';\n\n@Component({\n  selector: 'etri-import-synopsis-dialog_',\n  standalone: true,\n  styleUrls: ['import-synopsis-dialog.component.scss'],\n  templateUrl: 'import-synopsis-dialog.component.html',\n  imports: [\n    BaseDialogComponent,\n    DialogHeaderDirective,\n    FormsModule,\n    LoadingComponent\n  ]\n})\nexport class ImportSynopsisDialogComponent {\n  name: string | null = null;\n  file: File | null = null;\n  conflictName = false;\n  readonly onClose = output<boolean>();\n  readonly loading = signal(false);\n\n  private readonly traindbService = inject(TraindbService);\n  private readonly synopsisService = inject(SynopsisService);\n\n  changeName(name: string) {\n    this.name = name;\n    if (this.conflictName) this.conflictName = false;\n  }\n\n  importSynopsis() {\n    const traindbId = this.traindbService.currentId();\n    const name = this.name!.trim();\n    this.loading.set(true);\n    this.synopsisService.importSynopsis(traindbId!, name, this.file!).pipe(\n      finalize(() => this.loading.set(false))\n    ).subscribe({\n      next: () => this.onClose.emit(true),\n      error: err => {\n        console.error(err);\n        if (err.status === 409) {\n          this.conflictName = true;\n          alert('이미 사용 중인 시놉시스명입니다.');\n          return;\n        }\n        alert(`Error: ${err.error?.detail ?? err.message}`);\n      }\n    })\n  }\n\n  onFileChange(event: any) {\n    this.file = event.target.files[0];\n  }\n}\n\n@Component({\n  imports: [\n    ImportSynopsisDialogComponent\n  ],\n  selector: 'etri-import-synopsis-dialog',\n  standalone: true,\n  template: `\n    <etri-import-synopsis-dialog_\n      (onClose)=\"dialogRef.close($event)\"\n    />\n  `\n})\nexport class ImportSynopsisDialog {\n  readonly dialogRef = inject(DialogRef);\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -5740,7 +5778,7 @@
         },
         {
             "name": "ImportSynopsisDialogComponent",
-            "id": "component-ImportSynopsisDialogComponent-da80edcba7809c731fa45789a1f728c3886ad96ed1f5130ed0c8e9456b06056d386c240da99de80db0b6753aa91239b9aa5e8a02e87fb7db7cbf613b1d434de1",
+            "id": "component-ImportSynopsisDialogComponent-4d1a3c948b8e8bee8cd534a414c0a11101cad9b37af8c087d9452968260d4a769e28dfa1f65b4dd22081b52cecb1c0304c1250cabea2fd8f368970516f76a233",
             "file": "src/app/components/organisms/dialogs/import-synopsis-dialog/import-synopsis-dialog.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -5766,7 +5804,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 16,
+                    "line": 25,
                     "modifierKind": [
                         148
                     ],
@@ -5782,7 +5820,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 15
+                    "line": 24
                 },
                 {
                     "name": "file",
@@ -5792,7 +5830,7 @@
                     "type": "File | null",
                     "optional": false,
                     "description": "",
-                    "line": 14
+                    "line": 23
                 },
                 {
                     "name": "loading",
@@ -5802,7 +5840,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 17,
+                    "line": 26,
                     "modifierKind": [
                         148
                     ]
@@ -5815,7 +5853,7 @@
                     "type": "string | null",
                     "optional": false,
                     "description": "",
-                    "line": 13
+                    "line": 22
                 },
                 {
                     "name": "onClose",
@@ -5824,7 +5862,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 16,
+                    "line": 25,
                     "modifierKind": [
                         148
                     ],
@@ -5838,7 +5876,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 20,
+                    "line": 29,
                     "modifierKind": [
                         123,
                         148
@@ -5852,7 +5890,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 19,
+                    "line": 28,
                     "modifierKind": [
                         123,
                         148
@@ -5873,7 +5911,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 22,
+                    "line": 31,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -5894,7 +5932,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 27,
+                    "line": 36,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -5911,7 +5949,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 47,
+                    "line": 56,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -5932,11 +5970,28 @@
             "hostBindings": [],
             "hostListeners": [],
             "standalone": true,
-            "imports": [],
+            "imports": [
+                {
+                    "name": "BaseDialogComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "DialogHeaderDirective",
+                    "type": "directive"
+                },
+                {
+                    "name": "FormsModule",
+                    "type": "module"
+                },
+                {
+                    "name": "LoadingComponent",
+                    "type": "component"
+                }
+            ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { DialogRef } from '@angular/cdk/dialog';\nimport { Component, inject, output, signal } from '@angular/core';\nimport { finalize } from 'rxjs';\nimport { SynopsisService, TraindbService } from '../../../../services';\n\n@Component({\n  selector: 'etri-import-synopsis-dialog_',\n  standalone: true,\n  styleUrls: ['import-synopsis-dialog.component.scss'],\n  templateUrl: 'import-synopsis-dialog.component.html',\n})\nexport class ImportSynopsisDialogComponent {\n  name: string | null = null;\n  file: File | null = null;\n  conflictName = false;\n  readonly onClose = output<boolean>();\n  readonly loading = signal(false);\n\n  private readonly traindbService = inject(TraindbService);\n  private readonly synopsisService = inject(SynopsisService);\n\n  changeName(name: string) {\n    this.name = name;\n    if (this.conflictName) this.conflictName = false;\n  }\n\n  importSynopsis() {\n    const traindbId = this.traindbService.currentId();\n    const name = this.name!.trim();\n    this.loading.set(true);\n    this.synopsisService.importSynopsis(traindbId!, name, this.file!).pipe(\n      finalize(() => this.loading.set(false))\n    ).subscribe({\n      next: () => this.onClose.emit(true),\n      error: err => {\n        console.error(err);\n        if (err.status === 409) {\n          this.conflictName = true;\n          alert('이미 사용 중인 시놉시스명입니다.');\n          return;\n        }\n        alert(`Error: ${err.error?.detail ?? err.message}`);\n      }\n    })\n  }\n\n  onFileChange(event: any) {\n    this.file = event.target.files[0];\n  }\n}\n\n@Component({\n  imports: [\n    ImportSynopsisDialogComponent\n  ],\n  selector: 'etri-import-synopsis-dialog',\n  standalone: true,\n  template: `\n    <etri-import-synopsis-dialog_\n      (onClose)=\"dialogRef.close($event)\"\n    />\n  `\n})\nexport class ImportSynopsisDialog {\n  readonly dialogRef = inject(DialogRef);\n}\n",
+            "sourceCode": "import { DialogRef } from '@angular/cdk/dialog';\nimport { Component, inject, output, signal } from '@angular/core';\nimport { FormsModule } from '@angular/forms';\nimport { finalize } from 'rxjs';\nimport { SynopsisService, TraindbService } from '../../../../services';\nimport { DialogHeaderDirective, LoadingComponent } from '../../../atoms';\nimport { BaseDialogComponent } from '../base-dialog';\n\n@Component({\n  selector: 'etri-import-synopsis-dialog_',\n  standalone: true,\n  styleUrls: ['import-synopsis-dialog.component.scss'],\n  templateUrl: 'import-synopsis-dialog.component.html',\n  imports: [\n    BaseDialogComponent,\n    DialogHeaderDirective,\n    FormsModule,\n    LoadingComponent\n  ]\n})\nexport class ImportSynopsisDialogComponent {\n  name: string | null = null;\n  file: File | null = null;\n  conflictName = false;\n  readonly onClose = output<boolean>();\n  readonly loading = signal(false);\n\n  private readonly traindbService = inject(TraindbService);\n  private readonly synopsisService = inject(SynopsisService);\n\n  changeName(name: string) {\n    this.name = name;\n    if (this.conflictName) this.conflictName = false;\n  }\n\n  importSynopsis() {\n    const traindbId = this.traindbService.currentId();\n    const name = this.name!.trim();\n    this.loading.set(true);\n    this.synopsisService.importSynopsis(traindbId!, name, this.file!).pipe(\n      finalize(() => this.loading.set(false))\n    ).subscribe({\n      next: () => this.onClose.emit(true),\n      error: err => {\n        console.error(err);\n        if (err.status === 409) {\n          this.conflictName = true;\n          alert('이미 사용 중인 시놉시스명입니다.');\n          return;\n        }\n        alert(`Error: ${err.error?.detail ?? err.message}`);\n      }\n    })\n  }\n\n  onFileChange(event: any) {\n    this.file = event.target.files[0];\n  }\n}\n\n@Component({\n  imports: [\n    ImportSynopsisDialogComponent\n  ],\n  selector: 'etri-import-synopsis-dialog',\n  standalone: true,\n  template: `\n    <etri-import-synopsis-dialog_\n      (onClose)=\"dialogRef.close($event)\"\n    />\n  `\n})\nexport class ImportSynopsisDialog {\n  readonly dialogRef = inject(DialogRef);\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -5946,7 +6001,7 @@
             ],
             "stylesData": "",
             "extends": [],
-            "templateData": ""
+            "templateData": "<etri-base-dialog\n  (onClose)=\"onClose.emit(false)\"\n>\n  <h1 header etriDialogHeader>Import Synopsis</h1>\n  <div class=\"flex flex-col items-start gap-4\">\n    <label\n      class=\"input input-bordered flex items-center gap-4 w-full max-w-md {{ conflictName ? 'input-error' : '' }}\"\n    >\n      Name:\n      <input\n        [ngModel]=\"name\"\n        (ngModelChange)=\"changeName($event)\"\n        type=\"text\"\n        placeholder=\"Input synopsis name\"\n        class=\"grow\"\n      />\n    </label>\n    <input\n      type=\"file\"\n      (change)=\"onFileChange($event)\"\n      class=\"file-input file-input-bordered file-input-primary w-full max-w-xs\"/>\n  </div>\n  <div footer class=\"flex justify-end items-center gap-4\">\n    <button\n      type=\"button\"\n      (click)=\"onClose.emit(false)\"\n      class=\"btn btn-sm\"\n    >Cancel</button>\n    <button\n      type=\"button\"\n      [disabled]=\"loading() || !name?.trim() || !file\"\n      (click)=\"importSynopsis()\"\n      class=\"btn btn-sm btn-primary text-white\"\n    >\n      @if (loading()) {\n        <etri-loading/>\n      } @else {\n        Import\n      }\n    </button>\n  </div>\n</etri-base-dialog>\n"
         },
         {
             "name": "LineChartComponent",
@@ -7287,7 +7342,7 @@
         },
         {
             "name": "NavigatorComponent",
-            "id": "component-NavigatorComponent-67d436aee5df9115559bdff2f2e33bf8f1aacaacc32ca24d020c28b18058d2c01332980eaf442c356ada44004ed54f4230abed1eae9db4ebed82c0ab31ffb8b0",
+            "id": "component-NavigatorComponent-8ca780d5f68a0ed5bbfc481060d06aa6bd1e4d381fc5ab3f1a7a3158eb5fe7d963225d34ad219c4a31dd5de01f96309a223840145dbfacbdf872b1a408c7dace",
             "file": "src/app/components/organisms/navigator/navigator.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -7315,17 +7370,17 @@
                     "type": "object",
                     "optional": false,
                     "description": "",
-                    "line": 30
+                    "line": 29
                 },
                 {
                     "name": "menuItems",
-                    "defaultValue": "[\n    {\n      icon: ComputerDesktopIconComponent,\n      name: 'Dashboard',\n      link: '/dashboard',\n    },\n    {\n      icon: ChartBarIconComponent,\n      name: 'Benchmarks',\n      link: '/benchmarks',\n    },\n    // {\n    //   icon: RectangleStackIconComponent,\n    //   name: 'TrainDB',\n    //   link: '/traindb',\n    // },\n    {\n      icon: RectangleGroupIconComponent,\n      name: 'Model Types',\n      link: '/modeltypes'\n    },\n    {\n      icon: CircleStackIconComponent,\n      name: 'Databases',\n      link: '/databases',\n    },\n    {\n      icon: CubeIconComponent,\n      name: 'Models',\n      link: '/models'\n    },\n    {\n      icon: Square3Stack3dIconComponent,\n      name: 'Synopses',\n      link: '/synopses'\n    },\n    {\n      icon: CommandLineIconComponent,\n      name: 'Queries',\n      link: '/queries'\n    }\n  ]",
+                    "defaultValue": "[\n    {\n      icon: ComputerDesktopIconComponent,\n      name: 'Dashboard',\n      link: '/dashboard',\n    },\n    // {\n    //   icon: ChartBarIconComponent,\n    //   name: 'Benchmarks',\n    //   link: '/benchmarks',\n    // },\n    // {\n    //   icon: RectangleStackIconComponent,\n    //   name: 'TrainDB',\n    //   link: '/traindb',\n    // },\n    {\n      icon: RectangleGroupIconComponent,\n      name: 'Model Types',\n      link: '/modeltypes'\n    },\n    {\n      icon: CircleStackIconComponent,\n      name: 'Databases',\n      link: '/databases',\n    },\n    {\n      icon: CubeIconComponent,\n      name: 'Models',\n      link: '/models'\n    },\n    {\n      icon: Square3Stack3dIconComponent,\n      name: 'Synopses',\n      link: '/synopses'\n    },\n    {\n      icon: CommandLineIconComponent,\n      name: 'Queries',\n      link: '/queries'\n    }\n  ]",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "[]",
                     "optional": false,
                     "description": "",
-                    "line": 35
+                    "line": 34
                 },
                 {
                     "name": "route",
@@ -7335,7 +7390,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 28,
+                    "line": 27,
                     "modifierKind": [
                         148
                     ]
@@ -7348,7 +7403,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 78,
+                    "line": 77,
                     "modifierKind": [
                         123,
                         148
@@ -7369,7 +7424,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 80,
+                    "line": 79,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -7409,7 +7464,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { NgComponentOutlet, NgOptimizedImage } from '@angular/common';\nimport { Component, inject } from '@angular/core';\nimport { ActivatedRoute, Router, RouterLink } from '@angular/router';\nimport {\n  ChartBarIconComponent,\n  ChevronLeftIconComponent,\n  CircleStackIconComponent,\n  CommandLineIconComponent,\n  ComputerDesktopIconComponent,\n  CubeIconComponent,\n  RectangleGroupIconComponent,\n  Square3Stack3dIconComponent\n} from '../../atoms';\n\n@Component({\n  imports: [\n    RouterLink,\n    NgOptimizedImage,\n    NgComponentOutlet,\n    ChevronLeftIconComponent\n  ],\n  selector: 'etri-navigator',\n  standalone: true,\n  styleUrls: ['navigator.component.scss'],\n  templateUrl: 'navigator.component.html'\n})\nexport class NavigatorComponent {\n  readonly route = inject(ActivatedRoute);\n\n  iconInputs = {\n    class: 'size-10',\n    type: 'solid',\n  };\n\n  menuItems = [\n    {\n      icon: ComputerDesktopIconComponent,\n      name: 'Dashboard',\n      link: '/dashboard',\n    },\n    {\n      icon: ChartBarIconComponent,\n      name: 'Benchmarks',\n      link: '/benchmarks',\n    },\n    // {\n    //   icon: RectangleStackIconComponent,\n    //   name: 'TrainDB',\n    //   link: '/traindb',\n    // },\n    {\n      icon: RectangleGroupIconComponent,\n      name: 'Model Types',\n      link: '/modeltypes'\n    },\n    {\n      icon: CircleStackIconComponent,\n      name: 'Databases',\n      link: '/databases',\n    },\n    {\n      icon: CubeIconComponent,\n      name: 'Models',\n      link: '/models'\n    },\n    {\n      icon: Square3Stack3dIconComponent,\n      name: 'Synopses',\n      link: '/synopses'\n    },\n    {\n      icon: CommandLineIconComponent,\n      name: 'Queries',\n      link: '/queries'\n    }\n  ];\n\n  private readonly router = inject(Router);\n\n  isActive(link: string) {\n    return this.router.url.startsWith(link);\n  }\n}\n",
+            "sourceCode": "import { NgComponentOutlet, NgOptimizedImage } from '@angular/common';\nimport { Component, inject } from '@angular/core';\nimport { ActivatedRoute, Router, RouterLink } from '@angular/router';\nimport {\n  ChevronLeftIconComponent,\n  CircleStackIconComponent,\n  CommandLineIconComponent,\n  ComputerDesktopIconComponent,\n  CubeIconComponent,\n  RectangleGroupIconComponent,\n  Square3Stack3dIconComponent\n} from '../../atoms';\n\n@Component({\n  imports: [\n    RouterLink,\n    NgOptimizedImage,\n    NgComponentOutlet,\n    ChevronLeftIconComponent\n  ],\n  selector: 'etri-navigator',\n  standalone: true,\n  styleUrls: ['navigator.component.scss'],\n  templateUrl: 'navigator.component.html'\n})\nexport class NavigatorComponent {\n  readonly route = inject(ActivatedRoute);\n\n  iconInputs = {\n    class: 'size-10',\n    type: 'solid',\n  };\n\n  menuItems = [\n    {\n      icon: ComputerDesktopIconComponent,\n      name: 'Dashboard',\n      link: '/dashboard',\n    },\n    // {\n    //   icon: ChartBarIconComponent,\n    //   name: 'Benchmarks',\n    //   link: '/benchmarks',\n    // },\n    // {\n    //   icon: RectangleStackIconComponent,\n    //   name: 'TrainDB',\n    //   link: '/traindb',\n    // },\n    {\n      icon: RectangleGroupIconComponent,\n      name: 'Model Types',\n      link: '/modeltypes'\n    },\n    {\n      icon: CircleStackIconComponent,\n      name: 'Databases',\n      link: '/databases',\n    },\n    {\n      icon: CubeIconComponent,\n      name: 'Models',\n      link: '/models'\n    },\n    {\n      icon: Square3Stack3dIconComponent,\n      name: 'Synopses',\n      link: '/synopses'\n    },\n    {\n      icon: CommandLineIconComponent,\n      name: 'Queries',\n      link: '/queries'\n    }\n  ];\n\n  private readonly router = inject(Router);\n\n  isActive(link: string) {\n    return this.router.url.startsWith(link);\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -9086,7 +9141,7 @@
         },
         {
             "name": "SynopsisListPageComponent",
-            "id": "component-SynopsisListPageComponent-69b9a8cfb5ad2e2e0399a7b445f18de34393c74b4fcf9a0cbb4f1b42e818f65ef3c8cad26008d5d92c0bc8033e72d62057f64832f81b6d604b3bced11be3b417",
+            "id": "component-SynopsisListPageComponent-925cc040a58d208a2092ed2d5198c09046e8536214aa49cd01adce59182ec50d504180e3467453412d5385fd6a0ed8e4a3c9a02736a4bd220e0cc60f4a04d92d",
             "file": "src/app/routes/synopses/pages/synopsis-list-page/synopsis-list-page.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -9228,7 +9283,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 53,
+                    "line": 56,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -9259,7 +9314,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 74,
+                    "line": 77,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -9279,7 +9334,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 65,
+                    "line": 68,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -9340,7 +9395,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Dialog } from '@angular/cdk/dialog';\nimport { DecimalPipe } from '@angular/common';\nimport { Component, computed, inject, signal, WritableSignal } from '@angular/core';\nimport { RouterLink } from '@angular/router';\nimport { environment } from '../../../../../environments/environment';\nimport {\n  ArrowDownTrayIconComponent,\n  ArrowUpTrayIconComponent,\n  LoadingComponent,\n  PencilSquareIconComponent,\n  SearchInputComponent,\n  TrashIconComponent, UpdateSynopsisDialog\n} from '../../../../components';\nimport { Synopsis } from '../../../../dto';\nimport { PatternFilterPipe } from '../../../../pipes';\nimport { SynopsisService, TraindbService } from '../../../../services';\n\n@Component({\n  imports: [\n    RouterLink,\n    DecimalPipe,\n    LoadingComponent,\n    PatternFilterPipe,\n    SearchInputComponent,\n    TrashIconComponent,\n    PencilSquareIconComponent,\n    ArrowUpTrayIconComponent,\n    ArrowDownTrayIconComponent\n  ],\n  selector: 'etri-synopsis-list-page',\n  standalone: true,\n  styleUrls: ['synopsis-list-page.component.scss'],\n  templateUrl: 'synopsis-list-page.component.html'\n})\nexport class SynopsisListPageComponent {\n  readonly synopsisList: WritableSignal<Synopsis[]> = signal([]);\n  readonly loading = computed(() => this.synopsisService.loading());\n  readonly keyword = signal('');\n  readonly apiHost = environment.apiHost;\n  private readonly traindbService = inject(TraindbService);\n  private readonly synopsisService =inject(SynopsisService);\n  private readonly dialog = inject(Dialog);\n  readonly traindbId = computed(() => this.traindbService.currentId());\n\n  constructor() {\n    this.loadSynopses();\n  }\n\n  importSynopsis() {\n    alert('import synopsis');\n  }\n\n  deleteSynopsis(synopsis: Synopsis) {\n    if (!confirm(`${synopsis.name}을 삭제하시겠습니까?`)) return;\n    const traindbId = this.traindbService.currentId();\n    this.synopsisService.deleteSynopsis(traindbId!, synopsis.name).subscribe({\n      next: () => this.loadSynopses(),\n      error: err => {\n        console.error(err);\n        alert(`Error: ${err.error?.detail ?? err.message}`);\n      }\n    })\n  }\n\n  updateSynopsis(synopsis: Synopsis) {\n    const dialog = this.dialog.open(UpdateSynopsisDialog, {\n      data: synopsis\n    });\n    dialog.closed.subscribe(res => {\n      if (res) this.loadSynopses();\n    });\n  }\n\n  private loadSynopses() {\n    const traindbId = this.traindbService.currentId();\n    this.synopsisService.searchSynopses(traindbId!).subscribe({\n      next: list => this.synopsisList.set([...list]),\n      error: console.error,\n    })\n  }\n}\n",
+            "sourceCode": "import { Dialog } from '@angular/cdk/dialog';\nimport { DecimalPipe } from '@angular/common';\nimport { Component, computed, inject, signal, WritableSignal } from '@angular/core';\nimport { RouterLink } from '@angular/router';\nimport { environment } from '../../../../../environments/environment';\nimport {\n  ArrowDownTrayIconComponent,\n  ArrowUpTrayIconComponent, ImportSynopsisDialog,\n  LoadingComponent,\n  PencilSquareIconComponent,\n  SearchInputComponent,\n  TrashIconComponent, UpdateSynopsisDialog\n} from '../../../../components';\nimport { Synopsis } from '../../../../dto';\nimport { PatternFilterPipe } from '../../../../pipes';\nimport { SynopsisService, TraindbService } from '../../../../services';\n\n@Component({\n  imports: [\n    RouterLink,\n    DecimalPipe,\n    LoadingComponent,\n    PatternFilterPipe,\n    SearchInputComponent,\n    TrashIconComponent,\n    PencilSquareIconComponent,\n    ArrowUpTrayIconComponent,\n    ArrowDownTrayIconComponent\n  ],\n  selector: 'etri-synopsis-list-page',\n  standalone: true,\n  styleUrls: ['synopsis-list-page.component.scss'],\n  templateUrl: 'synopsis-list-page.component.html'\n})\nexport class SynopsisListPageComponent {\n  readonly synopsisList: WritableSignal<Synopsis[]> = signal([]);\n  readonly loading = computed(() => this.synopsisService.loading());\n  readonly keyword = signal('');\n  readonly apiHost = environment.apiHost;\n  private readonly traindbService = inject(TraindbService);\n  private readonly synopsisService =inject(SynopsisService);\n  private readonly dialog = inject(Dialog);\n  readonly traindbId = computed(() => this.traindbService.currentId());\n\n  constructor() {\n    this.loadSynopses();\n  }\n\n  importSynopsis() {\n    const dialog = this.dialog.open(ImportSynopsisDialog);\n    dialog.closed.subscribe(res => {\n      if (res) this.loadSynopses();\n    })\n  }\n\n  deleteSynopsis(synopsis: Synopsis) {\n    if (!confirm(`${synopsis.name}을 삭제하시겠습니까?`)) return;\n    const traindbId = this.traindbService.currentId();\n    this.synopsisService.deleteSynopsis(traindbId!, synopsis.name).subscribe({\n      next: () => this.loadSynopses(),\n      error: err => {\n        console.error(err);\n        alert(`Error: ${err.error?.detail ?? err.message}`);\n      }\n    })\n  }\n\n  updateSynopsis(synopsis: Synopsis) {\n    const dialog = this.dialog.open(UpdateSynopsisDialog, {\n      data: synopsis\n    });\n    dialog.closed.subscribe(res => {\n      if (res) this.loadSynopses();\n    });\n  }\n\n  private loadSynopses() {\n    const traindbId = this.traindbService.currentId();\n    this.synopsisService.searchSynopses(traindbId!).subscribe({\n      next: list => this.synopsisList.set([...list]),\n      error: console.error,\n    })\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -12391,6 +12446,15 @@
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
                 "name": "appConfig",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/components/atoms/buttons/dashboard-button/dashboard-button.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "DashboardButtonComponent",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"

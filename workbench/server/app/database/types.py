@@ -1,7 +1,10 @@
 __all__ = [
     "BcryptString",
-    "EncryptedString"
+    "EncryptedString",
+    "ChartType"
 ]
+
+from enum import Enum
 
 from fastapi import HTTPException, status
 
@@ -38,3 +41,10 @@ class EncryptedString(TypeDecorator):
     def process_result_value(self, value: str, dialect):
         decrypted_value = crypt.decrypt(value.encode()).decode()
         return decrypted_value
+
+
+class ChartType(str, Enum):
+    BAR = "bar"
+    LINE = "line"
+    SCATTER = "scatter"
+    PIE = "pie"

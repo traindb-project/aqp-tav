@@ -8,9 +8,9 @@
     <table class="table table-xs">
       <thead class="sticky top-0">
       <tr class="bg-white">
-        <th>#</th>
+        <th class="border-r border-zinc-200">#</th>
         @for (column of columns(); track $index) {
-          <th>{{ column }}</th>
+          <th class="border-r border-zinc-200 last:border-r-0">{{ column }}</th>
         }
       </tr>
       </thead>
@@ -24,12 +24,12 @@
         } @else {
           @for (row of data(); track $index) {
             <tr class="even:bg-zinc-50 hover:bg-zinc-100">
-              <th>{{ $index + 1 | number }}</th>
+              <th class="text-right border-r border-zinc-200">{{ $index + 1 | number }}</th>
               @for (item of row; track $index; let i = $index) {
                 @if (isNumber(item)) {
-                  <td class="text-right">{{ item | number }}</td>
+                  <td class="text-right border-r border-zinc-200 last:border-r-0">{{ item | number }}</td>
                 } @else {
-                  <td>{{ item }}</td>
+                  <td class="border-r border-zinc-200 last:border-r-0">{{ item }}</td>
                 }
               }
             </tr>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>D3 Pie Chart with Animation and Tooltip</title>
+  <style>
+      .tooltip {
+          position: absolute;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          width: 100px;
+          height: 50px;
+          padding: 5px;
+          font: 12px sans-serif;
+          background: white;
+          border: 0px;
+          border-radius: 8px;
+          pointer-events: none;
+      }
+  </style>
+</head>
+<body>
+<div id="pie-chart"></div>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const data = {
+      x: ['A', 'B', 'C', 'D', 'E'],
+      y: [30, 80, 45, 60, 20],
+      title: "My Pie Chart"
+    };
+
+    const width = 800;
+    const height = 500;
+    const margin = 50;
+    const radius = Math.min(width, height) / 2 - margin;
+
+    const svg = d3.select("#pie-chart").append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .append("g")
+      .attr("transform", `translate(${width / 2},${height / 2})`);
+
+    const colorScale = d3.scaleSequential(d3.interpolateBlues)
+      .domain([0, d3.max(data.y)]);
+
+    const pie = d3.pie()
+      .value(d => d)
+      .sort(null);
+
+    const arc = d3.arc()
+      .innerRadius(0)
+      .outerRadius(radius);
+
+    const arcOver = d3.arc()
+      .innerRadius(0)
+      .outerRadius(radius + 10);
+
+    const pieData = pie(data.y);
+
+    const tooltip = d3.select("body").append("div")
+      .attr("class", "tooltip")
+      .style("opacity", 0);
+
+    const path = svg.selectAll('path')
+      .data(pieData)
+      .enter()
+      .append('path')
+      .attr('fill', d => colorScale(d.data))
+      .attr('stroke', 'white')
+      .style('stroke-width', '2px')
+      .each(function(d) { this._current = d; });
+
+    function animateSlice(index) {
+      path.filter((d, i) => i === index)
+        .transition()
+        .duration(500)
+        .attrTween('d', function(d) {
+          const i = d3.interpolate({ startAngle: 0, endAngle: 0, innerRadius: 0, outerRadius: 0 }, d);
+          return function(t) {
+            return arc(i(t));
+          };
+        })
+        .on("end", function(d) {
+          if (index < pieData.length - 1) {
+            animateSlice(index + 1);
+          } else {
+            // Enable mouse events after the last animation
+            path.on("mouseover", function(event, d) {
+                const index = d.index;
+                const label = data.x[index];
+                const percentage = ((d.data / d3.sum(data.y)) * 100).toFixed(2);
+                tooltip.transition()
+                  .duration(200)
+                  .style("opacity", .9);
+                tooltip.html(`${label}: ${d.data} (${percentage}%)`)
+                  .style("left", (event.pageX) + "px")
+                  .style("top", (event.pageY - 28) + "px");
+                d3.select(this).transition()
+                  .duration(200)
+                  .attr("d", arcOver);
+              })
+              .on("mouseout", function(d) {
+                tooltip.transition()
+                  .duration(500)
+                  .style("opacity", 0);
+                d3.select(this).transition()
+                  .duration(200)
+                  .attr("d", arc);
+              });
+          }
+        });
+    }
+
+    animateSlice(0);
+
+    svg.selectAll('.label')
+      .data(pieData)
+      .enter()
+      .append('text')
+      .attr('class', 'label')
+      .text((d, i) => data.x[i])
+      .attr("transform", d => `translate(${arc.centroid(d)})`)
+      .attr("dy", "0.35em")
+      .style("text-anchor", "middle")
+      .style("font-size", 15)
+      .style("fill", "white")
+      .style("font-weight", "bold")
+      .style("opacity", 0)
+      .transition()
+      .delay((d, i) => i * 500 + 500)
+      .style("opacity", 1);
+
+    svg.append("text")
+      .attr("x", 0)
+      .attr("y", -height / 2 + margin / 2)
+      .attr("text-anchor", "middle")
+      .style("font-size", "24px")
+      .style("text-decoration", "underline")
+      .text(data.title);
+  });
+</script>
+</body>
+</html>

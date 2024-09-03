@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>D3 Line Chart with Animation and Color Theme</title>
+  <style>
+      .line {
+          fill: none;
+          stroke-width: 2px;
+      }
+      .tooltip {
+          position: absolute;
+          text-align: center;
+          width: 80px;
+          height: 40px;
+          padding: 2px;
+          font: 12px sans-serif;
+          background: lightsteelblue;
+          border: 0px;
+          border-radius: 8px;
+          pointer-events: none;
+      }
+      .grid line {
+          stroke: lightgrey;
+          stroke-opacity: 0.7;
+          shape-rendering: crispEdges;
+      }
+      .grid path {
+          stroke-width: 0;
+      }
+  </style>
+</head>
+<body>
+<div id="line-chart"></div>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const data = {
+      x: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'],
+      y: [30, 80, 45, 60, 20, 50, 75, 40, 90, 70, 100]
+    };
+
+    const margin = {top: 50, right: 30, bottom: 70, left: 60},
+      width = 800 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
+
+    const svg = d3.select("#line-chart").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    const x = d3.scalePoint()
+      .domain(data.x)
+      .range([0, width]);
+
+    const y = d3.scaleLinear()
+      .domain([0, d3.max(data.y)])
+      .nice()
+      .range([height, 0]);
+
+    const colorScale = d3.scaleSequential(d3.interpolateBlues)
+      .domain([0, d3.max(data.y)]);
+
+    function makeXGridlines() {
+      return d3.axisBottom(x)
+        .ticks(5);
+    }
+
+    function makeYGridlines() {
+      return d3.axisLeft(y)
+        .ticks(5);
+    }
+
+    svg.append("g")
+      .attr("class", "grid")
+      .attr("transform", `translate(0,${height})`)
+      .call(makeXGridlines()
+        .tickSize(-height)
+        .tickFormat(""));
+
+    svg.append("g")
+      .attr("class", "grid")
+      .call(makeYGridlines()
+        .tickSize(-width)
+        .tickFormat(""));
+
+    svg.append("g")
+      .attr("transform", `translate(0,${height})`)
+      .call(d3.axisBottom(x))
+      .selectAll("text")
+      .style("text-anchor", "end")
+      .attr("dx", "-0.8em")
+      .attr("dy", "0.15em")
+      .attr("transform", "rotate(-65)");
+
+    svg.append("g")
+      .call(d3.axisLeft(y));
+
+    const line = d3.line()
+      .x((d, i) => x(data.x[i]))
+      .y(d => y(d));
+
+    svg.append("path")
+      .datum(data.y)
+      .attr("class", "line")
+      .attr("d", line)
+      .attr("stroke", colorScale(d3.max(data.y)))
+      .attr("stroke-dasharray", function() { return this.getTotalLength(); })
+      .attr("stroke-dashoffset", function() { return this.getTotalLength(); })
+      .transition()
+      .duration(1000)
+      .attr("stroke-dashoffset", 0);
+
+    const tooltip = d3.select("body").append("div")
+      .attr("class", "tooltip")
+      .style("opacity", 0);
+
+    svg.selectAll(".line")
+      .data(data.y)
+      .enter().append("circle")
+      .attr("cx", (d, i) => x(data.x[i]))
+      .attr("cy", d => y(d))
+      .attr("r", 0)
+      .on("mouseover", function(event, d) {
+        const index = svg.selectAll(".line").nodes().indexOf(this);
+        tooltip.transition()
+          .duration(200)
+          .style("opacity", .9);
+        tooltip.html(`x: ${data.x[index]}<br>y: ${d}`)
+          .style("left", (event.pageX) + "px")
+          .style("top", (event.pageY - 28) + "px");
+      })
+      .on("mouseout", () => {
+        tooltip.transition()
+          .duration(500)
+          .style("opacity", 0);
+      });
+
+    svg.append("text")
+      .attr("x", width / 2)
+      .attr("y", 0 - margin.top / 2)
+      .attr("text-anchor", "middle")
+      .style("font-size", "24px")
+      .style("text-decoration", "underline")
+      .text("My Line Chart");
+
+    svg.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left)
+      .attr("x", 0 - (height / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Y Axis Label");
+
+    svg.append("text")
+      .attr("transform", `translate(${width / 2}, ${height + margin.bottom - 10})`)
+      .style("text-anchor", "middle")
+      .style("font-size", "16px")
+      .text("X Axis Label");
+  });
+</script>
+</body>
+</html>

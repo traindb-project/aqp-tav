@@ -1,0 +1,42 @@
+<div class="flex items-end gap-2">
+  <div role="tablist" class="tabs tabs-bordered">
+    <button role="tab" class="tab" [class.tap-active]="selectedIndex() !== -1">Result</button>
+    @for (item of value(); track $index) {
+      <button role="tab" class="tab" [class.tap-active]="selectedIndex() === $index">{{ item.type }}</button>
+    }
+  </div>
+  <button class="btn btn-sm" (click)="openMakeViz()">
+    <etri-plus-icon class="size-4"/>
+    Visualization
+  </button>
+</div>
+
+<section class="py-4">
+
+  @if (selectedIndex() === -1) {
+    <div class="w-full overflow-auto max-h-[500px]">
+      <table class="table table-xs">
+        <thead class="sticky top-0 bg-white">
+        <tr>
+          @for (column of data().columns; track column) {
+            <th class="border-r border-zinc-200 last:border-r-0">{{ column }}</th>
+          }
+        </tr>
+        </thead>
+        <tbody>
+          @for (row of data().data; track $index) {
+            <tr class="even:bg-zinc-50 hover:bg-zinc-100">
+              @for (item of row; track $index) {
+                @if (isNumber(item)) {
+                  <td class="text-right border-r border-zinc-200 last:border-r-0">{{ item | number }}</td>
+                } @else {
+                  <td class="border-r border-zinc-200 last:border-r-0">{{ item }}</td>
+                }
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>D3 Scatter Plot with Animation</title>
+  <style>
+      .dot {
+          stroke: white;
+          stroke-width: 2px;
+          opacity: 0.7;
+      }
+      .tooltip {
+          position: absolute;
+          text-align: center;
+          width: 100px;
+          height: 50px;
+          padding: 5px;
+          font: 12px sans-serif;
+          background: lightsteelblue;
+          border: 0px;
+          border-radius: 8px;
+          pointer-events: none;
+      }
+      .grid line {
+          stroke: lightgrey;
+          stroke-opacity: 0.7;
+          shape-rendering: crispEdges;
+      }
+      .grid path {
+          stroke-width: 0;
+      }
+  </style>
+</head>
+<body>
+<div id="scatter-plot"></div>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const data = {
+      x: Array.from({length: 100}).map(() => Math.random() * 20),
+      y: Array.from({length: 100}).map((_, i) => i)
+    };
+
+    const margin = {top: 50, right: 30, bottom: 50, left: 60},
+      width = 800 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
+
+    const svg = d3.select("#scatter-plot").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    const x = d3.scaleLinear()
+      .domain([0, d3.max(data.x)])
+      .nice()
+      .range([0, width]);
+
+    const y = d3.scaleLinear()
+      .domain([0, d3.max(data.y)])
+      .nice()
+      .range([height, 0]);
+
+    const color = "#1f77b4";  // Set a common color for all points
+
+    function makeXGridlines() {
+      return d3.axisBottom(x)
+        .ticks(5);
+    }
+
+    function makeYGridlines() {
+      return d3.axisLeft(y)
+        .ticks(5);
+    }
+
+    svg.append("g")
+      .attr("class", "grid")
+      .attr("transform", `translate(0,${height})`)
+      .call(makeXGridlines()
+        .tickSize(-height)
+        .tickFormat(""));
+
+    svg.append("g")
+      .attr("class", "grid")
+      .call(makeYGridlines()
+        .tickSize(-width)
+        .tickFormat(""));
+
+    svg.append("g")
+      .attr("transform", `translate(0,${height})`)
+      .call(d3.axisBottom(x));
+
+    svg.append("g")
+      .call(d3.axisLeft(y));
+
+    const tooltip = d3.select("body").append("div")
+      .attr("class", "tooltip")
+      .style("opacity", 0);
+
+    svg.selectAll(".dot")
+      .data(data.y)
+      .enter().append("circle")
+      .attr("class", "dot")
+      .attr("cx", (d, i) => x(data.x[i]))
+      .attr("cy", d => y(d))
+      .attr("r", 0)
+      .attr("fill", color)
+      .on("mouseover", function(event, d) {
+        const index = svg.selectAll(".dot").nodes().indexOf(this);
+        tooltip.transition()
+          .duration(200)
+          .style("opacity", .9);
+        tooltip.html(`x: ${data.x[index]}<br>y: ${d}`)
+          .style("left", (event.pageX) + "px")
+          .style("top", (event.pageY - 28) + "px");
+      })
+      .on("mouseout", () => {
+        tooltip.transition()
+          .duration(500)
+          .style("opacity", 0);
+      })
+      .transition()
+      .duration(800)
+      .delay(() => Math.random() * 1000)  // Random delay
+      .attr("r", 5);
+
+    svg.append("text")
+      .attr("x", width / 2)
+      .attr("y", 0 - margin.top / 2)
+      .attr("text-anchor", "middle")
+      .style("font-size", "24px")
+      .style("text-decoration", "underline")
+      .text("My Scatter Plot");
+
+    svg.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left)
+      .attr("x", 0 - (height / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Y Axis Label");
+
+    svg.append("text")
+      .attr("transform", `translate(${width / 2}, ${height + margin.bottom})`)
+      .style("text-anchor", "middle")
+      .text("X Axis Label");
+  });
+</script>
+</body>
+</html>

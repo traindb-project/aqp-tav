@@ -1,4 +1,5 @@
 export * from './column';
+export * from './dashboard';
 export * from './database';
 export * from './hyper-parameter';
 export * from './model';
