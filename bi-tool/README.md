@@ -16,13 +16,13 @@ sudo service docker start
 ### Install redash
 
 ```console
-sudo docker pull jrei/systemd-ubuntu:18.04 
-sudo docker run -d -p 5555:5000 --name traindb_workbench --privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro jrei/systemd-ubuntu:18.04 
+sudo docker pull jrei/systemd-ubuntu:22.04 
+sudo docker run -d -p 5555:5000 --name traindb_workbench --privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro jrei/systemd-ubuntu:22.04 
 ```
 
 ```console
 sudo docker exec -itu 0 traindb_workbench bash 
-apt update && apt install sudo git vim docker-compose -y 
+apt update && apt install sudo git vim -y 
 cd && git clone https://github.com/getredash/setup
 cd setup && export USER=root && chmod +x setup.sh && ./setup.sh 
 ```
@@ -30,7 +30,8 @@ cd setup && export USER=root && chmod +x setup.sh && ./setup.sh
 ## Build 
 
 ```console
-cd && git clone https://github.com/traindb-project/aqp-tav.git 
+cd && git clone https://github.com/traindb-project/aqp-tav.git
+sudo mkdir -p /opt/redash/
 cp aqp-tav/bi-tool/docker-compose-opt.yml /opt/redash/docker-compose.yml
 cp -rf aqp-tav/bi-tool /app
 ```
@@ -39,13 +40,13 @@ TrainDB connection properties need to be set in ``/app/redash/models/train_model
 
 ```console
 service docker start
-cd /app && docker-compose build
+cd /app && docker compose build
 ```
 
 ## Run
 
 ```console
-cd /opt/redash && docker-compose up -d
+cd /opt/redash && docker compose up -d
 ```
 
 ### Create database
