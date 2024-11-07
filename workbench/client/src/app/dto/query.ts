@@ -19,6 +19,7 @@ export interface FindQuery extends Query {
 
 export interface RunQuery {
   columns: string[];
+  types: string[];
   data: Array<any[]>;
   execution_time: number;
 }

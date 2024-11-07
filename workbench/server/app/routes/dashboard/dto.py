@@ -1,4 +1,5 @@
-from typing import List
+from datetime import datetime
+from typing import List, Literal
 
 from pydantic import BaseModel
 
@@ -6,10 +7,23 @@ from database.types import ChartType
 from routes.queries.dto import FindQueryDto
 
 
-class DashboardItemDto(BaseModel):
+class BaseDashboardItemDto(BaseModel):
+    title: str | None = None
+    type: ChartType
+
+
+class ChartItemDto(BaseDashboardItemDto):
     x_column: str
     y_column: str
-    type: ChartType
+    type: Literal[ChartType.BAR, ChartType.LINE, ChartType.SCATTER, ChartType.PIE]
+
+
+class BubbleChartItemDto(ChartItemDto):
+    z_column: str
+    type: Literal[ChartType.BUBBLE]
+
+
+DashboardItemDto = ChartItemDto | BubbleChartItemDto
 
 
 class DashboardDto(BaseModel):
@@ -26,12 +40,9 @@ class UpdateDashboardDto(DashboardDto):
     items: List[DashboardItemDto]
 
 
-class FindDashboardItemDto(DashboardItemDto):
-    id: int
-    dashboard_id: int
-
-
 class FindDashboardDto(DashboardDto):
     id: int
     query: FindQueryDto
-    items: List[FindDashboardItemDto]
+    items: List[DashboardItemDto]
+    created_at: datetime
+    updated_at: datetime

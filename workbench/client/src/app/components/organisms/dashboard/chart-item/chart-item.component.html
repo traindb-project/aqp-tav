@@ -1,0 +1,25 @@
+<label class="flex items-center gap-4 w-full">
+  <span>Select X-Axis</span>
+  <select
+    [ngModel]="fields.x_column"
+    (ngModelChange)="changeXColumn($event)"
+    class="select select-sm select-bordered max-w-[300px] grow"
+  >
+    @for (column of columns(); track column) {
+      <option [ngValue]="column">{{ column }}</option>
+    }
+  </select>
+</label>
+
+<label class="flex items-center gap-4 w-full">
+  <span>Select Y-Axis</span>
+  <select
+    [ngModel]="fields.y_column"
+    (ngModelChange)="changeYColumn($event)"
+    class="select select-sm select-bordered max-w-[300px] grow"
+  >
+    @for (column of columns(); track column) {
+      <option [ngValue]="column">{{ column }}</option>
+    }
+  </select>
+</label>

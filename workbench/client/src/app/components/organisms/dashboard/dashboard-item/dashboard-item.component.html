@@ -1,0 +1,17 @@
+@if (item().type === ChartType.BAR) {
+  <etri-bar-chart
+    height="350px"
+    [xAxisLabel]="item().x_column"
+    [yAxisLabel]="item().y_column"
+    [x]="item().x_column | columnToAxisData:data():columns()"
+    [y]="item().y_column | columnToAxisData:data():columns()"
+  />
+} @else if (item().type === ChartType.LINE) {
+  <etri-line-chart
+    height="350px"
+    [xAxisLabel]="item().x_column"
+    [yAxisLabel]="item().y_column"
+    [x]="item().x_column | columnToAxisData:data():columns()"
+    [y]="item().y_column | columnToAxisData:data():columns()"
+  />
+}

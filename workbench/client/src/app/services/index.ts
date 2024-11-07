@@ -1,3 +1,4 @@
+export * from './dashboard.service';
 export * from './database.service';
 export * from './hyper-parameter.service';
 export * from './layout.service';

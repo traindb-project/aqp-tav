@@ -11,5 +11,4 @@ import { PlusIconComponent } from '../../icons';
   templateUrl: './dashboard-button.component.html',
 })
 export class DashboardButtonComponent {
-
 }

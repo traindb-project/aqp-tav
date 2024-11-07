@@ -33,5 +33,6 @@ class UpdateQueryDto(Query):
 
 class RunQueryResponseDto(BaseModel):
     columns: List[str]
+    types: List[str]
     data: List[List[Any]]
     execution_time: float | int

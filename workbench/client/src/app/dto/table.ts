@@ -12,5 +12,6 @@ export interface TablePreviewRequest {
 
 export interface TablePreviewResponse {
   columns: string[];
+  types: string[];
   data: Array<any[]>;
 }

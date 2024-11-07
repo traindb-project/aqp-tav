@@ -24,7 +24,10 @@
   </div>
 
   @if (queryData()) {
-    <etri-dashboard-item-input [data]="queryData()!" />
+    <etri-dashboard-item-input
+      [data]="queryData()!"
+      formControlName="items"
+    />
   } @else {
     <p class="text-zinc-500 text-sm">쿼리를 선택 후 실행해주세요.</p>
   }
@@ -37,6 +40,7 @@
     >Cancel
     </button>
     <button
+      [disabled]="formGroup.invalid"
       class="btn btn-primary grow text-white disabled:btn-disabled"
     >
       @if (submitting) {

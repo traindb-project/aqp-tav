@@ -52,6 +52,7 @@ export const Default: Story = {
   args: {
     data: {
       columns: ['order_id', 'product_id', 'add_to_cart_order', 'reordered'],
+      types: ['INTEGER', 'INTEGER', 'INTEGER', 'INTEGER'],
       data: [
         [2, 1819, 8, 1],
         [2, 9327, 3, 0],
@@ -62,7 +63,7 @@ export const Default: Story = {
         [2, 40141, 7, 1],
         [2, 43668, 9, 0],
         [2, 45918, 4, 1],
-        [3, 17461, 7, 1],
+        [3, 17461, 7, 3],
       ],
       execution_time: 0.8363462835550308
     }

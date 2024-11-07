@@ -78,4 +78,4 @@ async def preview_table(dto: TablePreviewRequest, db: Session = Depends(get_syst
     result = handler.execute_query_and_description(
         f"SELECT {', '.join(dto.columns)} FROM {dto.schema}.{dto.table} LIMIT 50"
     )
-    return TablePreviewResponse(columns=result["description"], data=result["data"])
+    return TablePreviewResponse(columns=result["columns"], types=result["types"], data=result["data"])

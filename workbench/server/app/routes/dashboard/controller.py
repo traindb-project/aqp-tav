@@ -5,8 +5,7 @@ from sqlalchemy.orm import Session
 
 from database.engine import get_system_db
 from database.models import Dashboard
-from routes.dashboard.dto import CreateDashboardDto, UpdateDashboardDto
-from routes.databases.dto import FindDatabaseDto
+from .dto import CreateDashboardDto, FindDashboardDto, UpdateDashboardDto
 
 router = APIRouter(
     prefix="/dashboard",
@@ -18,7 +17,7 @@ router = APIRouter(
 async def find_dashboards(
         traindb_id: int,
         db: Session = Depends(get_system_db)
-) -> List[FindDatabaseDto]:
+) -> List[FindDashboardDto]:
     return db.query(Dashboard).filter(Dashboard.traindb_id == traindb_id).order_by(Dashboard.updated_at.desc()).all()
 
 

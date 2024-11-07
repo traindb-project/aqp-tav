@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { MakeChartDialogComponent } from './make-chart-dialog.component';
+import { ChartItemComponent } from './chart-item.component';
 
-type StoryType = MakeChartDialogComponent;
+type StoryType = ChartItemComponent;
 
 const meta: Meta<StoryType> = {
-  component: MakeChartDialogComponent,
-  title: 'organisms/dialogs/MakeChartDialogComponent',
+  component: ChartItemComponent,
+  title: 'organisms/dashboard/ChartItemComponent',
   // tags: ['autodocs'],
   // decorators: [
   //   applicationConfig({
@@ -50,23 +50,6 @@ type Story = StoryObj<StoryType>;
 
 export const Default: Story = {
   args: {
-    data: {
-      columns: ['order_id', 'product_id', 'add_to_cart_order', 'reordered'],
-      types: ['INTEGER', 'INTEGER', 'INTEGER', 'INTEGER'],
-      data: [
-        [2, 1819, 8, 1],
-        [2, 9327, 3, 0],
-        [2, 17794, 6, 2],
-        [2, 28985, 2, 1],
-        [2, 30035, 5, 0],
-        [2, 33120, 1, 1],
-        [2, 40141, 7, 1],
-        [2, 43668, 9, 0],
-        [2, 45918, 4, 1],
-        [3, 17461, 7, 1],
-      ],
-      execution_time: 0.8363462835550308
-    }
     // play: async ({ canvasElement }) => {
     // //   More on interaction testing: https://storybook.js.org/docs/writing-tests/interaction-testing
     //   const canvas = within(canvasElement);

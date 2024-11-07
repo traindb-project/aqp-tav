@@ -27,4 +27,5 @@ class TablePreviewRequest(BaseModel):
 
 class TablePreviewResponse(BaseModel):
     columns: List[str]
+    types: List[str]
     data: List[List[Any]]

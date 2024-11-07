@@ -2,6 +2,7 @@ import { TablePreviewResponse } from '../dto';
 
 export const TABLE_PREVIEW: TablePreviewResponse = {
   columns: ['order_id', 'product_id', 'add_to_cart_order', 'reordered'],
+  types: ['INTEGER', 'INTEGER', 'INTEGER', 'INTEGER'],
   'data': [
     [2, 1819, 8, 1],
     [2, 9327, 3, 0],

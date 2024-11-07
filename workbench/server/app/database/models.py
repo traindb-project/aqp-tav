@@ -4,14 +4,14 @@ from sqlalchemy import (
     Boolean,
     Column,
     DateTime,
-    Enum, ForeignKey,
+    ForeignKey,
     Integer,
     String,
 )
-
 from sqlalchemy.orm import relationship
+
 from .engine import Base, init_db
-from .types import ChartType, EncryptedString
+from .types import EncryptedString, JSONString
 
 
 class TrainDB(Base):
@@ -64,17 +64,7 @@ class Dashboard(Base):
     query = relationship("Query", foreign_keys=[query_id])
     created_at = Column(DateTime, default=datetime.now())
     updated_at = Column(DateTime, default=datetime.now(), onupdate=datetime.now())
-
-    items = relationship("DashboardItem", backref="dashboard")
-
-
-class DashboardItem(Base):
-    __tablename__ = 'dashboard_items'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    dashboard_id = Column(Integer, ForeignKey("dashboards.id", ondelete="CASCADE"))
-    x_column = Column(String, nullable=False)
-    y_column = Column(String, nullable=False)
-    type = Column(Enum(ChartType), nullable=False)
+    items = Column(JSONString)
 
 
 init_db()
