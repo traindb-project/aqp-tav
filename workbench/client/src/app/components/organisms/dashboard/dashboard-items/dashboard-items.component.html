@@ -1,0 +1,34 @@
+<div class="flex items-center gap-4 px-4">
+  <h2 class="my-0">{{ name() }}</h2>
+  <button
+    type="button"
+    (click)="onDelete.emit()"
+    [disabled]="loading()"
+    class="btn btn-error btn-xs"
+  >
+    <etri-trash-icon class="size-4 text-white" />
+  </button>
+  <button
+    type="button"
+    (click)="runQuery()"
+    [disabled]="loading()"
+    class="btn btn-xs btn-primary"
+  >
+    <etri-play-icon class="size-4 text-white"/>
+  </button>
+</div>
+@if (loading()) {
+  <div class="h-[350px] flex items-center justify-center">
+    <etri-loading/>
+  </div>
+} @else {
+  <div class="grid {{gridCols()}} bg-white p-2">
+    @for (item of items(); track $index) {
+      <etri-dashboard-item
+        [item]="item"
+        [columns]="columns()"
+        [data]="data()"
+      />
+    }
+  </div>
+}

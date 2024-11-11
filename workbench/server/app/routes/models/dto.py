@@ -23,12 +23,10 @@ class FindModelDto(Model):
 
 
 class TrainModelOptionDto(BaseModel):
-    name: str
     value: str
 
 
 class TrainModelDto(BaseModel):
-    name: str
     database_id: int
     schema: str
     table: str
@@ -39,7 +37,6 @@ class TrainModelDto(BaseModel):
 
 
 class UpdateModelDto(BaseModel):
-    name: str | None = None
     status: str | None = None
 
 

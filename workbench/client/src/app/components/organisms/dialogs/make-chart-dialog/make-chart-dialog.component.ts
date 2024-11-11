@@ -1,7 +1,10 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { Component, inject, input, output } from '@angular/core';
-import { DashboardItem, RunQuery } from '../../../../dto';
+import { UpperCasePipe } from '@angular/common';
+import { Component, computed, inject, model, output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CHART_TYPES, ChartType, DashboardItem, RunQuery } from '../../../../dto';
 import { DialogHeaderDirective } from '../../../atoms';
+import { ChartItemComponent } from '../../dashboard';
 import { BaseDialogComponent } from '../base-dialog';
 
 @Component({
@@ -11,12 +14,33 @@ import { BaseDialogComponent } from '../base-dialog';
   templateUrl: 'make-chart-dialog.component.html',
   imports: [
     BaseDialogComponent,
-    DialogHeaderDirective
+    DialogHeaderDirective,
+    FormsModule,
+    UpperCasePipe,
+    ChartItemComponent
   ]
 })
 export class MakeChartDialogComponent {
-  readonly data = input.required<RunQuery>();
+  fields: any = {};
+  readonly data = model.required<RunQuery>();
+  readonly chartType = model<ChartType>(ChartType.BAR);
+  readonly columns = computed(() => this.data().columns);
+  readonly types = computed(() => this.data().types);
   readonly onClose = output<DashboardItem | undefined>();
+  readonly ChartType = ChartType;
+  readonly CHART_TYPES = CHART_TYPES;
+  readonly isChartItem = computed(() => [ChartType.BAR, ChartType.LINE, ChartType.SCATTER, ChartType.PIE].includes(this.chartType()));
+
+  changeFields(fields: any) {
+    this.fields = fields;
+  }
+
+  emitDashboardItem() {
+    this.onClose.emit({
+      type: this.chartType(),
+      ...this.fields,
+    })
+  }
 }
 
 @Component({

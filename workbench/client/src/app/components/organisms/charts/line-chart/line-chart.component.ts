@@ -1,6 +1,6 @@
 import {
   AfterViewInit,
-  Component,
+  Component, effect,
   ElementRef,
   HostBinding,
   HostListener,
@@ -29,6 +29,18 @@ export class LineChartComponent implements AfterViewInit {
   private readonly MIN = 0;
   private svg!: d3.Selection<SVGSVGElement, unknown, null, undefined>;
   private tooltip!: d3.Selection<HTMLDivElement, unknown, null, undefined>;
+
+  constructor() {
+    effect(() => {
+      const x = this.x();
+      const y = this.y();
+      const xAxisLabel = this.xAxisLabel();
+      const yAxisLabel = this.yAxisLabel();
+      console.log(xAxisLabel, ':', x);
+      console.log(yAxisLabel, ':', y);
+      this.updateChart();
+    });
+  }
 
   @HostListener('window:resize') onResize() {
     this.updateChart();
@@ -121,7 +133,7 @@ export class LineChartComponent implements AfterViewInit {
       .y(d => y(d));
 
     const path = this.svg.append('path')
-      .datum(this.y)
+      .datum(this.y())
       .attr('fill', 'none')
       .attr('stroke', 'steelblue')
       .attr('stroke-width', 2)

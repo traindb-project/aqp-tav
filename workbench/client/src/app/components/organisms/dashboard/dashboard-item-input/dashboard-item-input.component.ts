@@ -1,9 +1,12 @@
 import { Dialog } from '@angular/cdk/dialog';
-import { DecimalPipe } from '@angular/common';
-import { Component, forwardRef, inject, input, model, Provider, signal } from '@angular/core';
+import { DecimalPipe, LowerCasePipe, UpperCasePipe } from '@angular/common';
+import { Component, computed, forwardRef, inject, input, model, Provider, Signal, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { DashboardItem, RunQuery } from '../../../../dto';
+import { ChartItem, ChartType, DashboardItem, RunQuery } from '../../../../dto';
+import { ColumnToAxisDataPipe, ColumnToIndexPipe } from '../../../../pipes';
 import { PlusIconComponent } from '../../../atoms';
+import { BarChartComponent } from '../../charts';
+import { LineChartComponent } from '../../charts/line-chart/line-chart.component';
 import { MakeChartDialog } from '../../dialogs';
 
 const VALUE_ACCESSOR: Provider = {
@@ -13,21 +16,36 @@ const VALUE_ACCESSOR: Provider = {
 };
 
 @Component({
+  imports: [
+    PlusIconComponent,
+    DecimalPipe,
+    BarChartComponent,
+    ColumnToIndexPipe,
+    ColumnToAxisDataPipe,
+    LineChartComponent,
+    UpperCasePipe,
+  ],
   providers: [VALUE_ACCESSOR],
   selector: 'etri-dashboard-item-input',
   standalone: true,
   styleUrls: ['dashboard-item-input.component.scss'],
-  templateUrl: 'dashboard-item-input.component.html',
-  imports: [
-    PlusIconComponent,
-    DecimalPipe
-  ]
+  templateUrl: 'dashboard-item-input.component.html'
 })
 export class DashboardItemInputComponent implements ControlValueAccessor {
   data = input.required<RunQuery>();
   selectedIndex = signal<number>(-1);
   value = model<DashboardItem[]>([]);
   disabled = model<boolean>();
+  columns = computed(() => this.data().columns);
+  selectedItem: Signal<DashboardItem | null> = computed<DashboardItem | null>(() => {
+    const idx = this.selectedIndex();
+    if (idx === -1) return null;
+    return this.value()[idx];
+  });
+  chartType: Signal<ChartType | null> = computed(() => {
+    const item = this.selectedItem();
+    return item?.type ?? null;
+  });
   private readonly dialog = inject(Dialog);
 
   private onChange: any;
@@ -40,15 +58,22 @@ export class DashboardItemInputComponent implements ControlValueAccessor {
   openMakeViz() {
     const dialog = this.dialog.open<DashboardItem | undefined>(MakeChartDialog, {
       data: this.data(),
-      width: '90vw'
     });
 
     dialog.closed.subscribe(item => {
-      if (item) this.value.update(v => [...v, item]);
+      if (item) {
+        console.log(item);
+        this.change([...this.value() as any, item]);
+        this.selectedIndex.set(this.selectedIndex() + 1);
+      }
     });
   }
 
-  writeValue(value: DashboardItem[]): void {
+  setSelectedIndex(index: number) {
+    this.selectedIndex.set(index);
+  }
+
+  writeValue(value: ChartItem[]): void {
     this.value.set(value);
   }
 
@@ -68,4 +93,6 @@ export class DashboardItemInputComponent implements ControlValueAccessor {
     this.value.set([...value]);
     if (this.onChange) this.onChange([...value]);
   }
+
+  protected readonly ChartType = ChartType;
 }

@@ -2,4 +2,37 @@
   (onClose)="onClose.emit(undefined)"
 >
   <h1 header etriDialogHeader>Add Visualization</h1>
+  <div class="space-y-4">
+    <label class="flex items-center gap-4 w-full">
+      <span>Select Visualization</span>
+      <select
+        [(ngModel)]="chartType"
+        class="select select-sm select-bordered max-w-[300px] grow"
+      >
+        @for (type of CHART_TYPES; track type) {
+          <option [ngValue]="type">{{ type[0] | uppercase }}{{ type.slice(1) }} Chart</option>
+        }
+      </select>
+    </label>
+
+    @if (isChartItem()) {
+      <etri-chart-item
+        [columns]="columns()"
+        [types]="types()"
+        (onChange)="changeFields($event)"
+      />
+    }
+  </div>
+  <div footer class="flex justify-end gap-4">
+    <button
+      type="button"
+      (click)="onClose.emit(undefined)"
+      class="btn btn-sm w-[80px]"
+    >취소</button>
+    <button
+      type="button"
+      (click)="emitDashboardItem()"
+      class="btn btn-sm btn-primary w-[80px]"
+    >저장</button>
+  </div>
 </etri-base-dialog>

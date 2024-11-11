@@ -1,10 +1,13 @@
 __all__ = [
     "BcryptString",
+    "ChartType",
     "EncryptedString",
-    "ChartType"
+    "JSONString"
 ]
 
+import json
 from enum import Enum
+from typing import Any
 
 from fastapi import HTTPException, status
 
@@ -43,8 +46,19 @@ class EncryptedString(TypeDecorator):
         return decrypted_value
 
 
+class JSONString(TypeDecorator):
+    impl = String
+
+    def process_bind_param(self, value: Any, dialect):
+        return json.dumps(value)
+
+    def process_result_value(self, value: str, dialect):
+        return json.loads(value)
+
+
 class ChartType(str, Enum):
     BAR = "bar"
     LINE = "line"
     SCATTER = "scatter"
     PIE = "pie"
+    BUBBLE = "bubble"

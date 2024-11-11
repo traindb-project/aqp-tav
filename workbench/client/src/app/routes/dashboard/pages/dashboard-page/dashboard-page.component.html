@@ -1,1 +1,14 @@
-<etri-dashboard-button routerLink="/dashboard/make" />
+<div class="flex">
+  <etri-dashboard-button
+    routerLink="/dashboard/make"
+  />
+</div>
+
+@for (dashboard of dashboards(); track dashboard.id) {
+  <etri-dashboard-items
+    [name]="dashboard.name"
+    [query]="dashboard.query"
+    [items]="dashboard.items"
+    (onDelete)="deleteDashboard(dashboard.id)"
+  />
+}

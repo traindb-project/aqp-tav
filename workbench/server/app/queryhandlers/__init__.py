@@ -88,11 +88,18 @@ class BaseQueryHandler(object):
             with self.connect() as conn:
                 with conn.cursor() as cursor:
                     print("EXECUTE QUERY:", query)
+                    columns = []
+                    types = []
                     cursor.execute(query)
-                    desc = [desc[0] for desc in cursor.description]
+                    meta = cursor._rs.getMetaData()
+                    col_count = meta.getColumnCount()
+                    for i in range(1, col_count + 1):
+                        columns.append(meta.getColumnName(i))
+                        types.append(meta.getColumnTypeName(i))
                     data = cursor.fetchall()
                     return {
-                        "description": desc,
+                        "columns": columns,
+                        "types": types,
                         "data": data,
                     }
         except Exception as e:

@@ -5,11 +5,12 @@
 
 @import './styles/dialog';
 
-//html, body {
-//  @apply w-screen;
-//}
+html, body {
+  font-size: 32px;
+}
 
 @layer components {
+
   .page {
     @apply prose prose-zinc prose-sm space-y-4;
   }

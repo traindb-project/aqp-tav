@@ -47,7 +47,7 @@ async def run_query(query_id: int, db: Session = Depends(get_system_db)) -> RunQ
     result = handler.execute_query_and_description(query)
     end_time = time.perf_counter()
     execution_time = end_time - start_time
-    return RunQueryResponseDto(columns=result['description'], data=result['data'], execution_time=execution_time)
+    return RunQueryResponseDto(columns=result["columns"], types=result["types"], data=result['data'], execution_time=execution_time)
 
 
 @router.post("")

@@ -10,14 +10,13 @@ ENV LANG=ko_KR.UTF-8 \
 RUN ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime
 RUN echo ${TZ} > /etc/timezone
 
-RUN rm -rf /var/lib/apt/lists/*
-RUN apt-get update 
-RUN apt-get install -y openjdk-11-jdk 
-RUN apt-get install -y python3.11 
-RUN apt-get install -y python3.11-dev 
-RUN apt-get install -y python3-pip 
-RUN ln -Tfs /usr/bin/python3.11 /usr/bin/python 
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get install -y openjdk-11-jdk && \
+    apt-get install -y python3.11 && \
+    apt-get install -y python3.11-dev && \
+    apt-get install -y python3-pip && \
+    ln -Tfs /usr/bin/python3.11 /usr/bin/python && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 COPY requirements.txt ./

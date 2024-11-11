@@ -1,8 +1,8 @@
 import { JsonPipe } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { map, Subscription, tap } from 'rxjs';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { finalize, map, Subscription, tap } from 'rxjs';
 import {
   DashboardItemInputComponent,
   LoadingComponent,
@@ -10,7 +10,7 @@ import {
   QuerySelectComponent
 } from '../../../../components';
 import { FindQuery, RunQuery } from '../../../../dto';
-import { QueryService, TraindbService } from '../../../../services';
+import { DashboardService, QueryService, TraindbService } from '../../../../services';
 
 @Component({
   selector: 'etri-dashboard-form-page',
@@ -30,10 +30,12 @@ import { QueryService, TraindbService } from '../../../../services';
 export class DashboardFormPageComponent implements OnInit, OnDestroy {
   submitting = false;
   readonly formGroup: FormGroup;
-  readonly queryService = inject(QueryService);
   readonly queryData = signal<RunQuery | null>(null);
+  readonly queryService = inject(QueryService);
+  readonly dashboardService = inject(DashboardService);
   private readonly traindbService = inject(TraindbService);
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly subscription = new Subscription();
 
   constructor(formBuilder: FormBuilder) {
@@ -53,18 +55,23 @@ export class DashboardFormPageComponent implements OnInit, OnDestroy {
         tap(res => console.log(JSON.stringify(res)))
       )
       .subscribe({
-      next: data => this.queryData.set(data),
-      error: err => {
-        console.error(err);
-        alert(`Error: ${err.error?.detail ?? err.message}`);
-      }
-    });
+        next: data => this.queryData.set(data),
+        error: err => {
+          console.error(err);
+          alert(`Error: ${err.error?.detail ?? err.message}`);
+        }
+      });
   }
 
   submit() {
     const dto = this.formGroup.getRawValue();
     dto.traindb_id = this.traindbService.currentId()!;
-    console.log(dto);
+    this.submitting = true;
+    this.dashboardService.createDashboard(dto).pipe(
+      finalize(() => this.submitting = false),
+    ).subscribe({
+      next: () => this.router.navigate(['/dashboard']),
+    });
   }
 
   ngOnInit(): void {

@@ -1,18 +1,29 @@
 <div class="flex items-end gap-2">
   <div role="tablist" class="tabs tabs-bordered">
-    <button role="tab" class="tab" [class.tap-active]="selectedIndex() !== -1">Result</button>
+    <button
+      role="tab"
+      class="tab"
+      [class.tab-active]="selectedIndex() === -1"
+      (click)="setSelectedIndex(-1)"
+    >Result
+    </button>
     @for (item of value(); track $index) {
-      <button role="tab" class="tab" [class.tap-active]="selectedIndex() === $index">{{ item.type }}</button>
+      <button
+        role="tab"
+        class="tab"
+        [class.tab-active]="selectedIndex() === $index"
+        (click)="setSelectedIndex($index)"
+      >{{ item.type[0] | uppercase }}{{ item.type.slice(1) }} Chart
+      </button>
     }
   </div>
-  <button class="btn btn-sm" (click)="openMakeViz()">
+  <button class="btn btn-sm" type="button" (click)="openMakeViz()">
     <etri-plus-icon class="size-4"/>
     Visualization
   </button>
 </div>
 
 <section class="py-4">
-
   @if (selectedIndex() === -1) {
     <div class="w-full overflow-auto max-h-[500px]">
       <table class="table table-xs">
@@ -38,5 +49,21 @@
         </tbody>
       </table>
     </div>
+  } @else {
+    @if (chartType() === ChartType.BAR) {
+      <etri-bar-chart
+        [xAxisLabel]="selectedItem()?.x_column ?? 'X'"
+        [yAxisLabel]="selectedItem()?.y_column ?? 'Y'"
+        [x]="selectedItem()?.x_column | columnToAxisData:data().data:columns()"
+        [y]="selectedItem()?.y_column | columnToAxisData:data().data:columns()"
+      />
+    } @else if (chartType() === ChartType.LINE) {
+      <etri-line-chart
+        [xAxisLabel]="selectedItem()?.x_column ?? 'X'"
+        [yAxisLabel]="selectedItem()?.y_column ?? 'Y'"
+        [x]="selectedItem()?.x_column | columnToAxisData:data().data:columns()"
+        [y]="selectedItem()?.y_column | columnToAxisData:data().data:columns()"
+      ></etri-line-chart>
+    }
   }
 </section>

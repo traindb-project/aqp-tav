@@ -1,6 +1,6 @@
 import {
   AfterViewInit,
-  Component,
+  Component, computed, effect,
   ElementRef,
   HostBinding,
   HostListener,
@@ -17,13 +17,32 @@ import * as d3 from 'd3';
   templateUrl: 'bar-chart.component.html',
 })
 export class BarChartComponent implements AfterViewInit {
-  x = input<(string | number)[]>([]);
-  y = input<number[]>([]);
-  xAxisLabel = input<string | null>(null);
-  yAxisLabel = input<string | null>(null);
-  title = input<string | null>(null);
-  chartRef = viewChild<ElementRef<HTMLDivElement>>('chartRef');
-  @HostBinding('style.height') @Input() minHeight = '500px';
+  readonly x = input<(string | number)[]>([]);
+  readonly y = input<number[]>([]);
+  readonly xAxisLabel = input<string | null>(null);
+  readonly yAxisLabel = input<string | null>(null);
+  readonly title = input<string | null>(null);
+  readonly chartRef = viewChild<ElementRef<HTMLDivElement>>('chartRef');
+  readonly X = computed(() => {
+    const x = this.x();
+    return x.map((v, i) => {
+      const count = x.slice(0, i).filter(val => val === v).length;
+      return count > 0 ? `${v}_${count}` : String(v);
+    });
+  });
+  @HostBinding('style.height') @Input() height = '500px';
+
+  constructor() {
+    effect(() => {
+      const x = this.x();
+      const y = this.y();
+      const xAxisLabel = this.xAxisLabel();
+      const yAxisLabel = this.yAxisLabel();
+      console.log(xAxisLabel, ':', x);
+      console.log(yAxisLabel, ':', y);
+      this.updateChart();
+    });
+  }
 
   private readonly MAX = 10;
   private readonly MIN = 0;
@@ -71,7 +90,7 @@ export class BarChartComponent implements AfterViewInit {
       .attr('height', height);
 
     const x = d3.scaleBand()
-      .domain(this.x().map(String))
+      .domain(this.X())
       .range([margin.left, width - margin.right])
       .padding(0.1);
 
@@ -128,7 +147,7 @@ export class BarChartComponent implements AfterViewInit {
       .selectAll('rect')
       .data(this.y)
       .join('rect')
-      .attr('x', (d, i) => x(String(this.x()[i]))!)
+      .attr('x', (d, i) => x(this.X()[i])!)
       .attr('y', y(0))
       .attr('height', 0)
       .attr('width', x.bandwidth())
@@ -175,7 +194,7 @@ export class BarChartComponent implements AfterViewInit {
         this.tooltip.transition()
           .duration(200)
           .style('opacity', .9);
-        this.tooltip.html(`x: ${this.x()[this.y().indexOf(d)]}<br/>y: ${d}`)
+        this.tooltip.html(`x: ${this.X()[this.y().indexOf(d)]}<br/>y: ${d}`)
           .style('left', (event.pageX + 5) + 'px')
           .style('top', (event.pageY - 5) + 'px'); // 툴팁 위치를 조정
       })
