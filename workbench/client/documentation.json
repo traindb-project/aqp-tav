@@ -12066,7 +12066,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "object",
-                "defaultValue": "{\n  production: false,\n  // apiHost: 'http://192.168.10.39/api',\n  apiHost: 'http://61.32.68.66/api',\n}"
+                "defaultValue": "{\n  production: false,\n  // apiHost: 'http://192.168.10.39:8070/api',\n  apiHost: 'http://192.168.10.39:8070/api',\n}"
             },
             {
                 "name": "environment",
@@ -12256,7 +12256,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "object",
-                    "defaultValue": "{\n  production: false,\n  // apiHost: 'http://192.168.10.39/api',\n  apiHost: 'http://61.32.68.66/api',\n}"
+                    "defaultValue": "{\n  production: false,\n  // apiHost: 'http://192.168.10.39:8070/api',\n  apiHost: 'http://192.168.10.39:8070/api',\n}"
                 }
             ],
             "src/environments/environment.ts": [
