@@ -50,7 +50,8 @@ export class QueryFormPageComponent implements OnInit, OnDestroy {
     this.formGroup = formBuilder.group({
       name: [null, [(control: AbstractControl) => !!(control.value || '').trim() ? null : { required: true }]],
       database_id: [null, [Validators.required]],
-      sql: [null, [Validators.required, Validators.pattern(/^select\b[^;]+\bfrom\b[^;]+;\s*$/i)]],
+      sql: [null, [Validators.required, ]],
+      // sql: [null, [Validators.required, Validators.pattern(/^select\b[^;]+\bfrom\b[^;]+;\s*$/i)]],
     });
     this.loadDatabases();
   }
