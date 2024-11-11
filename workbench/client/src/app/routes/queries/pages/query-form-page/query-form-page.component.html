@@ -47,7 +47,18 @@
       class="btn grow no-underline"
     >Cancel
     </button>
-    <button
+    <!-- <button      
+      [disabled]="submitting"
+      class="btn btn-primary grow text-white disabled:btn-disabled"
+    >
+      @if (submitting) {
+        <etri-loading size="xs"></etri-loading>
+      } @else {
+        Register
+      }
+    </button> -->
+
+    <button      
       [disabled]="formGroup.invalid || submitting"
       class="btn btn-primary grow text-white disabled:btn-disabled"
     >
@@ -57,5 +68,7 @@
         Register
       }
     </button>
+    
   </div>
 </form>
+
