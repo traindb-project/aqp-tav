@@ -6,16 +6,15 @@ import { LoadingComponent } from '../../../../components';
 import { ModeltypeService, TraindbService } from '../../../../services';
 
 @Component({
-  selector: 'etri-modeltype-form-page',
-  standalone: true,
-  styleUrls: ['modeltype-form-page.component.scss'],
-  templateUrl: 'modeltype-form-page.component.html',
-  imports: [
-    FormsModule,
-    LoadingComponent,
-    RouterLink,
-    ReactiveFormsModule
-  ]
+    selector: 'etri-modeltype-form-page',
+    styleUrls: ['modeltype-form-page.component.scss'],
+    templateUrl: 'modeltype-form-page.component.html',
+    imports: [
+        FormsModule,
+        LoadingComponent,
+        RouterLink,
+        ReactiveFormsModule
+    ]
 })
 export class ModeltypeFormPageComponent implements OnInit, OnDestroy {
   loading = false;

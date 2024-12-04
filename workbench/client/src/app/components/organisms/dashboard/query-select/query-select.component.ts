@@ -1,4 +1,3 @@
-import { JsonPipe } from '@angular/common';
 import { Component, computed, forwardRef, inject, model, OnInit, output, Provider, signal } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -15,20 +14,19 @@ const VALUE_ACCESSOR: Provider = {
 };
 
 @Component({
-  imports: [
-    SearchInputComponent,
-    FormsModule,
-    LoadingComponent,
-    RouterLink,
-    PatternFilterPipe
-  ],
-  providers: [
-    VALUE_ACCESSOR,
-  ],
-  selector: 'etri-query-select',
-  standalone: true,
-  styleUrls: ['query-select.component.scss'],
-  templateUrl: 'query-select.component.html'
+    imports: [
+        SearchInputComponent,
+        FormsModule,
+        LoadingComponent,
+        RouterLink,
+        PatternFilterPipe
+    ],
+    providers: [
+        VALUE_ACCESSOR,
+    ],
+    selector: 'etri-query-select',
+    styleUrls: ['query-select.component.scss'],
+    templateUrl: 'query-select.component.html'
 })
 export class QuerySelectComponent implements ControlValueAccessor, OnInit {
   readonly value = model<number | null>(null);

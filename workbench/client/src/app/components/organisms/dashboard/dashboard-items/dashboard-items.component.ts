@@ -6,16 +6,15 @@ import { LoadingComponent, PlayIconComponent, TrashIconComponent } from '../../.
 import { DashboardItemComponent } from '../dashboard-item';
 
 @Component({
-  imports: [
-    PlayIconComponent,
-    DashboardItemComponent,
-    LoadingComponent,
-    TrashIconComponent
-  ],
-  selector: 'etri-dashboard-items',
-  standalone: true,
-  styleUrls: ['dashboard-items.component.scss'],
-  templateUrl: 'dashboard-items.component.html'
+    imports: [
+        PlayIconComponent,
+        DashboardItemComponent,
+        LoadingComponent,
+        TrashIconComponent
+    ],
+    selector: 'etri-dashboard-items',
+    styleUrls: ['dashboard-items.component.scss'],
+    templateUrl: 'dashboard-items.component.html'
 })
 export class DashboardItemsComponent {
   readonly name = input.required<string>();
@@ -41,7 +40,6 @@ export class DashboardItemsComponent {
     ).subscribe({
       next: res => {
         const { data, columns } = res;
-        console.log(data, columns);
         this.data.set(data);
         this.columns.set(columns);
       }

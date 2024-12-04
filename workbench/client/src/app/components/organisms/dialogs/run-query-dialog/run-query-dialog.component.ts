@@ -8,16 +8,15 @@ import { DialogHeaderDirective, LoadingComponent } from '../../../atoms';
 import { BaseDialogComponent } from '../base-dialog';
 
 @Component({
-  imports: [
-    BaseDialogComponent,
-    DialogHeaderDirective,
-    LoadingComponent,
-    DecimalPipe
-  ],
-  selector: 'etri-run-query-dialog_',
-  standalone: true,
-  styleUrls: ['run-query-dialog.component.scss'],
-  templateUrl: 'run-query-dialog.component.html'
+    imports: [
+        BaseDialogComponent,
+        DialogHeaderDirective,
+        LoadingComponent,
+        DecimalPipe
+    ],
+    selector: 'etri-run-query-dialog_',
+    styleUrls: ['run-query-dialog.component.scss'],
+    templateUrl: 'run-query-dialog.component.html'
 })
 export class RunQueryDialogComponent implements OnInit {
   readonly onClose = output<void>();
@@ -52,12 +51,11 @@ export class RunQueryDialogComponent implements OnInit {
 }
 
 @Component({
-  imports: [
-    RunQueryDialogComponent
-  ],
-  selector: 'etri-run-query-dialog',
-  standalone: true,
-  template: `
+    imports: [
+        RunQueryDialogComponent
+    ],
+    selector: 'etri-run-query-dialog',
+    template: `
     <etri-run-query-dialog_
       [query]="data"
       (onClose)="dialogRef.close()"

@@ -1,0 +1,158 @@
+<div class="page">
+  <h1>Additional Training</h1>
+</div>
+<div
+  class="bg-white shadow-md p-4 space-y-4 overflow-hidden duration-300"
+  [style.height]="collapseInfo() ? headerRef.clientHeight + 32 + 'px' : headerRef.clientHeight + bodyRef.clientHeight + 48 + 'px'"
+>
+  <div class="flex gap-4 items-center" #headerRef>
+    <h2 class="text-lg font-semibold">Model Information</h2>
+    <button
+      type="button"
+      class="ml-auto btn btn-sm btn-ghost"
+      (click)="collapseInfo.set(!collapseInfo())"
+    >
+      {{ collapseInfo() ? '+' : '-' }}
+    </button>
+  </div>
+  <div class="space-y-4" #bodyRef>
+    <div class="flex flex-col gap-4 p-4 border border-zinc-300">
+      <div class="flex gap-4 items-center text-lg">
+        <span class="text-zinc-600">Model Name: </span>
+        <span class="font-semibold">{{ model()?.name }}</span>
+      </div>
+      <div class="flex gap-4 items-center text-lg">
+        <span class="text-zinc-600">Status: </span>
+        <span
+          class="badge {{ model()?.status === 'ENABLED' ? 'badge-primary text-white' : 'text-zinc-500' }}"
+        >{{ model()?.status }}</span>
+      </div>
+    </div>
+    <div class="flex flex-col gap-2 p-4 border border-zinc-300">
+      <table class="table table-sm">
+        <tbody>
+        <tr>
+          <th>Model Type</th>
+          <td>{{ model()?.modeltype }}</td>
+        </tr>
+        @for (schema of model()?.schemas ?? []; track schema; let i = $index) {
+          <tr>
+            <th>Table({{ i + 1 }})</th>
+            <td>{{ schema.schema }}.{{schema.table.name}}({{ getColumnNames(schema.table.columns) }})</td>
+          </tr>
+        }
+        <tr>
+          <th>Training Samples</th>
+          <td>
+            @if (model()?.trained_rows && model()?.table_rows) {
+              {{ model()!.trained_rows / model()!.table_rows | percent }}
+            } @else {
+              <span>-</span>
+            }
+            <span class="text-zinc-600 text-sm">
+              ({{ model()?.trained_rows | number }} / {{ model()?.table_rows | number }})
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <th>Training Server</th>
+          <td>{{ model()?.server || '-' }}</td>
+        </tr>
+        <tr>
+          <th>Training Start Time</th>
+          <td>{{ model()?.start ? (model()?.start | date: 'yyyy년 M월 d일 HH시 mm분') : '-' }}</td>
+        </tr>
+        <tr>
+          <th>Training Status</th>
+          <td>
+            @if (model()?.training_status) {
+              <span
+                class="badge badge-sm text-white {{ model()?.training_status === 'FINISHED' ? 'badge-primary' : 'badge-warning' }}"
+              >{{ model()?.training_status }}</span>
+            } @else {
+              <span>-</span>
+            }
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="flex flex-col gap-2 p-4 border border-zinc-300">
+      <h3 class="text-sm font-semibold">Hyper Parameters</h3>
+      <table class="table table-sm">
+        <tbody>
+          @for (param of hyperParameters(); track param) {
+            <tr>
+              <th>{{ param.name }}:</th>
+              <td>{{ param.value }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<form
+  [formGroup]="formGroup"
+  (ngSubmit)="submit()"
+  class="bg-white shadow-md p-4 space-y-4"
+>
+  <div class="flex items-center justify-between">
+      <label
+        class="input input-bordered flex items-center gap-4 w-full max-w-md {{ conflictName() ? 'input-error' : '' }}"
+      >
+        Name:
+        <input
+          type="text"
+          formControlName="name"
+          placeholder="Input model name"
+          class="grow"
+        />
+      </label>
+    <button [disabled]="formGroup.invalid" class="ml-auto btn btn-primary text-white">Train</button>
+  </div>
+
+  <select
+    formControlName="database_id"
+    class="select select-bordered w-full max-w-md"
+  >
+    <option [ngValue]="null" disabled selected>Select Database</option>
+    @for (database of databaseList(); track database.id) {
+      <option
+        [ngValue]="database.id"
+      >{{ database.name }}({{ database.host | ipAnonymization }}:{{ database.port }})
+      </option>
+    }
+  </select>
+
+  <label
+    class="input input-bordered flex items-center gap-4 w-full max-w-md"
+  >
+    Sample:
+    <input
+      formControlName="sample"
+      type="text"
+      placeholder="Sample, default 100"
+      class="grow text-right"
+    />
+    %
+  </label>
+  
+  <div class="space-y-2">
+    <h3 class="text-lg font-semibold">Table Conditions</h3>
+    <etri-train-table-condition-inputs
+      [columns]="columns()"
+      [columnValues]="tableConditions()"
+      (onChange)="changeTableConditions($event)"
+    ></etri-train-table-condition-inputs>
+  </div>
+  <div class="space-y-2">
+    <h3 class="text-lg font-semibold">Hyper Parameters</h3>
+    <etri-hyper-parameter-inputs
+      [hyperparameters]="hyperParameterList()"
+      [parameterValues]="hyperParameters()"
+      (onChange)="changeHyperParameters($event)"
+    ></etri-hyper-parameter-inputs>
+  </div>
+</form>

@@ -1,6 +1,9 @@
+import { Column } from './column';
+
 export interface Table {
   name: string;
   type: string;
+  columns: Column[];
 }
 
 export interface TablePreviewRequest {

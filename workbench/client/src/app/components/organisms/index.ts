@@ -5,3 +5,5 @@ export * from './header';
 export * from './hyper-parameter-inputs';
 export * from './navigator';
 export * from './train-model-data';
+export * from './train-table-condition-inputs';
+export * from './train-table-join-inputs';

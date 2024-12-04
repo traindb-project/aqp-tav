@@ -8,16 +8,15 @@ import { DialogHeaderDirective, LoadingComponent } from '../../../atoms';
 import { BaseDialogComponent } from '../base-dialog';
 
 @Component({
-  imports: [
-    BaseDialogComponent,
-    DialogHeaderDirective,
-    FormsModule,
-    LoadingComponent
-  ],
-  selector: 'etri-update-synopsis-dialog_',
-  standalone: true,
-  styleUrls: ['update-synopsis-dialog.component.scss'],
-  templateUrl: 'update-synopsis-dialog.component.html'
+    imports: [
+        BaseDialogComponent,
+        DialogHeaderDirective,
+        FormsModule,
+        LoadingComponent
+    ],
+    selector: 'etri-update-synopsis-dialog_',
+    styleUrls: ['update-synopsis-dialog.component.scss'],
+    templateUrl: 'update-synopsis-dialog.component.html'
 })
 export class UpdateSynopsisDialogComponent implements OnInit {
   name: string | null = null;
@@ -65,12 +64,11 @@ export class UpdateSynopsisDialogComponent implements OnInit {
 }
 
 @Component({
-  imports: [
-    UpdateSynopsisDialogComponent
-  ],
-  selector: 'etri-update-synopsis-dialog',
-  standalone: true,
-  template: `
+    imports: [
+        UpdateSynopsisDialogComponent
+    ],
+    selector: 'etri-update-synopsis-dialog',
+    template: `
     <etri-update-synopsis-dialog_
       [synopsis]="data"
       (onClose)="dialogRef.close($event)"

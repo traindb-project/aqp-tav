@@ -1,5 +1,4 @@
 import { Dialog } from '@angular/cdk/dialog';
-import { DecimalPipe, JsonPipe } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -8,26 +7,24 @@ import {
   SearchInputComponent,
   TrashIconComponent
 } from '../../../../components';
-import { FindQuery } from '../../../../dto';
-import { PatternFilterPipe } from '../../../../pipes';
+import { FindQuery, QueryType } from '../../../../dto';
+import { PatternFilterPipe, QueryTypePipe } from '../../../../pipes';
 import { QueryService, TraindbService } from '../../../../services';
 
 @Component({
-  imports: [
-    RouterLink,
-    DecimalPipe,
-    JsonPipe,
-    LoadingComponent,
-    PatternFilterPipe,
-    SearchInputComponent,
-    TrashIconComponent,
-    PencilSquareIconComponent,
-    PlayIconComponent
-  ],
-  selector: 'etri-query-list-page',
-  standalone: true,
-  styleUrls: ['query-list-page.component.scss'],
-  templateUrl: 'query-list-page.component.html'
+    imports: [
+        RouterLink,
+        LoadingComponent,
+        PatternFilterPipe,
+        SearchInputComponent,
+        TrashIconComponent,
+        PencilSquareIconComponent,
+        PlayIconComponent,
+        QueryTypePipe
+    ],
+    selector: 'etri-query-list-page',
+    styleUrls: ['query-list-page.component.scss'],
+    templateUrl: 'query-list-page.component.html'
 })
 export class QueryListPageComponent {
   readonly queryList = signal<FindQuery[]>([]);
@@ -37,6 +34,7 @@ export class QueryListPageComponent {
   private readonly traindbService = inject(TraindbService);
   private readonly queryService = inject(QueryService);
   private readonly dialog = inject(Dialog);
+  readonly QueryType = QueryType;
 
   constructor() {
     this.loadQueries();

@@ -1,0 +1,12 @@
+@for (value of values; track value.column; let i = $index) {
+  <label class="input input-bordered flex items-center gap-4 w-full">
+    {{ value.column }}
+    <input
+      type="text"
+      [ngModel]="value.value || null"
+      (ngModelChange)="changeValue(i, $event)"
+      placeholder="Input Condition"
+      class="grow"
+    />
+  </label>
+}

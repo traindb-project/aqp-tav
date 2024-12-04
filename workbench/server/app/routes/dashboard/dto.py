@@ -12,18 +12,32 @@ class BaseDashboardItemDto(BaseModel):
     type: ChartType
 
 
+class TableItemDto(BaseDashboardItemDto):
+    type: Literal[ChartType.TABLE]
+    columns: List[str] = []
+
+
 class ChartItemDto(BaseDashboardItemDto):
+    type: Literal[ChartType.BAR, ChartType.LINE, ChartType.SCATTER, ChartType.PIE]
     x_column: str
     y_column: str
-    type: Literal[ChartType.BAR, ChartType.LINE, ChartType.SCATTER, ChartType.PIE]
+    min_y: int | None = None
+    max_y: int | None = None
 
 
-class BubbleChartItemDto(ChartItemDto):
-    z_column: str
-    type: Literal[ChartType.BUBBLE]
+class MapItemDto(BaseDashboardItemDto):
+    type: Literal[ChartType.MAP]
+    x_column: str | None = None
+    y_column: str | None = None
+    geo_column: str
 
 
-DashboardItemDto = ChartItemDto | BubbleChartItemDto
+# class BubbleChartItemDto(ChartItemDto):
+#     z_column: str
+#     type: Literal[ChartType.BUBBLE]
+
+
+DashboardItemDto = TableItemDto | ChartItemDto | MapItemDto
 
 
 class DashboardDto(BaseModel):

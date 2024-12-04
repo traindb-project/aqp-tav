@@ -1,6 +1,139 @@
 {
     "pipes": [
         {
+            "name": "ColumnToAxisDataPipe",
+            "id": "pipe-ColumnToAxisDataPipe-0858c3a6377ea73d275ecc2e87d390367ef7d430b67b18f6d4f26f1e6eb1a1e067a868d971322cbc909045d9c9a5e8c9cd3ac1c855af55435f8b3a41c3f2207b",
+            "file": "src/app/pipes/column-to-axis-data.pipe.ts",
+            "type": "pipe",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "description": "",
+            "rawdescription": "\n",
+            "properties": [],
+            "methods": [
+                {
+                    "name": "transform",
+                    "args": [
+                        {
+                            "name": "column",
+                            "type": "string | null | undefined",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "value",
+                            "type": "Array<any[]>",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "columns",
+                            "type": "string[]",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "any[]",
+                    "typeParameters": [],
+                    "line": 8,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "column",
+                            "type": "string | null | undefined",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "value",
+                            "type": "Array<any[]>",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "columns",
+                            "type": "string[]",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "standalone": true,
+            "ngname": "columnToAxisData",
+            "sourceCode": "import { Pipe, PipeTransform } from '@angular/core';\n\n@Pipe({\n  name: 'columnToAxisData',\n  standalone: true,\n})\nexport class ColumnToAxisDataPipe implements PipeTransform {\n  transform(column: string | null | undefined, value: Array<any[]>, columns: string[]): any[] {\n    if (!column) return value;\n    const idx = columns.indexOf(column);\n    if (idx === -1) return [];\n    return value.map(item => item[idx]);\n  }\n}\n"
+        },
+        {
+            "name": "ColumnToIndexPipe",
+            "id": "pipe-ColumnToIndexPipe-e8260b883110b19162e4df2cd7143a8c6e4098d1229aa734f64e9a99715098ebf1c532a1da50dfee656af85fe51761c55d0858c0f17e7ea7bfc7dea8d5faa1af",
+            "file": "src/app/pipes/column-to-index.pipe.ts",
+            "type": "pipe",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "description": "",
+            "rawdescription": "\n",
+            "properties": [],
+            "methods": [
+                {
+                    "name": "transform",
+                    "args": [
+                        {
+                            "name": "column",
+                            "type": "string | null | undefined",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "columns",
+                            "type": "string[]",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "number",
+                    "typeParameters": [],
+                    "line": 8,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "column",
+                            "type": "string | null | undefined",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "columns",
+                            "type": "string[]",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "standalone": true,
+            "ngname": "columnToIndex",
+            "sourceCode": "import { Pipe, PipeTransform } from '@angular/core';\n\n@Pipe({\n  name: 'columnToIndex',\n  standalone: true,\n})\nexport class ColumnToIndexPipe implements PipeTransform {\n  transform(column: string | null| undefined, columns: string[]): number {\n    if (column === undefined) return -1;\n    if (column === null) return -1;\n    return columns.indexOf(column);\n  }\n}\n"
+        },
+        {
             "name": "IpAnonymizationPipe",
             "id": "pipe-IpAnonymizationPipe-1377cdd2c29400cce1b8f553e9c27aa81641b6275e06a4023c95c9dc5f69000e34d48f27ddb86481094b8f7c278454f50c3f60834d45ae3b79ce0f75154c2a69",
             "file": "src/app/pipes/ip-anonymization.pipe.ts",
@@ -155,12 +288,12 @@
     "interfaces": [
         {
             "name": "BaseChartItem",
-            "id": "interface-BaseChartItem-8f25510a9c96a85d17c7897e12c7e9afb808c2221826a6697b6a07c21365b603c4a5472e540b39076cc2ec4573667a1ce4ee9120e77c0c88b8f155d9ff1008ff",
+            "id": "interface-BaseChartItem-68d08ba989a8ad8ce27976d18907f33b61b69b2538a509b22ced57dede16d2aa25c5f393be7c63035d4d9d6fac2b6b5467e669db844fce3fd2e31bc15d61ce2b",
             "file": "src/app/dto/dashboard.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { FindQuery } from './query';\n\nexport enum ChartType {\n  BAR = 'bar',\n  LINE = 'line',\n  SCATTER = 'scatter',\n  PIE = 'pie',\n  BUBBLE = 'bubble'\n}\n\nexport const CHART_TYPES = Object.values(ChartType);\n\nexport interface BaseChartItem {\n  type: ChartType;\n}\n\nexport interface ChartItem extends BaseChartItem {\n  x_column: string;\n  y_column: string;\n  type: ChartType.BAR | ChartType.LINE | ChartType.SCATTER | ChartType.PIE;\n}\n\nexport interface BubbleChartItem extends BaseChartItem {\n  x_column: string;\n  y_column: string;\n  z_column: string;\n  type: ChartType.BUBBLE;\n}\n\nexport type DashboardItem = ChartItem | BubbleChartItem;\n\nexport interface Dashboard {\n  name: string;\n  traindb_id: number;\n  query_id: number;\n}\n\nexport interface CreateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport interface UpdateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport type FindDashboardItem = { id: number; dashboard_id: number } & DashboardItem;\n\nexport interface FindDashboard extends Dashboard {\n  id: number;\n  query: FindQuery;\n  items: FindDashboardItem[];\n}\n",
+            "sourceCode": "import { FindQuery } from './query';\n\nexport enum ChartType {\n  BAR = 'bar',\n  LINE = 'line',\n  SCATTER = 'scatter',\n  PIE = 'pie',\n  BUBBLE = 'bubble'\n}\n\nexport const CHART_TYPES = Object.values(ChartType);\n\nexport interface BaseChartItem {\n  type: ChartType;\n}\n\nexport interface ChartItemFields {\n  x_column: string | null;\n  y_column: string | null;\n}\n\nexport interface ChartItem extends BaseChartItem, ChartItemFields {\n  type: ChartType.BAR | ChartType.LINE | ChartType.SCATTER | ChartType.PIE;\n}\n\nexport interface BubbleChartItemFields extends ChartItemFields {\n  z_column: string | null;\n}\n\nexport interface BubbleChartItem extends BaseChartItem, BubbleChartItemFields {\n  type: ChartType.BUBBLE;\n}\n\nexport type DashboardItem = ChartItem | BubbleChartItem;\n\nexport interface Dashboard {\n  name: string;\n  traindb_id: number;\n  query_id: number;\n}\n\nexport interface CreateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport interface UpdateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport type FindDashboardItem = { id: number; dashboard_id: number } & DashboardItem;\n\nexport interface FindDashboard extends Dashboard {\n  id: number;\n  query: FindQuery;\n  items: FindDashboardItem[];\n}\n",
             "properties": [
                 {
                     "name": "type",
@@ -179,12 +312,12 @@
         },
         {
             "name": "BubbleChartItem",
-            "id": "interface-BubbleChartItem-8f25510a9c96a85d17c7897e12c7e9afb808c2221826a6697b6a07c21365b603c4a5472e540b39076cc2ec4573667a1ce4ee9120e77c0c88b8f155d9ff1008ff",
+            "id": "interface-BubbleChartItem-68d08ba989a8ad8ce27976d18907f33b61b69b2538a509b22ced57dede16d2aa25c5f393be7c63035d4d9d6fac2b6b5467e669db844fce3fd2e31bc15d61ce2b",
             "file": "src/app/dto/dashboard.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { FindQuery } from './query';\n\nexport enum ChartType {\n  BAR = 'bar',\n  LINE = 'line',\n  SCATTER = 'scatter',\n  PIE = 'pie',\n  BUBBLE = 'bubble'\n}\n\nexport const CHART_TYPES = Object.values(ChartType);\n\nexport interface BaseChartItem {\n  type: ChartType;\n}\n\nexport interface ChartItem extends BaseChartItem {\n  x_column: string;\n  y_column: string;\n  type: ChartType.BAR | ChartType.LINE | ChartType.SCATTER | ChartType.PIE;\n}\n\nexport interface BubbleChartItem extends BaseChartItem {\n  x_column: string;\n  y_column: string;\n  z_column: string;\n  type: ChartType.BUBBLE;\n}\n\nexport type DashboardItem = ChartItem | BubbleChartItem;\n\nexport interface Dashboard {\n  name: string;\n  traindb_id: number;\n  query_id: number;\n}\n\nexport interface CreateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport interface UpdateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport type FindDashboardItem = { id: number; dashboard_id: number } & DashboardItem;\n\nexport interface FindDashboard extends Dashboard {\n  id: number;\n  query: FindQuery;\n  items: FindDashboardItem[];\n}\n",
+            "sourceCode": "import { FindQuery } from './query';\n\nexport enum ChartType {\n  BAR = 'bar',\n  LINE = 'line',\n  SCATTER = 'scatter',\n  PIE = 'pie',\n  BUBBLE = 'bubble'\n}\n\nexport const CHART_TYPES = Object.values(ChartType);\n\nexport interface BaseChartItem {\n  type: ChartType;\n}\n\nexport interface ChartItemFields {\n  x_column: string | null;\n  y_column: string | null;\n}\n\nexport interface ChartItem extends BaseChartItem, ChartItemFields {\n  type: ChartType.BAR | ChartType.LINE | ChartType.SCATTER | ChartType.PIE;\n}\n\nexport interface BubbleChartItemFields extends ChartItemFields {\n  z_column: string | null;\n}\n\nexport interface BubbleChartItem extends BaseChartItem, BubbleChartItemFields {\n  type: ChartType.BUBBLE;\n}\n\nexport type DashboardItem = ChartItem | BubbleChartItem;\n\nexport interface Dashboard {\n  name: string;\n  traindb_id: number;\n  query_id: number;\n}\n\nexport interface CreateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport interface UpdateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport type FindDashboardItem = { id: number; dashboard_id: number } & DashboardItem;\n\nexport interface FindDashboard extends Dashboard {\n  id: number;\n  query: FindQuery;\n  items: FindDashboardItem[];\n}\n",
             "properties": [
                 {
                     "name": "type",
@@ -193,51 +326,51 @@
                     "type": "ChartType.BUBBLE",
                     "optional": false,
                     "description": "",
-                    "line": 27
-                },
-                {
-                    "name": "x_column",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "string",
-                    "optional": false,
-                    "description": "",
-                    "line": 24
-                },
-                {
-                    "name": "y_column",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "string",
-                    "optional": false,
-                    "description": "",
-                    "line": 25
-                },
-                {
-                    "name": "z_column",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "string",
-                    "optional": false,
-                    "description": "",
-                    "line": 26
+                    "line": 31
                 }
             ],
             "indexSignatures": [],
             "kind": 171,
             "methods": [],
             "extends": [
-                "BaseChartItem"
+                "BaseChartItem",
+                "BubbleChartItemFields"
             ]
         },
         {
-            "name": "ChartItem",
-            "id": "interface-ChartItem-8f25510a9c96a85d17c7897e12c7e9afb808c2221826a6697b6a07c21365b603c4a5472e540b39076cc2ec4573667a1ce4ee9120e77c0c88b8f155d9ff1008ff",
+            "name": "BubbleChartItemFields",
+            "id": "interface-BubbleChartItemFields-68d08ba989a8ad8ce27976d18907f33b61b69b2538a509b22ced57dede16d2aa25c5f393be7c63035d4d9d6fac2b6b5467e669db844fce3fd2e31bc15d61ce2b",
             "file": "src/app/dto/dashboard.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { FindQuery } from './query';\n\nexport enum ChartType {\n  BAR = 'bar',\n  LINE = 'line',\n  SCATTER = 'scatter',\n  PIE = 'pie',\n  BUBBLE = 'bubble'\n}\n\nexport const CHART_TYPES = Object.values(ChartType);\n\nexport interface BaseChartItem {\n  type: ChartType;\n}\n\nexport interface ChartItem extends BaseChartItem {\n  x_column: string;\n  y_column: string;\n  type: ChartType.BAR | ChartType.LINE | ChartType.SCATTER | ChartType.PIE;\n}\n\nexport interface BubbleChartItem extends BaseChartItem {\n  x_column: string;\n  y_column: string;\n  z_column: string;\n  type: ChartType.BUBBLE;\n}\n\nexport type DashboardItem = ChartItem | BubbleChartItem;\n\nexport interface Dashboard {\n  name: string;\n  traindb_id: number;\n  query_id: number;\n}\n\nexport interface CreateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport interface UpdateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport type FindDashboardItem = { id: number; dashboard_id: number } & DashboardItem;\n\nexport interface FindDashboard extends Dashboard {\n  id: number;\n  query: FindQuery;\n  items: FindDashboardItem[];\n}\n",
+            "sourceCode": "import { FindQuery } from './query';\n\nexport enum ChartType {\n  BAR = 'bar',\n  LINE = 'line',\n  SCATTER = 'scatter',\n  PIE = 'pie',\n  BUBBLE = 'bubble'\n}\n\nexport const CHART_TYPES = Object.values(ChartType);\n\nexport interface BaseChartItem {\n  type: ChartType;\n}\n\nexport interface ChartItemFields {\n  x_column: string | null;\n  y_column: string | null;\n}\n\nexport interface ChartItem extends BaseChartItem, ChartItemFields {\n  type: ChartType.BAR | ChartType.LINE | ChartType.SCATTER | ChartType.PIE;\n}\n\nexport interface BubbleChartItemFields extends ChartItemFields {\n  z_column: string | null;\n}\n\nexport interface BubbleChartItem extends BaseChartItem, BubbleChartItemFields {\n  type: ChartType.BUBBLE;\n}\n\nexport type DashboardItem = ChartItem | BubbleChartItem;\n\nexport interface Dashboard {\n  name: string;\n  traindb_id: number;\n  query_id: number;\n}\n\nexport interface CreateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport interface UpdateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport type FindDashboardItem = { id: number; dashboard_id: number } & DashboardItem;\n\nexport interface FindDashboard extends Dashboard {\n  id: number;\n  query: FindQuery;\n  items: FindDashboardItem[];\n}\n",
+            "properties": [
+                {
+                    "name": "z_column",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string | null",
+                    "optional": false,
+                    "description": "",
+                    "line": 27
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 171,
+            "methods": [],
+            "extends": [
+                "ChartItemFields"
+            ]
+        },
+        {
+            "name": "ChartItem",
+            "id": "interface-ChartItem-68d08ba989a8ad8ce27976d18907f33b61b69b2538a509b22ced57dede16d2aa25c5f393be7c63035d4d9d6fac2b6b5467e669db844fce3fd2e31bc15d61ce2b",
+            "file": "src/app/dto/dashboard.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import { FindQuery } from './query';\n\nexport enum ChartType {\n  BAR = 'bar',\n  LINE = 'line',\n  SCATTER = 'scatter',\n  PIE = 'pie',\n  BUBBLE = 'bubble'\n}\n\nexport const CHART_TYPES = Object.values(ChartType);\n\nexport interface BaseChartItem {\n  type: ChartType;\n}\n\nexport interface ChartItemFields {\n  x_column: string | null;\n  y_column: string | null;\n}\n\nexport interface ChartItem extends BaseChartItem, ChartItemFields {\n  type: ChartType.BAR | ChartType.LINE | ChartType.SCATTER | ChartType.PIE;\n}\n\nexport interface BubbleChartItemFields extends ChartItemFields {\n  z_column: string | null;\n}\n\nexport interface BubbleChartItem extends BaseChartItem, BubbleChartItemFields {\n  type: ChartType.BUBBLE;\n}\n\nexport type DashboardItem = ChartItem | BubbleChartItem;\n\nexport interface Dashboard {\n  name: string;\n  traindb_id: number;\n  query_id: number;\n}\n\nexport interface CreateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport interface UpdateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport type FindDashboardItem = { id: number; dashboard_id: number } & DashboardItem;\n\nexport interface FindDashboard extends Dashboard {\n  id: number;\n  query: FindQuery;\n  items: FindDashboardItem[];\n}\n",
             "properties": [
                 {
                     "name": "type",
@@ -246,13 +379,31 @@
                     "type": "ChartType.BAR | ChartType.LINE | ChartType.SCATTER | ChartType.PIE",
                     "optional": false,
                     "description": "",
-                    "line": 20
-                },
+                    "line": 23
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 171,
+            "methods": [],
+            "extends": [
+                "BaseChartItem",
+                "ChartItemFields"
+            ]
+        },
+        {
+            "name": "ChartItemFields",
+            "id": "interface-ChartItemFields-68d08ba989a8ad8ce27976d18907f33b61b69b2538a509b22ced57dede16d2aa25c5f393be7c63035d4d9d6fac2b6b5467e669db844fce3fd2e31bc15d61ce2b",
+            "file": "src/app/dto/dashboard.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import { FindQuery } from './query';\n\nexport enum ChartType {\n  BAR = 'bar',\n  LINE = 'line',\n  SCATTER = 'scatter',\n  PIE = 'pie',\n  BUBBLE = 'bubble'\n}\n\nexport const CHART_TYPES = Object.values(ChartType);\n\nexport interface BaseChartItem {\n  type: ChartType;\n}\n\nexport interface ChartItemFields {\n  x_column: string | null;\n  y_column: string | null;\n}\n\nexport interface ChartItem extends BaseChartItem, ChartItemFields {\n  type: ChartType.BAR | ChartType.LINE | ChartType.SCATTER | ChartType.PIE;\n}\n\nexport interface BubbleChartItemFields extends ChartItemFields {\n  z_column: string | null;\n}\n\nexport interface BubbleChartItem extends BaseChartItem, BubbleChartItemFields {\n  type: ChartType.BUBBLE;\n}\n\nexport type DashboardItem = ChartItem | BubbleChartItem;\n\nexport interface Dashboard {\n  name: string;\n  traindb_id: number;\n  query_id: number;\n}\n\nexport interface CreateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport interface UpdateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport type FindDashboardItem = { id: number; dashboard_id: number } & DashboardItem;\n\nexport interface FindDashboard extends Dashboard {\n  id: number;\n  query: FindQuery;\n  items: FindDashboardItem[];\n}\n",
+            "properties": [
                 {
                     "name": "x_column",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "string",
+                    "type": "string | null",
                     "optional": false,
                     "description": "",
                     "line": 18
@@ -261,7 +412,7 @@
                     "name": "y_column",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "string",
+                    "type": "string | null",
                     "optional": false,
                     "description": "",
                     "line": 19
@@ -270,9 +421,7 @@
             "indexSignatures": [],
             "kind": 171,
             "methods": [],
-            "extends": [
-                "BaseChartItem"
-            ]
+            "extends": []
         },
         {
             "name": "Column",
@@ -309,12 +458,12 @@
         },
         {
             "name": "CreateDashboard",
-            "id": "interface-CreateDashboard-8f25510a9c96a85d17c7897e12c7e9afb808c2221826a6697b6a07c21365b603c4a5472e540b39076cc2ec4573667a1ce4ee9120e77c0c88b8f155d9ff1008ff",
+            "id": "interface-CreateDashboard-68d08ba989a8ad8ce27976d18907f33b61b69b2538a509b22ced57dede16d2aa25c5f393be7c63035d4d9d6fac2b6b5467e669db844fce3fd2e31bc15d61ce2b",
             "file": "src/app/dto/dashboard.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { FindQuery } from './query';\n\nexport enum ChartType {\n  BAR = 'bar',\n  LINE = 'line',\n  SCATTER = 'scatter',\n  PIE = 'pie',\n  BUBBLE = 'bubble'\n}\n\nexport const CHART_TYPES = Object.values(ChartType);\n\nexport interface BaseChartItem {\n  type: ChartType;\n}\n\nexport interface ChartItem extends BaseChartItem {\n  x_column: string;\n  y_column: string;\n  type: ChartType.BAR | ChartType.LINE | ChartType.SCATTER | ChartType.PIE;\n}\n\nexport interface BubbleChartItem extends BaseChartItem {\n  x_column: string;\n  y_column: string;\n  z_column: string;\n  type: ChartType.BUBBLE;\n}\n\nexport type DashboardItem = ChartItem | BubbleChartItem;\n\nexport interface Dashboard {\n  name: string;\n  traindb_id: number;\n  query_id: number;\n}\n\nexport interface CreateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport interface UpdateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport type FindDashboardItem = { id: number; dashboard_id: number } & DashboardItem;\n\nexport interface FindDashboard extends Dashboard {\n  id: number;\n  query: FindQuery;\n  items: FindDashboardItem[];\n}\n",
+            "sourceCode": "import { FindQuery } from './query';\n\nexport enum ChartType {\n  BAR = 'bar',\n  LINE = 'line',\n  SCATTER = 'scatter',\n  PIE = 'pie',\n  BUBBLE = 'bubble'\n}\n\nexport const CHART_TYPES = Object.values(ChartType);\n\nexport interface BaseChartItem {\n  type: ChartType;\n}\n\nexport interface ChartItemFields {\n  x_column: string | null;\n  y_column: string | null;\n}\n\nexport interface ChartItem extends BaseChartItem, ChartItemFields {\n  type: ChartType.BAR | ChartType.LINE | ChartType.SCATTER | ChartType.PIE;\n}\n\nexport interface BubbleChartItemFields extends ChartItemFields {\n  z_column: string | null;\n}\n\nexport interface BubbleChartItem extends BaseChartItem, BubbleChartItemFields {\n  type: ChartType.BUBBLE;\n}\n\nexport type DashboardItem = ChartItem | BubbleChartItem;\n\nexport interface Dashboard {\n  name: string;\n  traindb_id: number;\n  query_id: number;\n}\n\nexport interface CreateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport interface UpdateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport type FindDashboardItem = { id: number; dashboard_id: number } & DashboardItem;\n\nexport interface FindDashboard extends Dashboard {\n  id: number;\n  query: FindQuery;\n  items: FindDashboardItem[];\n}\n",
             "properties": [
                 {
                     "name": "items",
@@ -323,7 +472,7 @@
                     "type": "DashboardItem[]",
                     "optional": false,
                     "description": "",
-                    "line": 39
+                    "line": 43
                 }
             ],
             "indexSignatures": [],
@@ -477,12 +626,12 @@
         },
         {
             "name": "Dashboard",
-            "id": "interface-Dashboard-8f25510a9c96a85d17c7897e12c7e9afb808c2221826a6697b6a07c21365b603c4a5472e540b39076cc2ec4573667a1ce4ee9120e77c0c88b8f155d9ff1008ff",
+            "id": "interface-Dashboard-68d08ba989a8ad8ce27976d18907f33b61b69b2538a509b22ced57dede16d2aa25c5f393be7c63035d4d9d6fac2b6b5467e669db844fce3fd2e31bc15d61ce2b",
             "file": "src/app/dto/dashboard.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { FindQuery } from './query';\n\nexport enum ChartType {\n  BAR = 'bar',\n  LINE = 'line',\n  SCATTER = 'scatter',\n  PIE = 'pie',\n  BUBBLE = 'bubble'\n}\n\nexport const CHART_TYPES = Object.values(ChartType);\n\nexport interface BaseChartItem {\n  type: ChartType;\n}\n\nexport interface ChartItem extends BaseChartItem {\n  x_column: string;\n  y_column: string;\n  type: ChartType.BAR | ChartType.LINE | ChartType.SCATTER | ChartType.PIE;\n}\n\nexport interface BubbleChartItem extends BaseChartItem {\n  x_column: string;\n  y_column: string;\n  z_column: string;\n  type: ChartType.BUBBLE;\n}\n\nexport type DashboardItem = ChartItem | BubbleChartItem;\n\nexport interface Dashboard {\n  name: string;\n  traindb_id: number;\n  query_id: number;\n}\n\nexport interface CreateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport interface UpdateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport type FindDashboardItem = { id: number; dashboard_id: number } & DashboardItem;\n\nexport interface FindDashboard extends Dashboard {\n  id: number;\n  query: FindQuery;\n  items: FindDashboardItem[];\n}\n",
+            "sourceCode": "import { FindQuery } from './query';\n\nexport enum ChartType {\n  BAR = 'bar',\n  LINE = 'line',\n  SCATTER = 'scatter',\n  PIE = 'pie',\n  BUBBLE = 'bubble'\n}\n\nexport const CHART_TYPES = Object.values(ChartType);\n\nexport interface BaseChartItem {\n  type: ChartType;\n}\n\nexport interface ChartItemFields {\n  x_column: string | null;\n  y_column: string | null;\n}\n\nexport interface ChartItem extends BaseChartItem, ChartItemFields {\n  type: ChartType.BAR | ChartType.LINE | ChartType.SCATTER | ChartType.PIE;\n}\n\nexport interface BubbleChartItemFields extends ChartItemFields {\n  z_column: string | null;\n}\n\nexport interface BubbleChartItem extends BaseChartItem, BubbleChartItemFields {\n  type: ChartType.BUBBLE;\n}\n\nexport type DashboardItem = ChartItem | BubbleChartItem;\n\nexport interface Dashboard {\n  name: string;\n  traindb_id: number;\n  query_id: number;\n}\n\nexport interface CreateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport interface UpdateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport type FindDashboardItem = { id: number; dashboard_id: number } & DashboardItem;\n\nexport interface FindDashboard extends Dashboard {\n  id: number;\n  query: FindQuery;\n  items: FindDashboardItem[];\n}\n",
             "properties": [
                 {
                     "name": "name",
@@ -491,7 +640,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 33
+                    "line": 37
                 },
                 {
                     "name": "query_id",
@@ -500,7 +649,7 @@
                     "type": "number",
                     "optional": false,
                     "description": "",
-                    "line": 35
+                    "line": 39
                 },
                 {
                     "name": "traindb_id",
@@ -509,7 +658,7 @@
                     "type": "number",
                     "optional": false,
                     "description": "",
-                    "line": 34
+                    "line": 38
                 }
             ],
             "indexSignatures": [],
@@ -579,12 +728,12 @@
         },
         {
             "name": "FindDashboard",
-            "id": "interface-FindDashboard-8f25510a9c96a85d17c7897e12c7e9afb808c2221826a6697b6a07c21365b603c4a5472e540b39076cc2ec4573667a1ce4ee9120e77c0c88b8f155d9ff1008ff",
+            "id": "interface-FindDashboard-68d08ba989a8ad8ce27976d18907f33b61b69b2538a509b22ced57dede16d2aa25c5f393be7c63035d4d9d6fac2b6b5467e669db844fce3fd2e31bc15d61ce2b",
             "file": "src/app/dto/dashboard.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { FindQuery } from './query';\n\nexport enum ChartType {\n  BAR = 'bar',\n  LINE = 'line',\n  SCATTER = 'scatter',\n  PIE = 'pie',\n  BUBBLE = 'bubble'\n}\n\nexport const CHART_TYPES = Object.values(ChartType);\n\nexport interface BaseChartItem {\n  type: ChartType;\n}\n\nexport interface ChartItem extends BaseChartItem {\n  x_column: string;\n  y_column: string;\n  type: ChartType.BAR | ChartType.LINE | ChartType.SCATTER | ChartType.PIE;\n}\n\nexport interface BubbleChartItem extends BaseChartItem {\n  x_column: string;\n  y_column: string;\n  z_column: string;\n  type: ChartType.BUBBLE;\n}\n\nexport type DashboardItem = ChartItem | BubbleChartItem;\n\nexport interface Dashboard {\n  name: string;\n  traindb_id: number;\n  query_id: number;\n}\n\nexport interface CreateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport interface UpdateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport type FindDashboardItem = { id: number; dashboard_id: number } & DashboardItem;\n\nexport interface FindDashboard extends Dashboard {\n  id: number;\n  query: FindQuery;\n  items: FindDashboardItem[];\n}\n",
+            "sourceCode": "import { FindQuery } from './query';\n\nexport enum ChartType {\n  BAR = 'bar',\n  LINE = 'line',\n  SCATTER = 'scatter',\n  PIE = 'pie',\n  BUBBLE = 'bubble'\n}\n\nexport const CHART_TYPES = Object.values(ChartType);\n\nexport interface BaseChartItem {\n  type: ChartType;\n}\n\nexport interface ChartItemFields {\n  x_column: string | null;\n  y_column: string | null;\n}\n\nexport interface ChartItem extends BaseChartItem, ChartItemFields {\n  type: ChartType.BAR | ChartType.LINE | ChartType.SCATTER | ChartType.PIE;\n}\n\nexport interface BubbleChartItemFields extends ChartItemFields {\n  z_column: string | null;\n}\n\nexport interface BubbleChartItem extends BaseChartItem, BubbleChartItemFields {\n  type: ChartType.BUBBLE;\n}\n\nexport type DashboardItem = ChartItem | BubbleChartItem;\n\nexport interface Dashboard {\n  name: string;\n  traindb_id: number;\n  query_id: number;\n}\n\nexport interface CreateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport interface UpdateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport type FindDashboardItem = { id: number; dashboard_id: number } & DashboardItem;\n\nexport interface FindDashboard extends Dashboard {\n  id: number;\n  query: FindQuery;\n  items: FindDashboardItem[];\n}\n",
             "properties": [
                 {
                     "name": "id",
@@ -593,7 +742,7 @@
                     "type": "number",
                     "optional": false,
                     "description": "",
-                    "line": 49
+                    "line": 53
                 },
                 {
                     "name": "items",
@@ -602,7 +751,7 @@
                     "type": "FindDashboardItem[]",
                     "optional": false,
                     "description": "",
-                    "line": 51
+                    "line": 55
                 },
                 {
                     "name": "query",
@@ -611,7 +760,7 @@
                     "type": "FindQuery",
                     "optional": false,
                     "description": "",
-                    "line": 50
+                    "line": 54
                 }
             ],
             "indexSignatures": [],
@@ -1711,12 +1860,12 @@
         },
         {
             "name": "UpdateDashboard",
-            "id": "interface-UpdateDashboard-8f25510a9c96a85d17c7897e12c7e9afb808c2221826a6697b6a07c21365b603c4a5472e540b39076cc2ec4573667a1ce4ee9120e77c0c88b8f155d9ff1008ff",
+            "id": "interface-UpdateDashboard-68d08ba989a8ad8ce27976d18907f33b61b69b2538a509b22ced57dede16d2aa25c5f393be7c63035d4d9d6fac2b6b5467e669db844fce3fd2e31bc15d61ce2b",
             "file": "src/app/dto/dashboard.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { FindQuery } from './query';\n\nexport enum ChartType {\n  BAR = 'bar',\n  LINE = 'line',\n  SCATTER = 'scatter',\n  PIE = 'pie',\n  BUBBLE = 'bubble'\n}\n\nexport const CHART_TYPES = Object.values(ChartType);\n\nexport interface BaseChartItem {\n  type: ChartType;\n}\n\nexport interface ChartItem extends BaseChartItem {\n  x_column: string;\n  y_column: string;\n  type: ChartType.BAR | ChartType.LINE | ChartType.SCATTER | ChartType.PIE;\n}\n\nexport interface BubbleChartItem extends BaseChartItem {\n  x_column: string;\n  y_column: string;\n  z_column: string;\n  type: ChartType.BUBBLE;\n}\n\nexport type DashboardItem = ChartItem | BubbleChartItem;\n\nexport interface Dashboard {\n  name: string;\n  traindb_id: number;\n  query_id: number;\n}\n\nexport interface CreateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport interface UpdateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport type FindDashboardItem = { id: number; dashboard_id: number } & DashboardItem;\n\nexport interface FindDashboard extends Dashboard {\n  id: number;\n  query: FindQuery;\n  items: FindDashboardItem[];\n}\n",
+            "sourceCode": "import { FindQuery } from './query';\n\nexport enum ChartType {\n  BAR = 'bar',\n  LINE = 'line',\n  SCATTER = 'scatter',\n  PIE = 'pie',\n  BUBBLE = 'bubble'\n}\n\nexport const CHART_TYPES = Object.values(ChartType);\n\nexport interface BaseChartItem {\n  type: ChartType;\n}\n\nexport interface ChartItemFields {\n  x_column: string | null;\n  y_column: string | null;\n}\n\nexport interface ChartItem extends BaseChartItem, ChartItemFields {\n  type: ChartType.BAR | ChartType.LINE | ChartType.SCATTER | ChartType.PIE;\n}\n\nexport interface BubbleChartItemFields extends ChartItemFields {\n  z_column: string | null;\n}\n\nexport interface BubbleChartItem extends BaseChartItem, BubbleChartItemFields {\n  type: ChartType.BUBBLE;\n}\n\nexport type DashboardItem = ChartItem | BubbleChartItem;\n\nexport interface Dashboard {\n  name: string;\n  traindb_id: number;\n  query_id: number;\n}\n\nexport interface CreateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport interface UpdateDashboard extends Dashboard {\n  items: DashboardItem[];\n}\n\nexport type FindDashboardItem = { id: number; dashboard_id: number } & DashboardItem;\n\nexport interface FindDashboard extends Dashboard {\n  id: number;\n  query: FindQuery;\n  items: FindDashboardItem[];\n}\n",
             "properties": [
                 {
                     "name": "items",
@@ -1725,7 +1874,7 @@
                     "type": "DashboardItem[]",
                     "optional": false,
                     "description": "",
-                    "line": 43
+                    "line": 47
                 }
             ],
             "indexSignatures": [],
@@ -4189,7 +4338,7 @@
         },
         {
             "name": "BarChartComponent",
-            "id": "component-BarChartComponent-e7b7656390af4abc27b491b2a27604402031179a8ab554362f5a79d15379bb35aba721bb149d4d2827976fbea8237cb55fc8e3e8b588dfaf7fa694efd644e759",
+            "id": "component-BarChartComponent-8515b51f5ea4c15636687b9f4666aedd9ee687d88c34fd06a414848772cef7a013c0691e5bc7d203881b7af57469ac38032a11110b4322be23cfeabe1ed13d86",
             "file": "src/app/components/organisms/charts/bar-chart/bar-chart.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -4208,11 +4357,11 @@
             "hostDirectives": [],
             "inputsClass": [
                 {
-                    "name": "minHeight",
+                    "name": "height",
                     "defaultValue": "'500px'",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 26,
+                    "line": 33,
                     "type": "string",
                     "decorators": []
                 }
@@ -4227,7 +4376,10 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 25
+                    "line": 25,
+                    "modifierKind": [
+                        148
+                    ]
                 },
                 {
                     "name": "MAX",
@@ -4237,7 +4389,7 @@
                     "type": "number",
                     "optional": false,
                     "description": "",
-                    "line": 28,
+                    "line": 47,
                     "modifierKind": [
                         123,
                         148
@@ -4251,7 +4403,7 @@
                     "type": "number",
                     "optional": false,
                     "description": "",
-                    "line": 29,
+                    "line": 48,
                     "modifierKind": [
                         123,
                         148
@@ -4264,7 +4416,7 @@
                     "type": "d3.Selection<SVGSVGElement |  |  | undefined>",
                     "optional": false,
                     "description": "",
-                    "line": 30,
+                    "line": 49,
                     "modifierKind": [
                         123
                     ]
@@ -4277,7 +4429,10 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 24
+                    "line": 24,
+                    "modifierKind": [
+                        148
+                    ]
                 },
                 {
                     "name": "tooltip",
@@ -4286,7 +4441,7 @@
                     "type": "d3.Selection<HTMLDivElement |  |  | undefined>",
                     "optional": false,
                     "description": "",
-                    "line": 31,
+                    "line": 50,
                     "modifierKind": [
                         123
                     ]
@@ -4299,7 +4454,23 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 20
+                    "line": 20,
+                    "modifierKind": [
+                        148
+                    ]
+                },
+                {
+                    "name": "X",
+                    "defaultValue": "computed(() => {\n    const x = this.x();\n    return x.map((v, i) => {\n      const count = x.slice(0, i).filter(val => val === v).length;\n      return count > 0 ? `${v}_${count}` : String(v);\n    });\n  })",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 26,
+                    "modifierKind": [
+                        148
+                    ]
                 },
                 {
                     "name": "xAxisLabel",
@@ -4309,7 +4480,10 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 22
+                    "line": 22,
+                    "modifierKind": [
+                        148
+                    ]
                 },
                 {
                     "name": "y",
@@ -4319,7 +4493,10 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 21
+                    "line": 21,
+                    "modifierKind": [
+                        148
+                    ]
                 },
                 {
                     "name": "yAxisLabel",
@@ -4329,7 +4506,10 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 23
+                    "line": 23,
+                    "modifierKind": [
+                        148
+                    ]
                 }
             ],
             "methodsClass": [
@@ -4339,7 +4519,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 41,
+                    "line": 60,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -4352,7 +4532,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 37,
+                    "line": 56,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -4362,7 +4542,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 33,
+                    "line": 52,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "decorators": [
@@ -4381,7 +4561,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 63,
+                    "line": 82,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -4399,7 +4579,7 @@
                     "argsDecorator": [],
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 33
+                    "line": 52
                 }
             ],
             "standalone": true,
@@ -4407,7 +4587,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {\n  AfterViewInit,\n  Component,\n  ElementRef,\n  HostBinding,\n  HostListener,\n  Input,\n  input,\n  viewChild\n} from '@angular/core';\nimport * as d3 from 'd3';\n\n@Component({\n  selector: 'etri-bar-chart',\n  standalone: true,\n  styleUrls: ['bar-chart.component.scss'],\n  templateUrl: 'bar-chart.component.html',\n})\nexport class BarChartComponent implements AfterViewInit {\n  x = input<(string | number)[]>([]);\n  y = input<number[]>([]);\n  xAxisLabel = input<string | null>(null);\n  yAxisLabel = input<string | null>(null);\n  title = input<string | null>(null);\n  chartRef = viewChild<ElementRef<HTMLDivElement>>('chartRef');\n  @HostBinding('style.height') @Input() minHeight = '500px';\n\n  private readonly MAX = 10;\n  private readonly MIN = 0;\n  private svg!: d3.Selection<SVGSVGElement, unknown, null, undefined>;\n  private tooltip!: d3.Selection<HTMLDivElement, unknown, null, undefined>;\n\n  @HostListener('window:resize') onResize() {\n    this.updateChart();\n  }\n\n  ngAfterViewInit() {\n    this.createChart();\n  }\n\n  private createChart() {\n    const element = this.chartRef()!.nativeElement;\n    this.svg = d3.select(element).append('svg');\n    this.tooltip = d3.select(element)\n      .append('div')\n      .style('position', 'absolute')\n      .style('display', 'flex')\n      .style('align-items', 'center')\n      .style('justify-content', 'center')\n      .style('text-align', 'center')\n      .style('width', 'fit-content')\n      .style('height', 'fit-content')\n      .style('padding', '0.5rem')\n      .style('border-radius', '0.5rem')\n      .style('color', 'white')\n      .style('background-color', 'rgba(0, 0, 0, 0.8)')\n      .style('box-shadow', '2px 2px 2px rgba(0, 0, 0. 0.5)')\n      .style('pointer-events', 'none')\n      .style('opacity', 0);\n    this.updateChart();\n  }\n\n  private updateChart() {\n    const element = this.chartRef()!.nativeElement;\n    const width = element.offsetWidth;\n    const height = element.offsetHeight;\n    const margin = { top: 60, right: 20, bottom: 70, left: 90 };\n\n    this.svg\n      .attr('width', width)\n      .attr('height', height);\n\n    const x = d3.scaleBand()\n      .domain(this.x().map(String))\n      .range([margin.left, width - margin.right])\n      .padding(0.1);\n\n    const y = d3.scaleLinear()\n      .domain([d3.min(this.y()) ?? this.MIN, d3.max(this.y()) ?? this.MAX])\n      .nice()\n      .range([height - margin.bottom, margin.top]);\n\n    const xAxis = (g: any) => g\n      .attr('transform', `translate(0,${height - margin.bottom})`)\n      .call(d3.axisBottom(x).tickSizeOuter(0));\n\n    const yAxis = (g: any) => g\n      .attr('transform', `translate(${margin.left},0)`)\n      .call(d3.axisLeft(y));\n\n    const xGrid = (g: any) => g\n      .attr('transform', `translate(0,${height - margin.bottom})`)\n      .call(d3.axisBottom(x)\n        .tickSize(-height + margin.top + margin.bottom)\n        .tickFormat('' as any)\n      )\n      .call((g: any) => g.selectAll('.tick line')\n        .attr('stroke', 'lightgrey')\n        .attr('stroke-opacity', 0.7))\n      .call((g: any) => g.select('.domain').remove());\n\n    const yGrid = (g: any) => g\n      .attr('transform', `translate(${margin.left},0)`)\n      .call(d3.axisLeft(y)\n        .tickSize(-width + margin.left + margin.right)\n        .tickFormat('' as any)\n      )\n      .call((g: any) => g.selectAll('.tick line')\n        .attr('stroke', 'lightgrey')\n        .attr('stroke-opacity', 0.7))\n      .call((g: any) => g.select('.domain').remove());\n\n    this.svg.selectAll('*').remove();\n\n    // 그리드를 먼저 그립니다.\n    this.svg.append('g').call(xGrid);\n    this.svg.append('g').call(yGrid);\n\n    // 컬러 스케일 정의\n    const positiveColor = d3.scaleSequential(d3.interpolateBlues)\n      .domain([0, (d3.max(this.y().filter(d => d > 0)) ?? this.MAX) * 0.5]); // 양수 값 더 진하게\n\n    const negativeColor = d3.scaleSequential(d3.interpolateReds)\n      .domain([0, (d3.min(this.y().filter(d => d < 0)) ?? this.MIN) * 0.5]); // 음수 값 더 진하게\n\n    // 막대를 나중에 그립니다.\n    this.svg.append('g')\n      .selectAll('rect')\n      .data(this.y)\n      .join('rect')\n      .attr('x', (d, i) => x(String(this.x()[i]))!)\n      .attr('y', y(0))\n      .attr('height', 0)\n      .attr('width', x.bandwidth())\n      .attr('fill', d => d > 0 ? positiveColor(d) : negativeColor(d))\n      .transition()\n      .duration(800)\n      .attr('y', d => y(Math.max(0, d)))\n      .attr('height', d => Math.abs(y(d) - y(0)));\n\n    this.svg.append('g').call(xAxis);\n\n    if (this.xAxisLabel()) {\n      this.svg.append('text')\n        .attr('class', 'x label')\n        .attr('text-anchor', 'middle')\n        .attr('x', width / 2)\n        .attr('y', height - margin.bottom + 40) // x축 레이블 위치 조정\n        .text(this.xAxisLabel());\n    }\n\n    this.svg.append('g').call(yAxis);\n\n    if (this.yAxisLabel()) {\n      this.svg.append('text')\n        .attr('class', 'y label')\n        .attr('text-anchor', 'middle')\n        .attr('transform', 'rotate(-90)')\n        .attr('x', -height / 2)\n        .attr('y', margin.left - 60) // y축 레이블 위치 조정\n        .text(this.yAxisLabel());\n    }\n\n    if (this.title()) {\n      this.svg.append('text')\n        .attr('x', width / 2)\n        .attr('y', margin.top / 2)\n        .attr('text-anchor', 'middle')\n        .attr('class', 'chart-title')\n        .text(this.title());\n    }\n\n    this.svg.selectAll('rect')\n      .on('mouseover', (event, d: any) => {\n        this.tooltip.transition()\n          .duration(200)\n          .style('opacity', .9);\n        this.tooltip.html(`x: ${this.x()[this.y().indexOf(d)]}<br/>y: ${d}`)\n          .style('left', (event.pageX + 5) + 'px')\n          .style('top', (event.pageY - 5) + 'px'); // 툴팁 위치를 조정\n      })\n      .on('mouseout', () => {\n        this.tooltip.transition()\n          .duration(500)\n          .style('opacity', 0);\n      });\n  }\n}\n",
+            "sourceCode": "import {\n  AfterViewInit,\n  Component, computed, effect,\n  ElementRef,\n  HostBinding,\n  HostListener,\n  Input,\n  input,\n  viewChild\n} from '@angular/core';\nimport * as d3 from 'd3';\n\n@Component({\n  selector: 'etri-bar-chart',\n  standalone: true,\n  styleUrls: ['bar-chart.component.scss'],\n  templateUrl: 'bar-chart.component.html',\n})\nexport class BarChartComponent implements AfterViewInit {\n  readonly x = input<(string | number)[]>([]);\n  readonly y = input<number[]>([]);\n  readonly xAxisLabel = input<string | null>(null);\n  readonly yAxisLabel = input<string | null>(null);\n  readonly title = input<string | null>(null);\n  readonly chartRef = viewChild<ElementRef<HTMLDivElement>>('chartRef');\n  readonly X = computed(() => {\n    const x = this.x();\n    return x.map((v, i) => {\n      const count = x.slice(0, i).filter(val => val === v).length;\n      return count > 0 ? `${v}_${count}` : String(v);\n    });\n  });\n  @HostBinding('style.height') @Input() height = '500px';\n\n  constructor() {\n    effect(() => {\n      const x = this.x();\n      const y = this.y();\n      const xAxisLabel = this.xAxisLabel();\n      const yAxisLabel = this.yAxisLabel();\n      console.log(xAxisLabel, ':', x);\n      console.log(yAxisLabel, ':', y);\n      this.updateChart();\n    });\n  }\n\n  private readonly MAX = 10;\n  private readonly MIN = 0;\n  private svg!: d3.Selection<SVGSVGElement, unknown, null, undefined>;\n  private tooltip!: d3.Selection<HTMLDivElement, unknown, null, undefined>;\n\n  @HostListener('window:resize') onResize() {\n    this.updateChart();\n  }\n\n  ngAfterViewInit() {\n    this.createChart();\n  }\n\n  private createChart() {\n    const element = this.chartRef()!.nativeElement;\n    this.svg = d3.select(element).append('svg');\n    this.tooltip = d3.select(element)\n      .append('div')\n      .style('position', 'absolute')\n      .style('display', 'flex')\n      .style('align-items', 'center')\n      .style('justify-content', 'center')\n      .style('text-align', 'center')\n      .style('width', 'fit-content')\n      .style('height', 'fit-content')\n      .style('padding', '0.5rem')\n      .style('border-radius', '0.5rem')\n      .style('color', 'white')\n      .style('background-color', 'rgba(0, 0, 0, 0.8)')\n      .style('box-shadow', '2px 2px 2px rgba(0, 0, 0. 0.5)')\n      .style('pointer-events', 'none')\n      .style('opacity', 0);\n    this.updateChart();\n  }\n\n  private updateChart() {\n    const element = this.chartRef()!.nativeElement;\n    const width = element.offsetWidth;\n    const height = element.offsetHeight;\n    const margin = { top: 60, right: 20, bottom: 70, left: 90 };\n\n    this.svg\n      .attr('width', width)\n      .attr('height', height);\n\n    const x = d3.scaleBand()\n      .domain(this.X())\n      .range([margin.left, width - margin.right])\n      .padding(0.1);\n\n    const y = d3.scaleLinear()\n      .domain([d3.min(this.y()) ?? this.MIN, d3.max(this.y()) ?? this.MAX])\n      .nice()\n      .range([height - margin.bottom, margin.top]);\n\n    const xAxis = (g: any) => g\n      .attr('transform', `translate(0,${height - margin.bottom})`)\n      .call(d3.axisBottom(x).tickSizeOuter(0));\n\n    const yAxis = (g: any) => g\n      .attr('transform', `translate(${margin.left},0)`)\n      .call(d3.axisLeft(y));\n\n    const xGrid = (g: any) => g\n      .attr('transform', `translate(0,${height - margin.bottom})`)\n      .call(d3.axisBottom(x)\n        .tickSize(-height + margin.top + margin.bottom)\n        .tickFormat('' as any)\n      )\n      .call((g: any) => g.selectAll('.tick line')\n        .attr('stroke', 'lightgrey')\n        .attr('stroke-opacity', 0.7))\n      .call((g: any) => g.select('.domain').remove());\n\n    const yGrid = (g: any) => g\n      .attr('transform', `translate(${margin.left},0)`)\n      .call(d3.axisLeft(y)\n        .tickSize(-width + margin.left + margin.right)\n        .tickFormat('' as any)\n      )\n      .call((g: any) => g.selectAll('.tick line')\n        .attr('stroke', 'lightgrey')\n        .attr('stroke-opacity', 0.7))\n      .call((g: any) => g.select('.domain').remove());\n\n    this.svg.selectAll('*').remove();\n\n    // 그리드를 먼저 그립니다.\n    this.svg.append('g').call(xGrid);\n    this.svg.append('g').call(yGrid);\n\n    // 컬러 스케일 정의\n    const positiveColor = d3.scaleSequential(d3.interpolateBlues)\n      .domain([0, (d3.max(this.y().filter(d => d > 0)) ?? this.MAX) * 0.5]); // 양수 값 더 진하게\n\n    const negativeColor = d3.scaleSequential(d3.interpolateReds)\n      .domain([0, (d3.min(this.y().filter(d => d < 0)) ?? this.MIN) * 0.5]); // 음수 값 더 진하게\n\n    // 막대를 나중에 그립니다.\n    this.svg.append('g')\n      .selectAll('rect')\n      .data(this.y)\n      .join('rect')\n      .attr('x', (d, i) => x(this.X()[i])!)\n      .attr('y', y(0))\n      .attr('height', 0)\n      .attr('width', x.bandwidth())\n      .attr('fill', d => d > 0 ? positiveColor(d) : negativeColor(d))\n      .transition()\n      .duration(800)\n      .attr('y', d => y(Math.max(0, d)))\n      .attr('height', d => Math.abs(y(d) - y(0)));\n\n    this.svg.append('g').call(xAxis);\n\n    if (this.xAxisLabel()) {\n      this.svg.append('text')\n        .attr('class', 'x label')\n        .attr('text-anchor', 'middle')\n        .attr('x', width / 2)\n        .attr('y', height - margin.bottom + 40) // x축 레이블 위치 조정\n        .text(this.xAxisLabel());\n    }\n\n    this.svg.append('g').call(yAxis);\n\n    if (this.yAxisLabel()) {\n      this.svg.append('text')\n        .attr('class', 'y label')\n        .attr('text-anchor', 'middle')\n        .attr('transform', 'rotate(-90)')\n        .attr('x', -height / 2)\n        .attr('y', margin.left - 60) // y축 레이블 위치 조정\n        .text(this.yAxisLabel());\n    }\n\n    if (this.title()) {\n      this.svg.append('text')\n        .attr('x', width / 2)\n        .attr('y', margin.top / 2)\n        .attr('text-anchor', 'middle')\n        .attr('class', 'chart-title')\n        .text(this.title());\n    }\n\n    this.svg.selectAll('rect')\n      .on('mouseover', (event, d: any) => {\n        this.tooltip.transition()\n          .duration(200)\n          .style('opacity', .9);\n        this.tooltip.html(`x: ${this.X()[this.y().indexOf(d)]}<br/>y: ${d}`)\n          .style('left', (event.pageX + 5) + 'px')\n          .style('top', (event.pageY - 5) + 'px'); // 툴팁 위치를 조정\n      })\n      .on('mouseout', () => {\n        this.tooltip.transition()\n          .duration(500)\n          .style('opacity', 0);\n      });\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -4416,6 +4596,14 @@
                 }
             ],
             "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [],
+                "line": 33
+            },
             "extends": [],
             "implements": [
                 "AfterViewInit"
@@ -4674,7 +4862,7 @@
         },
         {
             "name": "ChartItemComponent",
-            "id": "component-ChartItemComponent-0c23e0b66aff2b031b7f636d42a5cff0a3200f8ce7e2b129a655dac4a85e473c9d5ed7169499891a1b5ecac532083855a803e6af119f7365d874a4d20e63bd9f",
+            "id": "component-ChartItemComponent-af7b17b9ba6884ce1f8d1cce640d6143d5bf0a10c65e7e375208f25acc8d34429a9d9144e2592846e1e11c315c8f5679db5e7f6936743b7361c1ac6d47d342c9",
             "file": "src/app/components/organisms/dashboard/chart-item/chart-item.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -4692,7 +4880,18 @@
             "viewProviders": [],
             "hostDirectives": [],
             "inputsClass": [],
-            "outputsClass": [],
+            "outputsClass": [
+                {
+                    "name": "onChange",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 22,
+                    "required": false
+                }
+            ],
             "propertiesClass": [
                 {
                     "name": "columns",
@@ -4702,7 +4901,27 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 10
+                    "line": 16
+                },
+                {
+                    "name": "fields",
+                    "defaultValue": "{\n    x_column: null,\n    y_column: null,\n  }",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "ChartItemFields",
+                    "optional": false,
+                    "description": "",
+                    "line": 18
+                },
+                {
+                    "name": "onChange",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 22,
+                    "required": false
                 },
                 {
                     "name": "types",
@@ -4712,20 +4931,86 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 11
+                    "line": 17
                 }
             ],
-            "methodsClass": [],
+            "methodsClass": [
+                {
+                    "name": "changeXColumn",
+                    "args": [
+                        {
+                            "name": "x_column",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 24,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "x_column",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "changeYColumn",
+                    "args": [
+                        {
+                            "name": "y_column",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 29,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "y_column",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
             "deprecated": false,
             "deprecationMessage": "",
             "hostBindings": [],
             "hostListeners": [],
             "standalone": true,
-            "imports": [],
+            "imports": [
+                {
+                    "name": "ReactiveFormsModule",
+                    "type": "module"
+                },
+                {
+                    "name": "FormsModule",
+                    "type": "module"
+                }
+            ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, input } from '@angular/core';\n\n@Component({\n  selector: 'etri-chart-item',\n  standalone: true,\n  styleUrls: ['chart-item.component.scss'],\n  templateUrl: 'chart-item.component.html',\n})\nexport class ChartItemComponent {\n  columns = input.required<string[]>();\n  types = input.required<string[]>();\n}\n",
+            "sourceCode": "import { Component, input, output } from '@angular/core';\nimport { FormsModule, ReactiveFormsModule } from '@angular/forms';\nimport { ChartItemFields } from '../../../../dto';\n\n@Component({\n  selector: 'etri-chart-item',\n  standalone: true,\n  styleUrls: ['chart-item.component.scss'],\n  templateUrl: 'chart-item.component.html',\n  imports: [\n    ReactiveFormsModule,\n    FormsModule\n  ]\n})\nexport class ChartItemComponent {\n  columns = input.required<string[]>();\n  types = input.required<string[]>();\n  fields: ChartItemFields = {\n    x_column: null,\n    y_column: null,\n  };\n  onChange = output<ChartItemFields>()\n\n  changeXColumn(x_column: string) {\n    this.fields = { ...this.fields, x_column };\n    this.onChange.emit(this.fields);\n  }\n\n  changeYColumn(y_column: string) {\n    this.fields = { ...this.fields, y_column };\n    this.onChange.emit(this.fields);\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -4735,7 +5020,7 @@
             ],
             "stylesData": "",
             "extends": [],
-            "templateData": ""
+            "templateData": "<label class=\"flex items-center gap-4 w-full\">\n  <span>Select X-Axis</span>\n  <select\n    [ngModel]=\"fields.x_column\"\n    (ngModelChange)=\"changeXColumn($event)\"\n    class=\"select select-sm select-bordered max-w-[300px] grow\"\n  >\n    @for (column of columns(); track column) {\n      <option [ngValue]=\"column\">{{ column }}</option>\n    }\n  </select>\n</label>\n\n<label class=\"flex items-center gap-4 w-full\">\n  <span>Select Y-Axis</span>\n  <select\n    [ngModel]=\"fields.y_column\"\n    (ngModelChange)=\"changeYColumn($event)\"\n    class=\"select select-sm select-bordered max-w-[300px] grow\"\n  >\n    @for (column of columns(); track column) {\n      <option [ngValue]=\"column\">{{ column }}</option>\n    }\n  </select>\n</label>\n"
         },
         {
             "name": "ChevronLeftIconComponent",
@@ -5059,7 +5344,7 @@
         },
         {
             "name": "DashboardButtonComponent",
-            "id": "component-DashboardButtonComponent-27406da9022d7637e6009ac9bfefc48fc46f5edbae2e8f2dbc58d35d3ad784ba7a4c71f699bbef82c9978ca958ad92dd000623e590b153a51af4e4ad1fa5296a",
+            "id": "component-DashboardButtonComponent-d7d61d1bbf290567fb66f984e6d58b7c716803cb0af591f60c8d3263757853f052c01a026a9bedbb4a116b8a10225c61f6ff7315d7191ec2dd8a8e910e08eb66",
             "file": "src/app/components/atoms/buttons/dashboard-button/dashboard-button.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -5092,17 +5377,17 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\nimport { PlusIconComponent } from '../../icons';\n\n@Component({\n  imports: [\n    PlusIconComponent\n  ],\n  selector: 'etri-dashboard-button',\n  standalone: true,\n  styleUrl: './dashboard-button.component.scss',\n  templateUrl: './dashboard-button.component.html',\n})\nexport class DashboardButtonComponent {\n\n}\n",
+            "sourceCode": "import { Component } from '@angular/core';\nimport { PlusIconComponent } from '../../icons';\n\n@Component({\n  imports: [\n    PlusIconComponent\n  ],\n  selector: 'etri-dashboard-button',\n  standalone: true,\n  styleUrl: './dashboard-button.component.scss',\n  templateUrl: './dashboard-button.component.html',\n})\nexport class DashboardButtonComponent {\n}\n",
             "styleUrl": "./dashboard-button.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<button\n  type=\"button\"\n  class=\"btn flex items-center justify-center rounded-xl aspect-square shadow h-[300px]\"\n>\n  <etri-plus-icon class=\"size-20 text-zinc-500\" />\n</button>\n"
+            "templateData": "<button type=\"button\" class=\"btn btn-secondary btn-sm aspect-square w-fit\">\n  <etri-plus-icon class=\"size-5 text-white\"/>\n</button>\n\n"
         },
         {
             "name": "DashboardFormPageComponent",
-            "id": "component-DashboardFormPageComponent-30b8379f61a7f4c3e164195f7e4ffb1907b94b98e10fff3fb81e8dd0f3037cd173607327325e521ff560ace20353a5fdbd06c883302085534171d01aea1c95a0",
+            "id": "component-DashboardFormPageComponent-efabbb415667992126ba24451de47a9381e7f6b06b2b5657c27cf181f188b0da2432fbd83b387888a862c56828894cadd757cd5785266698481d3505cdbc1287",
             "file": "src/app/routes/dashboard/pages/make-dashboard-page/dashboard-form-page.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -5123,6 +5408,19 @@
             "outputsClass": [],
             "propertiesClass": [
                 {
+                    "name": "dashboardService",
+                    "defaultValue": "inject(DashboardService)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 35,
+                    "modifierKind": [
+                        148
+                    ]
+                },
+                {
                     "name": "formGroup",
                     "deprecated": false,
                     "deprecationMessage": "",
@@ -5142,7 +5440,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 34,
+                    "line": 33,
                     "modifierKind": [
                         148
                     ]
@@ -5155,7 +5453,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 33,
+                    "line": 34,
                     "modifierKind": [
                         148
                     ]
@@ -5168,7 +5466,21 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 36,
+                    "line": 37,
+                    "modifierKind": [
+                        123,
+                        148
+                    ]
+                },
+                {
+                    "name": "router",
+                    "defaultValue": "inject(Router)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 38,
                     "modifierKind": [
                         123,
                         148
@@ -5192,7 +5504,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 37,
+                    "line": 39,
                     "modifierKind": [
                         123,
                         148
@@ -5206,7 +5518,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 35,
+                    "line": 36,
                     "modifierKind": [
                         123,
                         148
@@ -5227,7 +5539,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 50,
+                    "line": 52,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -5248,7 +5560,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 82,
+                    "line": 89,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -5258,7 +5570,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 70,
+                    "line": 77,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -5268,7 +5580,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 64,
+                    "line": 66,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -5310,7 +5622,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { JsonPipe } from '@angular/common';\nimport { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';\nimport { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';\nimport { ActivatedRoute, RouterLink } from '@angular/router';\nimport { map, Subscription, tap } from 'rxjs';\nimport {\n  DashboardItemInputComponent,\n  LoadingComponent,\n  PlusIconComponent,\n  QuerySelectComponent\n} from '../../../../components';\nimport { FindQuery, RunQuery } from '../../../../dto';\nimport { QueryService, TraindbService } from '../../../../services';\n\n@Component({\n  selector: 'etri-dashboard-form-page',\n  standalone: true,\n  styleUrls: ['dashboard-form-page.component.scss'],\n  templateUrl: 'dashboard-form-page.component.html',\n  imports: [\n    ReactiveFormsModule,\n    QuerySelectComponent,\n    LoadingComponent,\n    RouterLink,\n    JsonPipe,\n    PlusIconComponent,\n    DashboardItemInputComponent\n  ]\n})\nexport class DashboardFormPageComponent implements OnInit, OnDestroy {\n  submitting = false;\n  readonly formGroup: FormGroup;\n  readonly queryService = inject(QueryService);\n  readonly queryData = signal<RunQuery | null>(null);\n  private readonly traindbService = inject(TraindbService);\n  private readonly route = inject(ActivatedRoute);\n  private readonly subscription = new Subscription();\n\n  constructor(formBuilder: FormBuilder) {\n    this.formGroup = formBuilder.group({\n      name: [null, [Validators.required]],\n      query_id: [null, [Validators.required]],\n      items: [[], [(control: AbstractControl) => {\n        const value = control.value;\n        return (value ?? []).length > 0 ? null : { required: true };\n      }]],\n    });\n  }\n\n  executeQuery(query: FindQuery) {\n    this.queryService.runQuery(query.id)\n      .pipe(\n        tap(res => console.log(JSON.stringify(res)))\n      )\n      .subscribe({\n      next: data => this.queryData.set(data),\n      error: err => {\n        console.error(err);\n        alert(`Error: ${err.error?.detail ?? err.message}`);\n      }\n    });\n  }\n\n  submit() {\n    const dto = this.formGroup.getRawValue();\n    dto.traindb_id = this.traindbService.currentId()!;\n    console.log(dto);\n  }\n\n  ngOnInit(): void {\n    this.subscription.add(\n      this.route.params.pipe(\n        map(params => params['id'] ?? null),\n      ).subscribe()\n    );\n\n    this.subscription.add(\n      this.formGroup.get('query_id')?.valueChanges.subscribe(() => this.queryData.set(null)),\n    );\n  }\n\n  ngOnDestroy(): void {\n    this.subscription.unsubscribe();\n  }\n}\n",
+            "sourceCode": "import { JsonPipe } from '@angular/common';\nimport { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';\nimport { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';\nimport { ActivatedRoute, Router, RouterLink } from '@angular/router';\nimport { finalize, map, Subscription, tap } from 'rxjs';\nimport {\n  DashboardItemInputComponent,\n  LoadingComponent,\n  PlusIconComponent,\n  QuerySelectComponent\n} from '../../../../components';\nimport { FindQuery, RunQuery } from '../../../../dto';\nimport { DashboardService, QueryService, TraindbService } from '../../../../services';\n\n@Component({\n  selector: 'etri-dashboard-form-page',\n  standalone: true,\n  styleUrls: ['dashboard-form-page.component.scss'],\n  templateUrl: 'dashboard-form-page.component.html',\n  imports: [\n    ReactiveFormsModule,\n    QuerySelectComponent,\n    LoadingComponent,\n    RouterLink,\n    JsonPipe,\n    PlusIconComponent,\n    DashboardItemInputComponent\n  ]\n})\nexport class DashboardFormPageComponent implements OnInit, OnDestroy {\n  submitting = false;\n  readonly formGroup: FormGroup;\n  readonly queryData = signal<RunQuery | null>(null);\n  readonly queryService = inject(QueryService);\n  readonly dashboardService = inject(DashboardService);\n  private readonly traindbService = inject(TraindbService);\n  private readonly route = inject(ActivatedRoute);\n  private readonly router = inject(Router);\n  private readonly subscription = new Subscription();\n\n  constructor(formBuilder: FormBuilder) {\n    this.formGroup = formBuilder.group({\n      name: [null, [Validators.required]],\n      query_id: [null, [Validators.required]],\n      items: [[], [(control: AbstractControl) => {\n        const value = control.value;\n        return (value ?? []).length > 0 ? null : { required: true };\n      }]],\n    });\n  }\n\n  executeQuery(query: FindQuery) {\n    this.queryService.runQuery(query.id)\n      .pipe(\n        tap(res => console.log(JSON.stringify(res)))\n      )\n      .subscribe({\n        next: data => this.queryData.set(data),\n        error: err => {\n          console.error(err);\n          alert(`Error: ${err.error?.detail ?? err.message}`);\n        }\n      });\n  }\n\n  submit() {\n    const dto = this.formGroup.getRawValue();\n    dto.traindb_id = this.traindbService.currentId()!;\n    this.submitting = true;\n    this.dashboardService.createDashboard(dto).pipe(\n      finalize(() => this.submitting = false),\n    ).subscribe({\n      next: () => this.router.navigate(['/dashboard']),\n    });\n  }\n\n  ngOnInit(): void {\n    this.subscription.add(\n      this.route.params.pipe(\n        map(params => params['id'] ?? null),\n      ).subscribe()\n    );\n\n    this.subscription.add(\n      this.formGroup.get('query_id')?.valueChanges.subscribe(() => this.queryData.set(null)),\n    );\n  }\n\n  ngOnDestroy(): void {\n    this.subscription.unsubscribe();\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -5332,7 +5644,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 37,
+                "line": 39,
                 "jsdoctags": [
                     {
                         "name": "formBuilder",
@@ -5350,11 +5662,124 @@
                 "OnInit",
                 "OnDestroy"
             ],
-            "templateData": "<h1>Create Dashboard</h1>\n<form\n  [formGroup]=\"formGroup\"\n  (ngSubmit)=\"submit()\"\n  class=\"section elevate p-8 space-y-8\"\n>\n  <label\n    class=\"input input-bordered flex items-center gap-4\"\n  >\n    Name:\n    <input\n      formControlName=\"name\"\n      type=\"text\"\n      placeholder=\"Input dashboard name\"\n      class=\"grow\"\n    />\n  </label>\n  <div class=\"space-y-4\">\n    <h3>Select a Query</h3>\n    <etri-query-select\n      formControlName=\"query_id\"\n      (onExecute)=\"executeQuery($event)\"\n    />\n  </div>\n\n  @if (queryData()) {\n    <etri-dashboard-item-input [data]=\"queryData()!\" />\n  } @else {\n    <p class=\"text-zinc-500 text-sm\">쿼리를 선택 후 실행해주세요.</p>\n  }\n\n  <div class=\"flex gap-4\">\n    <button\n      type=\"button\"\n      routerLink=\"/dashboard\"\n      class=\"btn grow no-underline\"\n    >Cancel\n    </button>\n    <button\n      class=\"btn btn-primary grow text-white disabled:btn-disabled\"\n    >\n      @if (submitting) {\n        <etri-loading size=\"xs\"></etri-loading>\n      } @else {\n        Register\n      }\n    </button>\n  </div>\n</form>\n"
+            "templateData": "<h1>Create Dashboard</h1>\n<form\n  [formGroup]=\"formGroup\"\n  (ngSubmit)=\"submit()\"\n  class=\"section elevate p-8 space-y-8\"\n>\n  <label\n    class=\"input input-bordered flex items-center gap-4\"\n  >\n    Name:\n    <input\n      formControlName=\"name\"\n      type=\"text\"\n      placeholder=\"Input dashboard name\"\n      class=\"grow\"\n    />\n  </label>\n  <div class=\"space-y-4\">\n    <h3>Select a Query</h3>\n    <etri-query-select\n      formControlName=\"query_id\"\n      (onExecute)=\"executeQuery($event)\"\n    />\n  </div>\n\n  @if (queryData()) {\n    <etri-dashboard-item-input\n      [data]=\"queryData()!\"\n      formControlName=\"items\"\n    />\n  } @else {\n    <p class=\"text-zinc-500 text-sm\">쿼리를 선택 후 실행해주세요.</p>\n  }\n\n  <div class=\"flex gap-4\">\n    <button\n      type=\"button\"\n      routerLink=\"/dashboard\"\n      class=\"btn grow no-underline\"\n    >Cancel\n    </button>\n    <button\n      [disabled]=\"formGroup.invalid\"\n      class=\"btn btn-primary grow text-white disabled:btn-disabled\"\n    >\n      @if (submitting) {\n        <etri-loading size=\"xs\"></etri-loading>\n      } @else {\n        Register\n      }\n    </button>\n  </div>\n</form>\n"
+        },
+        {
+            "name": "DashboardItemComponent",
+            "id": "component-DashboardItemComponent-c4f146ae62badee7e6c4afba031fa32eb50e7170de556262acbff644c01ee7fa154cd25c527d04cbd0b2dd8b0744036c79e0a8cade98fc38c3a1a64e68f4cae0",
+            "file": "src/app/components/organisms/dashboard/dashboard-item/dashboard-item.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "etri-dashboard-item",
+            "styleUrls": [
+                "dashboard-item.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "dashboard-item.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [
+                {
+                    "name": "item",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 19,
+                    "required": true
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "ChartType",
+                    "defaultValue": "ChartType",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 22,
+                    "modifierKind": [
+                        124,
+                        148
+                    ]
+                },
+                {
+                    "name": "columns",
+                    "defaultValue": "input<string[]>([])",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 20
+                },
+                {
+                    "name": "data",
+                    "defaultValue": "input<Array<any[]>>([])",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 21
+                },
+                {
+                    "name": "item",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 19,
+                    "required": true
+                }
+            ],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "BarChartComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "ColumnToAxisDataPipe",
+                    "type": "pipe"
+                },
+                {
+                    "name": "LineChartComponent",
+                    "type": "component"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, input } from '@angular/core';\nimport { ChartType, DashboardItem } from '../../../../dto';\nimport { ColumnToAxisDataPipe } from '../../../../pipes';\nimport { BarChartComponent } from '../../charts';\nimport { LineChartComponent } from '../../charts/line-chart/line-chart.component';\n\n@Component({\n  selector: 'etri-dashboard-item',\n  standalone: true,\n  styleUrls: ['dashboard-item.component.scss'],\n  templateUrl: 'dashboard-item.component.html',\n  imports: [\n    BarChartComponent,\n    ColumnToAxisDataPipe,\n    LineChartComponent\n  ]\n})\nexport class DashboardItemComponent {\n  item = input.required<DashboardItem>();\n  columns = input<string[]>([]);\n  data = input<Array<any[]>>([]);\n  protected readonly ChartType = ChartType;\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "",
+                    "styleUrl": "dashboard-item.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "extends": [],
+            "templateData": "@if (item().type === ChartType.BAR) {\n  <etri-bar-chart\n    height=\"350px\"\n    [xAxisLabel]=\"item().x_column\"\n    [yAxisLabel]=\"item().y_column\"\n    [x]=\"item().x_column | columnToAxisData:data():columns()\"\n    [y]=\"item().y_column | columnToAxisData:data():columns()\"\n  />\n} @else if (item().type === ChartType.LINE) {\n  <etri-line-chart\n    height=\"350px\"\n    [xAxisLabel]=\"item().x_column\"\n    [yAxisLabel]=\"item().y_column\"\n    [x]=\"item().x_column | columnToAxisData:data():columns()\"\n    [y]=\"item().y_column | columnToAxisData:data():columns()\"\n  />\n}\n"
         },
         {
             "name": "DashboardItemInputComponent",
-            "id": "component-DashboardItemInputComponent-bea4f4fb6588e3afb8b27bb88ed1ff88736ae3e80e1a12c6b62aadc11aa8844ecd3154fbe5c3f79e1e96ee8b99910edc3859668e47d5db755061ac991759134e",
+            "id": "component-DashboardItemInputComponent-47d5650aad76dcc41ad48a49569149e1f1d426d9c0c01eb90a55666bef1c0f1e0e389f00d6ff54fb4db2700c643d7bd16cbcbbae3d7468b2d1bc6160dfcbcd07",
             "file": "src/app/components/organisms/dashboard/dashboard-item-input/dashboard-item-input.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -5383,7 +5808,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 27,
+                    "line": 35,
                     "required": true
                 },
                 {
@@ -5393,12 +5818,46 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 30,
+                    "line": 38,
                     "required": false
                 }
             ],
             "outputsClass": [],
             "propertiesClass": [
+                {
+                    "name": "chartType",
+                    "defaultValue": "computed(() => {\n    const item = this.selectedItem();\n    return item?.type ?? null;\n  })",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Signal<ChartType | null>",
+                    "optional": false,
+                    "description": "",
+                    "line": 45
+                },
+                {
+                    "name": "ChartType",
+                    "defaultValue": "ChartType",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 97,
+                    "modifierKind": [
+                        124,
+                        148
+                    ]
+                },
+                {
+                    "name": "columns",
+                    "defaultValue": "computed(() => this.data().columns)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 39
+                },
                 {
                     "name": "data",
                     "deprecated": false,
@@ -5406,7 +5865,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 27,
+                    "line": 35,
                     "required": true
                 },
                 {
@@ -5417,7 +5876,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 31,
+                    "line": 49,
                     "modifierKind": [
                         123,
                         148
@@ -5430,7 +5889,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 30,
+                    "line": 38,
                     "required": false
                 },
                 {
@@ -5440,7 +5899,7 @@
                     "type": "any",
                     "optional": false,
                     "description": "",
-                    "line": 33,
+                    "line": 51,
                     "modifierKind": [
                         123
                     ]
@@ -5452,7 +5911,7 @@
                     "type": "any",
                     "optional": false,
                     "description": "",
-                    "line": 34,
+                    "line": 52,
                     "modifierKind": [
                         123
                     ]
@@ -5465,17 +5924,27 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 28
+                    "line": 36
+                },
+                {
+                    "name": "selectedItem",
+                    "defaultValue": "computed<DashboardItem | null>(() => {\n    const idx = this.selectedIndex();\n    if (idx === -1) return null;\n    return this.value()[idx];\n  })",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Signal<DashboardItem | null>",
+                    "optional": false,
+                    "description": "",
+                    "line": 40
                 },
                 {
                     "name": "value",
-                    "defaultValue": "model<ChartItem[]>([])",
+                    "defaultValue": "model<DashboardItem[]>([])",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 29
+                    "line": 37
                 }
             ],
             "methodsClass": [
@@ -5484,7 +5953,7 @@
                     "args": [
                         {
                             "name": "value",
-                            "type": "ChartItem[]",
+                            "type": "DashboardItem[]",
                             "deprecated": false,
                             "deprecationMessage": ""
                         }
@@ -5492,7 +5961,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 66,
+                    "line": 92,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -5501,7 +5970,7 @@
                     "jsdoctags": [
                         {
                             "name": "value",
-                            "type": "ChartItem[]",
+                            "type": "DashboardItem[]",
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
@@ -5523,7 +5992,7 @@
                     "optional": false,
                     "returnType": "boolean",
                     "typeParameters": [],
-                    "line": 36,
+                    "line": 54,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -5544,7 +6013,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 40,
+                    "line": 58,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -5561,7 +6030,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 54,
+                    "line": 80,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -5589,7 +6058,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 58,
+                    "line": 84,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -5617,13 +6086,41 @@
                     "optional": true,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 62,
+                    "line": 88,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
                         {
                             "name": "isDisabled",
                             "type": "boolean",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "setSelectedIndex",
+                    "args": [
+                        {
+                            "name": "index",
+                            "type": "number",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 72,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "index",
+                            "type": "number",
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
@@ -5645,7 +6142,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 50,
+                    "line": 76,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -5674,12 +6171,32 @@
                 {
                     "name": "DecimalPipe",
                     "type": "pipe"
+                },
+                {
+                    "name": "BarChartComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "ColumnToIndexPipe",
+                    "type": "pipe"
+                },
+                {
+                    "name": "ColumnToAxisDataPipe",
+                    "type": "pipe"
+                },
+                {
+                    "name": "LineChartComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "UpperCasePipe",
+                    "type": "pipe"
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Dialog } from '@angular/cdk/dialog';\nimport { DecimalPipe } from '@angular/common';\nimport { Component, forwardRef, inject, input, model, Provider, signal } from '@angular/core';\nimport { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';\nimport { ChartItem, RunQuery } from '../../../../dto';\nimport { PlusIconComponent } from '../../../atoms';\nimport { MakeChartDialog } from '../../dialogs';\n\nconst VALUE_ACCESSOR: Provider = {\n  provide: NG_VALUE_ACCESSOR,\n  useExisting: forwardRef(() => DashboardItemInputComponent),\n  multi: true,\n};\n\n@Component({\n  providers: [VALUE_ACCESSOR],\n  selector: 'etri-dashboard-item-input',\n  standalone: true,\n  styleUrls: ['dashboard-item-input.component.scss'],\n  templateUrl: 'dashboard-item-input.component.html',\n  imports: [\n    PlusIconComponent,\n    DecimalPipe\n  ]\n})\nexport class DashboardItemInputComponent implements ControlValueAccessor {\n  data = input.required<RunQuery>();\n  selectedIndex = signal<number>(-1);\n  value = model<ChartItem[]>([]);\n  disabled = model<boolean>();\n  private readonly dialog = inject(Dialog);\n\n  private onChange: any;\n  private onTouch: any;\n\n  isNumber(item: any) {\n    return !isNaN(+item);\n  }\n\n  openMakeViz() {\n    const dialog = this.dialog.open<ChartItem | undefined>(MakeChartDialog, {\n      data: this.data(),\n    });\n\n    dialog.closed.subscribe(item => {\n      if (item) this.value.update(v => [...v, item]);\n    });\n  }\n\n  writeValue(value: ChartItem[]): void {\n    this.value.set(value);\n  }\n\n  registerOnChange(fn: any): void {\n    this.onChange = fn;\n  }\n\n  registerOnTouched(fn: any): void {\n    this.onTouch = fn;\n  }\n\n  setDisabledState?(isDisabled: boolean): void {\n    this.disabled.set(isDisabled);\n  }\n\n  private change(value: ChartItem[]): void {\n    this.value.set([...value]);\n    if (this.onChange) this.onChange([...value]);\n  }\n}\n",
+            "sourceCode": "import { Dialog } from '@angular/cdk/dialog';\nimport { DecimalPipe, LowerCasePipe, UpperCasePipe } from '@angular/common';\nimport { Component, computed, forwardRef, inject, input, model, Provider, Signal, signal } from '@angular/core';\nimport { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';\nimport { ChartItem, ChartType, DashboardItem, RunQuery } from '../../../../dto';\nimport { ColumnToAxisDataPipe, ColumnToIndexPipe } from '../../../../pipes';\nimport { PlusIconComponent } from '../../../atoms';\nimport { BarChartComponent } from '../../charts';\nimport { LineChartComponent } from '../../charts/line-chart/line-chart.component';\nimport { MakeChartDialog } from '../../dialogs';\n\nconst VALUE_ACCESSOR: Provider = {\n  provide: NG_VALUE_ACCESSOR,\n  useExisting: forwardRef(() => DashboardItemInputComponent),\n  multi: true,\n};\n\n@Component({\n  imports: [\n    PlusIconComponent,\n    DecimalPipe,\n    BarChartComponent,\n    ColumnToIndexPipe,\n    ColumnToAxisDataPipe,\n    LineChartComponent,\n    UpperCasePipe,\n  ],\n  providers: [VALUE_ACCESSOR],\n  selector: 'etri-dashboard-item-input',\n  standalone: true,\n  styleUrls: ['dashboard-item-input.component.scss'],\n  templateUrl: 'dashboard-item-input.component.html'\n})\nexport class DashboardItemInputComponent implements ControlValueAccessor {\n  data = input.required<RunQuery>();\n  selectedIndex = signal<number>(-1);\n  value = model<DashboardItem[]>([]);\n  disabled = model<boolean>();\n  columns = computed(() => this.data().columns);\n  selectedItem: Signal<DashboardItem | null> = computed<DashboardItem | null>(() => {\n    const idx = this.selectedIndex();\n    if (idx === -1) return null;\n    return this.value()[idx];\n  });\n  chartType: Signal<ChartType | null> = computed(() => {\n    const item = this.selectedItem();\n    return item?.type ?? null;\n  });\n  private readonly dialog = inject(Dialog);\n\n  private onChange: any;\n  private onTouch: any;\n\n  isNumber(item: any) {\n    return !isNaN(+item);\n  }\n\n  openMakeViz() {\n    const dialog = this.dialog.open<DashboardItem | undefined>(MakeChartDialog, {\n      data: this.data(),\n    });\n\n    dialog.closed.subscribe(item => {\n      if (item) {\n        console.log(item);\n        this.change([...this.value() as any, item]);\n        this.selectedIndex.set(this.selectedIndex() + 1);\n      }\n    });\n  }\n\n  setSelectedIndex(index: number) {\n    this.selectedIndex.set(index);\n  }\n\n  writeValue(value: ChartItem[]): void {\n    this.value.set(value);\n  }\n\n  registerOnChange(fn: any): void {\n    this.onChange = fn;\n  }\n\n  registerOnTouched(fn: any): void {\n    this.onTouch = fn;\n  }\n\n  setDisabledState?(isDisabled: boolean): void {\n    this.disabled.set(isDisabled);\n  }\n\n  private change(value: DashboardItem[]): void {\n    this.value.set([...value]);\n    if (this.onChange) this.onChange([...value]);\n  }\n\n  protected readonly ChartType = ChartType;\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -5692,11 +6209,243 @@
             "implements": [
                 "ControlValueAccessor"
             ],
-            "templateData": "<div class=\"flex items-end gap-2\">\n  <div role=\"tablist\" class=\"tabs tabs-bordered\">\n    <button role=\"tab\" class=\"tab\" [class.tap-active]=\"selectedIndex() !== -1\">Result</button>\n    @for (item of value(); track $index) {\n      <button role=\"tab\" class=\"tab\" [class.tap-active]=\"selectedIndex() === $index\">{{ item.type }}</button>\n    }\n  </div>\n  <button class=\"btn btn-sm\" (click)=\"openMakeViz()\">\n    <etri-plus-icon class=\"size-4\"/>\n    Visualization\n  </button>\n</div>\n\n<section class=\"py-4\">\n  @if (selectedIndex() === -1) {\n    <div class=\"w-full overflow-auto max-h-[500px]\">\n      <table class=\"table table-xs\">\n        <thead class=\"sticky top-0 bg-white\">\n        <tr>\n          @for (column of data().columns; track column) {\n            <th class=\"border-r border-zinc-200 last:border-r-0\">{{ column }}</th>\n          }\n        </tr>\n        </thead>\n        <tbody>\n          @for (row of data().data; track $index) {\n            <tr class=\"even:bg-zinc-50 hover:bg-zinc-100\">\n              @for (item of row; track $index) {\n                @if (isNumber(item)) {\n                  <td class=\"text-right border-r border-zinc-200 last:border-r-0\">{{ item | number }}</td>\n                } @else {\n                  <td class=\"border-r border-zinc-200 last:border-r-0\">{{ item }}</td>\n                }\n              }\n            </tr>\n          }\n        </tbody>\n      </table>\n    </div>\n  }\n</section>\n"
+            "templateData": "<div class=\"flex items-end gap-2\">\n  <div role=\"tablist\" class=\"tabs tabs-bordered\">\n    <button\n      role=\"tab\"\n      class=\"tab\"\n      [class.tab-active]=\"selectedIndex() === -1\"\n      (click)=\"setSelectedIndex(-1)\"\n    >Result\n    </button>\n    @for (item of value(); track $index) {\n      <button\n        role=\"tab\"\n        class=\"tab\"\n        [class.tab-active]=\"selectedIndex() === $index\"\n        (click)=\"setSelectedIndex($index)\"\n      >{{ item.type[0] | uppercase }}{{ item.type.slice(1) }} Chart\n      </button>\n    }\n  </div>\n  <button class=\"btn btn-sm\" type=\"button\" (click)=\"openMakeViz()\">\n    <etri-plus-icon class=\"size-4\"/>\n    Visualization\n  </button>\n</div>\n\n<section class=\"py-4\">\n  @if (selectedIndex() === -1) {\n    <div class=\"w-full overflow-auto max-h-[500px]\">\n      <table class=\"table table-xs\">\n        <thead class=\"sticky top-0 bg-white\">\n        <tr>\n          @for (column of data().columns; track column) {\n            <th class=\"border-r border-zinc-200 last:border-r-0\">{{ column }}</th>\n          }\n        </tr>\n        </thead>\n        <tbody>\n          @for (row of data().data; track $index) {\n            <tr class=\"even:bg-zinc-50 hover:bg-zinc-100\">\n              @for (item of row; track $index) {\n                @if (isNumber(item)) {\n                  <td class=\"text-right border-r border-zinc-200 last:border-r-0\">{{ item | number }}</td>\n                } @else {\n                  <td class=\"border-r border-zinc-200 last:border-r-0\">{{ item }}</td>\n                }\n              }\n            </tr>\n          }\n        </tbody>\n      </table>\n    </div>\n  } @else {\n    @if (chartType() === ChartType.BAR) {\n      <etri-bar-chart\n        [xAxisLabel]=\"selectedItem()?.x_column ?? 'X'\"\n        [yAxisLabel]=\"selectedItem()?.y_column ?? 'Y'\"\n        [x]=\"selectedItem()?.x_column | columnToAxisData:data().data:columns()\"\n        [y]=\"selectedItem()?.y_column | columnToAxisData:data().data:columns()\"\n      />\n    } @else if (chartType() === ChartType.LINE) {\n      <etri-line-chart\n        [xAxisLabel]=\"selectedItem()?.x_column ?? 'X'\"\n        [yAxisLabel]=\"selectedItem()?.y_column ?? 'Y'\"\n        [x]=\"selectedItem()?.x_column | columnToAxisData:data().data:columns()\"\n        [y]=\"selectedItem()?.y_column | columnToAxisData:data().data:columns()\"\n      ></etri-line-chart>\n    }\n  }\n</section>\n"
+        },
+        {
+            "name": "DashboardItemsComponent",
+            "id": "component-DashboardItemsComponent-3e172fe2a83698d57b7bf823864dc7f9343d52f6928e1e349c5476d03f8468c1dfdc462e5c5a22615f76b800113b83e703b3f97504a28f6635ff1dac789a647d",
+            "file": "src/app/components/organisms/dashboard/dashboard-items/dashboard-items.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "etri-dashboard-items",
+            "styleUrls": [
+                "dashboard-items.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "dashboard-items.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [
+                {
+                    "name": "name",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 21,
+                    "modifierKind": [
+                        148
+                    ],
+                    "required": true
+                },
+                {
+                    "name": "query",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 22,
+                    "modifierKind": [
+                        148
+                    ],
+                    "required": true
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "onDelete",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 33,
+                    "modifierKind": [
+                        148
+                    ],
+                    "required": false
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "columns",
+                    "defaultValue": "signal<string[]>([])",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 24,
+                    "modifierKind": [
+                        148
+                    ]
+                },
+                {
+                    "name": "data",
+                    "defaultValue": "signal<Array<any[]>>([])",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 25,
+                    "modifierKind": [
+                        148
+                    ]
+                },
+                {
+                    "name": "gridCols",
+                    "defaultValue": "computed(() => {\n    if (this.items().length === 1) return 'grid-cols-1';\n    else if (this.items().length === 2) return 'grid-cols-1 md:grid-cols-2';\n    else if (this.items().length === 3) return 'grid-cols-1 md:grid-cols-3';\n    else return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4';\n  })",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 26,
+                    "modifierKind": [
+                        148
+                    ]
+                },
+                {
+                    "name": "items",
+                    "defaultValue": "input.required<DashboardItem[]>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 23,
+                    "modifierKind": [
+                        148
+                    ]
+                },
+                {
+                    "name": "loading",
+                    "defaultValue": "signal<boolean>(false)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 32,
+                    "modifierKind": [
+                        148
+                    ]
+                },
+                {
+                    "name": "name",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 21,
+                    "modifierKind": [
+                        148
+                    ],
+                    "required": true
+                },
+                {
+                    "name": "onDelete",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 33,
+                    "modifierKind": [
+                        148
+                    ],
+                    "required": false
+                },
+                {
+                    "name": "query",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 22,
+                    "modifierKind": [
+                        148
+                    ],
+                    "required": true
+                },
+                {
+                    "name": "queryService",
+                    "defaultValue": "inject(QueryService)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 35,
+                    "modifierKind": [
+                        123,
+                        148
+                    ]
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "runQuery",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 37,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "PlayIconComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "DashboardItemComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "LoadingComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "TrashIconComponent",
+                    "type": "component"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, computed, inject, input, output, signal } from '@angular/core';\nimport { finalize } from 'rxjs';\nimport { DashboardItem, FindQuery } from '../../../../dto';\nimport { QueryService } from '../../../../services';\nimport { LoadingComponent, PlayIconComponent, TrashIconComponent } from '../../../atoms';\nimport { DashboardItemComponent } from '../dashboard-item';\n\n@Component({\n  imports: [\n    PlayIconComponent,\n    DashboardItemComponent,\n    LoadingComponent,\n    TrashIconComponent\n  ],\n  selector: 'etri-dashboard-items',\n  standalone: true,\n  styleUrls: ['dashboard-items.component.scss'],\n  templateUrl: 'dashboard-items.component.html'\n})\nexport class DashboardItemsComponent {\n  readonly name = input.required<string>();\n  readonly query = input.required<FindQuery>();\n  readonly items = input.required<DashboardItem[]>();\n  readonly columns = signal<string[]>([]);\n  readonly data = signal<Array<any[]>>([]);\n  readonly gridCols = computed(() => {\n    if (this.items().length === 1) return 'grid-cols-1';\n    else if (this.items().length === 2) return 'grid-cols-1 md:grid-cols-2';\n    else if (this.items().length === 3) return 'grid-cols-1 md:grid-cols-3';\n    else return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4';\n  });\n  readonly loading = signal<boolean>(false);\n  readonly onDelete = output();\n\n  private readonly queryService = inject(QueryService);\n\n  runQuery() {\n    this.loading.set(true);\n    this.queryService.runQuery(this.query().id).pipe(\n      finalize(() => this.loading.set(false))\n    ).subscribe({\n      next: res => {\n        const { data, columns } = res;\n        console.log(data, columns);\n        this.data.set(data);\n        this.columns.set(columns);\n      }\n    })\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ":host {\n  @apply block bg-white p-4;\n}\n",
+                    "styleUrl": "dashboard-items.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "extends": [],
+            "templateData": "<div class=\"flex items-center gap-4 px-4\">\n  <h2 class=\"my-0\">{{ name() }}</h2>\n  <button\n    type=\"button\"\n    (click)=\"onDelete.emit()\"\n    [disabled]=\"loading()\"\n    class=\"btn btn-error btn-xs\"\n  >\n    <etri-trash-icon class=\"size-4 text-white\" />\n  </button>\n  <button\n    type=\"button\"\n    (click)=\"runQuery()\"\n    [disabled]=\"loading()\"\n    class=\"btn btn-xs btn-primary\"\n  >\n    <etri-play-icon class=\"size-4 text-white\"/>\n  </button>\n</div>\n@if (loading()) {\n  <div class=\"h-[350px] flex items-center justify-center\">\n    <etri-loading/>\n  </div>\n} @else {\n  <div class=\"grid {{gridCols()}} bg-white p-2\">\n    @for (item of items(); track $index) {\n      <etri-dashboard-item\n        [item]=\"item\"\n        [columns]=\"columns()\"\n        [data]=\"data()\"\n      />\n    }\n  </div>\n}\n"
         },
         {
             "name": "DashboardPageComponent",
-            "id": "component-DashboardPageComponent-4c5d595c240cebc2f84f00481b02ecf4b2e1581ebbdbaa1abe3a32bc1a265484a97bf1751e72e1942fb04939031ce2e6e9e0ca2dab39f1d06b368543a7229cd5",
+            "id": "component-DashboardPageComponent-b50380a330f8dcd5f1915c02975314b690e34fb33ac5f7c7846e084d35446d188a8c02358c2749e14e83451c0e74388d586689ba5509b88324d1363d2013825a",
             "file": "src/app/routes/dashboard/pages/dashboard-page/dashboard-page.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -5716,15 +6465,99 @@
             "hostDirectives": [],
             "inputsClass": [],
             "outputsClass": [],
-            "propertiesClass": [],
+            "propertiesClass": [
+                {
+                    "name": "ChartType",
+                    "defaultValue": "ChartType",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 33,
+                    "modifierKind": [
+                        124,
+                        148
+                    ]
+                },
+                {
+                    "name": "dashboards",
+                    "defaultValue": "signal<FindDashboard[]>([])",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 30,
+                    "modifierKind": [
+                        148
+                    ]
+                },
+                {
+                    "name": "dashboardService",
+                    "defaultValue": "inject(DashboardService)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 32,
+                    "modifierKind": [
+                        123,
+                        148
+                    ]
+                },
+                {
+                    "name": "traindbService",
+                    "defaultValue": "inject(TraindbService)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 31,
+                    "modifierKind": [
+                        123,
+                        148
+                    ]
+                }
+            ],
             "methodsClass": [
                 {
-                    "name": "createDashboard",
+                    "name": "deleteDashboard",
+                    "args": [
+                        {
+                            "name": "id",
+                            "type": "number",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 35,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "id",
+                            "type": "number",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "ngOnInit",
                     "args": [],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 19,
+                    "line": 50,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -5741,12 +6574,32 @@
                 },
                 {
                     "name": "RouterLink"
+                },
+                {
+                    "name": "JsonPipe",
+                    "type": "pipe"
+                },
+                {
+                    "name": "BarChartComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "ColumnToAxisDataPipe",
+                    "type": "pipe"
+                },
+                {
+                    "name": "LineChartComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "DashboardItemsComponent",
+                    "type": "component"
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\nimport { RouterLink } from '@angular/router';\nimport { DashboardButtonComponent } from '../../../../components';\n\n@Component({\n  host: {\n    class: 'page',\n  },\n  selector: 'etri-dashboard-page',\n  standalone: true,\n  styleUrls: ['dashboard-page.component.scss'],\n  templateUrl: 'dashboard-page.component.html',\n  imports: [\n    DashboardButtonComponent,\n    RouterLink\n  ]\n})\nexport class DashboardPageComponent {\n  createDashboard() {\n    alert('Create Dashboard');\n  }\n}\n",
+            "sourceCode": "import { JsonPipe } from '@angular/common';\nimport { Component, inject, OnInit, signal } from '@angular/core';\nimport { RouterLink } from '@angular/router';\nimport { switchMap } from 'rxjs';\nimport { BarChartComponent, DashboardButtonComponent, DashboardItemsComponent } from '../../../../components';\nimport { LineChartComponent } from '../../../../components/organisms/charts/line-chart/line-chart.component';\nimport { ChartType, FindDashboard } from '../../../../dto';\nimport { ColumnToAxisDataPipe } from '../../../../pipes';\nimport { DashboardService, TraindbService } from '../../../../services';\n\n@Component({\n  host: {\n    class: 'page',\n  },\n  selector: 'etri-dashboard-page',\n  standalone: true,\n  styleUrls: ['dashboard-page.component.scss'],\n  templateUrl: 'dashboard-page.component.html',\n  imports: [\n    DashboardButtonComponent,\n    RouterLink,\n    JsonPipe,\n    BarChartComponent,\n    ColumnToAxisDataPipe,\n    LineChartComponent,\n    DashboardItemsComponent\n  ]\n})\nexport class DashboardPageComponent implements OnInit {\n  readonly dashboards = signal<FindDashboard[]>([]);\n  private readonly traindbService = inject(TraindbService);\n  private readonly dashboardService = inject(DashboardService);\n  protected readonly ChartType = ChartType;\n\n  deleteDashboard(id: number) {\n    if (!confirm('대시보드를 삭제하시겠습니까?')) return;\n    this.dashboardService.deleteDashboard(id).pipe(\n      switchMap(() => {\n        const traindbId = this.traindbService.currentId()!;\n        return this.dashboardService.searchDashboard(traindbId);\n      }),\n    ).subscribe({\n      next: dashboards => this.dashboards.set(dashboards),\n      error: err => {\n        console.error(err);\n      },\n    })\n  }\n\n  ngOnInit(): void {\n    const traindbId = this.traindbService.currentId()!;\n    this.dashboardService.searchDashboard(traindbId).subscribe({\n      next: dashboards => this.dashboards.set(dashboards)\n    })\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -5756,7 +6609,10 @@
             ],
             "stylesData": "",
             "extends": [],
-            "templateData": "<etri-dashboard-button routerLink=\"/dashboard/make\" />\n"
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<div class=\"flex\">\n  <etri-dashboard-button\n    routerLink=\"/dashboard/make\"\n  />\n</div>\n\n@for (dashboard of dashboards(); track dashboard.id) {\n  <etri-dashboard-items\n    [name]=\"dashboard.name\"\n    [query]=\"dashboard.query\"\n    [items]=\"dashboard.items\"\n    (onDelete)=\"deleteDashboard(dashboard.id)\"\n  />\n}\n"
         },
         {
             "name": "DatabaseFormPageComponent",
@@ -7146,7 +8002,7 @@
         },
         {
             "name": "LineChartComponent",
-            "id": "component-LineChartComponent-d28ff1c8661af3c614ab75534e47dfa4cbbf4e23a6b11c697253133552f1ed78a2efc3323855cd29e87970878150b31c8e53fca5a1f6c755c4ee05c65ee88153",
+            "id": "component-LineChartComponent-28f50bd02b7e1d505d7dfa68db70232ea90fe8698361803291eeeb27b4632c0a66d9501b08a2873fc8a6328000952195509269ac5ec77be4b67dd4e97915ac8f",
             "file": "src/app/components/organisms/charts/line-chart/line-chart.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -7296,7 +8152,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 41,
+                    "line": 53,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -7309,7 +8165,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 37,
+                    "line": 49,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -7319,7 +8175,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 33,
+                    "line": 45,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "decorators": [
@@ -7338,7 +8194,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 63,
+                    "line": 75,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -7356,7 +8212,7 @@
                     "argsDecorator": [],
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 33
+                    "line": 45
                 }
             ],
             "standalone": true,
@@ -7364,7 +8220,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {\n  AfterViewInit,\n  Component,\n  ElementRef,\n  HostBinding,\n  HostListener,\n  Input,\n  input,\n  viewChild\n} from '@angular/core';\nimport * as d3 from 'd3';\n\n@Component({\n  selector: 'etri-line-chart',\n  standalone: true,\n  styleUrls: ['line-chart.component.scss'],\n  templateUrl: 'line-chart.component.html',\n})\nexport class LineChartComponent implements AfterViewInit {\n  x = input<(string | number)[]>([]);\n  y = input<number[]>([]);\n  xAxisLabel = input<string | null>(null);\n  yAxisLabel = input<string | null>(null);\n  title = input<string | null>(null);\n  chartRef = viewChild<ElementRef<HTMLDivElement>>('chartRef');\n  @HostBinding('style.height') @Input() height = '500px';\n\n  private readonly MAX = 10;\n  private readonly MIN = 0;\n  private svg!: d3.Selection<SVGSVGElement, unknown, null, undefined>;\n  private tooltip!: d3.Selection<HTMLDivElement, unknown, null, undefined>;\n\n  @HostListener('window:resize') onResize() {\n    this.updateChart();\n  }\n\n  ngAfterViewInit() {\n    this.createChart();\n  }\n\n  private createChart() {\n    const element = this.chartRef()!.nativeElement;\n    this.svg = d3.select(element).append('svg');\n    this.tooltip = d3.select(element)\n      .append('div')\n      .style('position', 'absolute')\n      .style('display', 'flex')\n      .style('align-items', 'center')\n      .style('justify-content', 'center')\n      .style('text-align', 'center')\n      .style('width', 'fit-content')\n      .style('height', 'fit-content')\n      .style('padding', '0.5rem')\n      .style('border-radius', '0.5rem')\n      .style('color', 'white')\n      .style('background-color', 'rgba(0, 0, 0, 0.8)')\n      .style('box-shadow', '2px 2px 2px rgba(0, 0, 0. 0.5)')\n      .style('pointer-events', 'none')\n      .style('opacity', 0);\n    this.updateChart();\n  }\n\n  private updateChart() {\n    const element = this.chartRef()!.nativeElement;\n    const width = element.offsetWidth;\n    const height = element.offsetHeight;\n    const margin = { top: 60, right: 20, bottom: 70, left: 90 };\n\n    this.svg\n      .attr('width', width)\n      .attr('height', height);\n\n    const x = d3.scaleLinear()\n      .domain([0, this.x().length - 1])\n      .range([margin.left, width - margin.right]);\n\n    const y = d3.scaleLinear()\n      .domain([d3.min(this.y()) ?? this.MIN, d3.max(this.y()) ?? this.MAX])\n      .nice()\n      .range([height - margin.bottom, margin.top]);\n\n    const xAxis = (g: any) => g\n      .attr('transform', `translate(0,${height - margin.bottom})`)\n      .call(d3.axisBottom(x).ticks(this.x().length - 1).tickFormat((i: any) => String(this.x()[i])));\n\n    const yAxis = (g: any) => g\n      .attr('transform', `translate(${margin.left},0)`)\n      .call(d3.axisLeft(y));\n\n    const xGrid = (g: any) => g\n      .attr('transform', `translate(0,${height - margin.bottom})`)\n      .call(d3.axisBottom(x)\n        .tickSize(-height + margin.top + margin.bottom)\n        .tickFormat('' as any)\n      )\n      .call((g: any) => g.selectAll('.tick line')\n        .attr('stroke', 'lightgrey')\n        .attr('stroke-opacity', 0.7))\n      .call((g: any) => g.select('.domain').remove());\n\n    const yGrid = (g: any) => g\n      .attr('transform', `translate(${margin.left},0)`)\n      .call(d3.axisLeft(y)\n        .tickSize(-width + margin.left + margin.right)\n        .tickFormat('' as any)\n      )\n      .call((g: any) => g.selectAll('.tick line')\n        .attr('stroke', 'lightgrey')\n        .attr('stroke-opacity', 0.7))\n      .call((g: any) => g.select('.domain').remove());\n\n    this.svg.selectAll('*').remove();\n\n    // 그리드를 먼저 그립니다.\n    this.svg.append('g').call(xGrid);\n    this.svg.append('g').call(yGrid);\n\n    // 라인 생성\n    const line = d3.line<any>()\n      .x((d, i) => x(i))\n      .y(d => y(d));\n\n    const path = this.svg.append('path')\n      .datum(this.y)\n      .attr('fill', 'none')\n      .attr('stroke', 'steelblue')\n      .attr('stroke-width', 2)\n      .attr('d', line);\n\n    // 애니메이션 추가\n    const totalLength = path.node()?.getTotalLength();\n    if (totalLength) {\n      path\n        .attr('stroke-dasharray', `${totalLength} ${totalLength}`)\n        .attr('stroke-dashoffset', totalLength)\n        .transition()\n        .duration(2000)\n        .attr('stroke-dashoffset', 0);\n    }\n\n    this.svg.append('g').call(xAxis);\n\n    if (this.xAxisLabel()) {\n      this.svg.append('text')\n        .attr('class', 'x label')\n        .attr('text-anchor', 'middle')\n        .attr('x', width / 2)\n        .attr('y', height - margin.bottom + 40) // x축 레이블 위치 조정\n        .text(this.xAxisLabel());\n    }\n\n    this.svg.append('g').call(yAxis);\n\n    if (this.yAxisLabel()) {\n      this.svg.append('text')\n        .attr('class', 'y label')\n        .attr('text-anchor', 'middle')\n        .attr('transform', 'rotate(-90)')\n        .attr('x', -height / 2)\n        .attr('y', margin.left - 60) // y축 레이블 위치 조정\n        .text(this.yAxisLabel());\n    }\n\n    if (this.title()) {\n      this.svg.append('text')\n        .attr('x', width / 2)\n        .attr('y', margin.top / 2)\n        .attr('text-anchor', 'middle')\n        .attr('class', 'chart-title')\n        .text(this.title());\n    }\n\n    this.svg.selectAll('circle')\n      .data(this.y())\n      .enter()\n      .append('circle')\n      .attr('cx', (d, i) => x(i))\n      .attr('cy', d => y(d))\n      .attr('r', 3)\n      .attr('fill', 'steelblue')\n      .on('mouseover', (event, d: any) => {\n        d3.select(event.currentTarget)\n          .attr('fill', 'orange')\n          .attr('r', 5);\n        this.tooltip.transition()\n          .duration(200)\n          .style('opacity', .9);\n        this.tooltip.html(`x: ${this.x()[this.y().indexOf(d)]}<br/>y: ${d}`)\n          .style('left', (event.pageX + 10) + 'px')\n          .style('top', (event.pageY - 30) + 'px');\n      })\n      .on('mouseout', (event) => {\n        d3.select(event.currentTarget)\n          .attr('fill', 'steelblue')\n          .attr('r', 3);\n        this.tooltip.transition()\n          .duration(500)\n          .style('opacity', 0);\n      });\n  }\n}\n",
+            "sourceCode": "import {\n  AfterViewInit,\n  Component, effect,\n  ElementRef,\n  HostBinding,\n  HostListener,\n  Input,\n  input,\n  viewChild\n} from '@angular/core';\nimport * as d3 from 'd3';\n\n@Component({\n  selector: 'etri-line-chart',\n  standalone: true,\n  styleUrls: ['line-chart.component.scss'],\n  templateUrl: 'line-chart.component.html',\n})\nexport class LineChartComponent implements AfterViewInit {\n  x = input<(string | number)[]>([]);\n  y = input<number[]>([]);\n  xAxisLabel = input<string | null>(null);\n  yAxisLabel = input<string | null>(null);\n  title = input<string | null>(null);\n  chartRef = viewChild<ElementRef<HTMLDivElement>>('chartRef');\n  @HostBinding('style.height') @Input() height = '500px';\n\n  private readonly MAX = 10;\n  private readonly MIN = 0;\n  private svg!: d3.Selection<SVGSVGElement, unknown, null, undefined>;\n  private tooltip!: d3.Selection<HTMLDivElement, unknown, null, undefined>;\n\n  constructor() {\n    effect(() => {\n      const x = this.x();\n      const y = this.y();\n      const xAxisLabel = this.xAxisLabel();\n      const yAxisLabel = this.yAxisLabel();\n      console.log(xAxisLabel, ':', x);\n      console.log(yAxisLabel, ':', y);\n      this.updateChart();\n    });\n  }\n\n  @HostListener('window:resize') onResize() {\n    this.updateChart();\n  }\n\n  ngAfterViewInit() {\n    this.createChart();\n  }\n\n  private createChart() {\n    const element = this.chartRef()!.nativeElement;\n    this.svg = d3.select(element).append('svg');\n    this.tooltip = d3.select(element)\n      .append('div')\n      .style('position', 'absolute')\n      .style('display', 'flex')\n      .style('align-items', 'center')\n      .style('justify-content', 'center')\n      .style('text-align', 'center')\n      .style('width', 'fit-content')\n      .style('height', 'fit-content')\n      .style('padding', '0.5rem')\n      .style('border-radius', '0.5rem')\n      .style('color', 'white')\n      .style('background-color', 'rgba(0, 0, 0, 0.8)')\n      .style('box-shadow', '2px 2px 2px rgba(0, 0, 0. 0.5)')\n      .style('pointer-events', 'none')\n      .style('opacity', 0);\n    this.updateChart();\n  }\n\n  private updateChart() {\n    const element = this.chartRef()!.nativeElement;\n    const width = element.offsetWidth;\n    const height = element.offsetHeight;\n    const margin = { top: 60, right: 20, bottom: 70, left: 90 };\n\n    this.svg\n      .attr('width', width)\n      .attr('height', height);\n\n    const x = d3.scaleLinear()\n      .domain([0, this.x().length - 1])\n      .range([margin.left, width - margin.right]);\n\n    const y = d3.scaleLinear()\n      .domain([d3.min(this.y()) ?? this.MIN, d3.max(this.y()) ?? this.MAX])\n      .nice()\n      .range([height - margin.bottom, margin.top]);\n\n    const xAxis = (g: any) => g\n      .attr('transform', `translate(0,${height - margin.bottom})`)\n      .call(d3.axisBottom(x).ticks(this.x().length - 1).tickFormat((i: any) => String(this.x()[i])));\n\n    const yAxis = (g: any) => g\n      .attr('transform', `translate(${margin.left},0)`)\n      .call(d3.axisLeft(y));\n\n    const xGrid = (g: any) => g\n      .attr('transform', `translate(0,${height - margin.bottom})`)\n      .call(d3.axisBottom(x)\n        .tickSize(-height + margin.top + margin.bottom)\n        .tickFormat('' as any)\n      )\n      .call((g: any) => g.selectAll('.tick line')\n        .attr('stroke', 'lightgrey')\n        .attr('stroke-opacity', 0.7))\n      .call((g: any) => g.select('.domain').remove());\n\n    const yGrid = (g: any) => g\n      .attr('transform', `translate(${margin.left},0)`)\n      .call(d3.axisLeft(y)\n        .tickSize(-width + margin.left + margin.right)\n        .tickFormat('' as any)\n      )\n      .call((g: any) => g.selectAll('.tick line')\n        .attr('stroke', 'lightgrey')\n        .attr('stroke-opacity', 0.7))\n      .call((g: any) => g.select('.domain').remove());\n\n    this.svg.selectAll('*').remove();\n\n    // 그리드를 먼저 그립니다.\n    this.svg.append('g').call(xGrid);\n    this.svg.append('g').call(yGrid);\n\n    // 라인 생성\n    const line = d3.line<any>()\n      .x((d, i) => x(i))\n      .y(d => y(d));\n\n    const path = this.svg.append('path')\n      .datum(this.y())\n      .attr('fill', 'none')\n      .attr('stroke', 'steelblue')\n      .attr('stroke-width', 2)\n      .attr('d', line);\n\n    // 애니메이션 추가\n    const totalLength = path.node()?.getTotalLength();\n    if (totalLength) {\n      path\n        .attr('stroke-dasharray', `${totalLength} ${totalLength}`)\n        .attr('stroke-dashoffset', totalLength)\n        .transition()\n        .duration(2000)\n        .attr('stroke-dashoffset', 0);\n    }\n\n    this.svg.append('g').call(xAxis);\n\n    if (this.xAxisLabel()) {\n      this.svg.append('text')\n        .attr('class', 'x label')\n        .attr('text-anchor', 'middle')\n        .attr('x', width / 2)\n        .attr('y', height - margin.bottom + 40) // x축 레이블 위치 조정\n        .text(this.xAxisLabel());\n    }\n\n    this.svg.append('g').call(yAxis);\n\n    if (this.yAxisLabel()) {\n      this.svg.append('text')\n        .attr('class', 'y label')\n        .attr('text-anchor', 'middle')\n        .attr('transform', 'rotate(-90)')\n        .attr('x', -height / 2)\n        .attr('y', margin.left - 60) // y축 레이블 위치 조정\n        .text(this.yAxisLabel());\n    }\n\n    if (this.title()) {\n      this.svg.append('text')\n        .attr('x', width / 2)\n        .attr('y', margin.top / 2)\n        .attr('text-anchor', 'middle')\n        .attr('class', 'chart-title')\n        .text(this.title());\n    }\n\n    this.svg.selectAll('circle')\n      .data(this.y())\n      .enter()\n      .append('circle')\n      .attr('cx', (d, i) => x(i))\n      .attr('cy', d => y(d))\n      .attr('r', 3)\n      .attr('fill', 'steelblue')\n      .on('mouseover', (event, d: any) => {\n        d3.select(event.currentTarget)\n          .attr('fill', 'orange')\n          .attr('r', 5);\n        this.tooltip.transition()\n          .duration(200)\n          .style('opacity', .9);\n        this.tooltip.html(`x: ${this.x()[this.y().indexOf(d)]}<br/>y: ${d}`)\n          .style('left', (event.pageX + 10) + 'px')\n          .style('top', (event.pageY - 30) + 'px');\n      })\n      .on('mouseout', (event) => {\n        d3.select(event.currentTarget)\n          .attr('fill', 'steelblue')\n          .attr('r', 3);\n        this.tooltip.transition()\n          .duration(500)\n          .style('opacity', 0);\n      });\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -7373,6 +8229,14 @@
                 }
             ],
             "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [],
+                "line": 31
+            },
             "extends": [],
             "implements": [
                 "AfterViewInit"
@@ -7505,7 +8369,7 @@
         },
         {
             "name": "MakeChartDialog",
-            "id": "component-MakeChartDialog-98fa0896a43cbffab973eae6dd3c2c8705defed17680f0dc66753b5e7c8b58e6d5837850490f29799b67d046f763883096d6bc5ba25b3432d8f3ac41e71c472c",
+            "id": "component-MakeChartDialog-47177ca6e1a59c53baaf83f28552f7e9f98f958977eb4fa6168e4fa69d951c62d7c752445615415e14d14f2c964912fcbe9c6db2c0bd94dbd30ad8cb4543fd83",
             "file": "src/app/components/organisms/dialogs/make-chart-dialog/make-chart-dialog.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -7530,7 +8394,7 @@
                     "type": "RunQuery",
                     "optional": false,
                     "description": "",
-                    "line": 49,
+                    "line": 61,
                     "modifierKind": [
                         148
                     ]
@@ -7543,7 +8407,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 48,
+                    "line": 60,
                     "modifierKind": [
                         148
                     ]
@@ -7564,7 +8428,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';\nimport { UpperCasePipe } from '@angular/common';\nimport { Component, computed, inject, input, model, output } from '@angular/core';\nimport { FormsModule } from '@angular/forms';\nimport { CHART_TYPES, ChartItem, ChartType, RunQuery } from '../../../../dto';\nimport { DialogHeaderDirective } from '../../../atoms';\nimport { ChartItemComponent } from '../../dashboard';\nimport { BaseDialogComponent } from '../base-dialog';\n\n@Component({\n  selector: 'etri-make-chart-dialog_',\n  standalone: true,\n  styleUrls: ['make-chart-dialog.component.scss'],\n  templateUrl: 'make-chart-dialog.component.html',\n  imports: [\n    BaseDialogComponent,\n    DialogHeaderDirective,\n    FormsModule,\n    UpperCasePipe,\n    ChartItemComponent\n  ]\n})\nexport class MakeChartDialogComponent {\n  readonly data = input.required<RunQuery>();\n  readonly chartType = model<ChartType>(ChartType.BAR);\n  readonly columns = computed(() => this.data().columns);\n  readonly types = computed(() => this.data().types);\n  readonly onClose = output<ChartItem | undefined>();\n  readonly ChartType = ChartType;\n  readonly CHART_TYPES = CHART_TYPES;\n  readonly isChartItem = computed(() => [ChartType.BAR, ChartType.LINE, ChartType.SCATTER, ChartType.PIE].includes(this.chartType()));\n}\n\n@Component({\n  selector: 'etri-make-chart-dialog',\n  standalone: true,\n  imports: [\n    MakeChartDialogComponent\n  ],\n  template: `\n    <etri-make-chart-dialog_\n      [data]=\"data\"\n      (onClose)=\"dialogRef.close($event)\"\n    />\n  `\n})\nexport class MakeChartDialog {\n  readonly dialogRef = inject(DialogRef);\n  readonly data: RunQuery = inject(DIALOG_DATA);\n}\n",
+            "sourceCode": "import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';\nimport { UpperCasePipe } from '@angular/common';\nimport { Component, computed, inject, model, output } from '@angular/core';\nimport { FormsModule } from '@angular/forms';\nimport { CHART_TYPES, ChartType, DashboardItem, RunQuery } from '../../../../dto';\nimport { DialogHeaderDirective } from '../../../atoms';\nimport { ChartItemComponent } from '../../dashboard';\nimport { BaseDialogComponent } from '../base-dialog';\n\n@Component({\n  selector: 'etri-make-chart-dialog_',\n  standalone: true,\n  styleUrls: ['make-chart-dialog.component.scss'],\n  templateUrl: 'make-chart-dialog.component.html',\n  imports: [\n    BaseDialogComponent,\n    DialogHeaderDirective,\n    FormsModule,\n    UpperCasePipe,\n    ChartItemComponent\n  ]\n})\nexport class MakeChartDialogComponent {\n  fields: any = {};\n  readonly data = model.required<RunQuery>();\n  readonly chartType = model<ChartType>(ChartType.BAR);\n  readonly columns = computed(() => this.data().columns);\n  readonly types = computed(() => this.data().types);\n  readonly onClose = output<DashboardItem | undefined>();\n  readonly ChartType = ChartType;\n  readonly CHART_TYPES = CHART_TYPES;\n  readonly isChartItem = computed(() => [ChartType.BAR, ChartType.LINE, ChartType.SCATTER, ChartType.PIE].includes(this.chartType()));\n\n  changeFields(fields: any) {\n    this.fields = fields;\n  }\n\n  emitDashboardItem() {\n    this.onClose.emit({\n      type: this.chartType(),\n      ...this.fields,\n    })\n  }\n}\n\n@Component({\n  selector: 'etri-make-chart-dialog',\n  standalone: true,\n  imports: [\n    MakeChartDialogComponent\n  ],\n  template: `\n    <etri-make-chart-dialog_\n      [data]=\"data\"\n      (onClose)=\"dialogRef.close($event)\"\n    />\n  `\n})\nexport class MakeChartDialog {\n  readonly dialogRef = inject(DialogRef);\n  readonly data: RunQuery = inject(DIALOG_DATA);\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -7572,7 +8436,7 @@
         },
         {
             "name": "MakeChartDialogComponent",
-            "id": "component-MakeChartDialogComponent-98fa0896a43cbffab973eae6dd3c2c8705defed17680f0dc66753b5e7c8b58e6d5837850490f29799b67d046f763883096d6bc5ba25b3432d8f3ac41e71c472c",
+            "id": "component-MakeChartDialogComponent-47177ca6e1a59c53baaf83f28552f7e9f98f958977eb4fa6168e4fa69d951c62d7c752445615415e14d14f2c964912fcbe9c6db2c0bd94dbd30ad8cb4543fd83",
             "file": "src/app/components/organisms/dialogs/make-chart-dialog/make-chart-dialog.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -7597,7 +8461,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 24,
+                    "line": 25,
                     "modifierKind": [
                         148
                     ],
@@ -7614,7 +8478,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 30,
+                    "line": 31,
                     "modifierKind": [
                         148
                     ]
@@ -7627,7 +8491,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 25,
+                    "line": 26,
                     "modifierKind": [
                         148
                     ]
@@ -7640,7 +8504,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 29,
+                    "line": 30,
                     "modifierKind": [
                         148
                     ]
@@ -7653,7 +8517,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 26,
+                    "line": 27,
                     "modifierKind": [
                         148
                     ]
@@ -7665,11 +8529,21 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 24,
+                    "line": 25,
                     "modifierKind": [
                         148
                     ],
                     "required": true
+                },
+                {
+                    "name": "fields",
+                    "defaultValue": "{}",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any",
+                    "optional": false,
+                    "description": "",
+                    "line": 24
                 },
                 {
                     "name": "isChartItem",
@@ -7679,20 +8553,20 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 31,
+                    "line": 32,
                     "modifierKind": [
                         148
                     ]
                 },
                 {
                     "name": "onClose",
-                    "defaultValue": "output<ChartItem | undefined>()",
+                    "defaultValue": "output<DashboardItem | undefined>()",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 28,
+                    "line": 29,
                     "modifierKind": [
                         148
                     ]
@@ -7705,13 +8579,52 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 27,
+                    "line": 28,
                     "modifierKind": [
                         148
                     ]
                 }
             ],
-            "methodsClass": [],
+            "methodsClass": [
+                {
+                    "name": "changeFields",
+                    "args": [
+                        {
+                            "name": "fields",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 34,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "fields",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "emitDashboardItem",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 38,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
             "deprecated": false,
             "deprecationMessage": "",
             "hostBindings": [],
@@ -7742,7 +8655,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';\nimport { UpperCasePipe } from '@angular/common';\nimport { Component, computed, inject, input, model, output } from '@angular/core';\nimport { FormsModule } from '@angular/forms';\nimport { CHART_TYPES, ChartItem, ChartType, RunQuery } from '../../../../dto';\nimport { DialogHeaderDirective } from '../../../atoms';\nimport { ChartItemComponent } from '../../dashboard';\nimport { BaseDialogComponent } from '../base-dialog';\n\n@Component({\n  selector: 'etri-make-chart-dialog_',\n  standalone: true,\n  styleUrls: ['make-chart-dialog.component.scss'],\n  templateUrl: 'make-chart-dialog.component.html',\n  imports: [\n    BaseDialogComponent,\n    DialogHeaderDirective,\n    FormsModule,\n    UpperCasePipe,\n    ChartItemComponent\n  ]\n})\nexport class MakeChartDialogComponent {\n  readonly data = input.required<RunQuery>();\n  readonly chartType = model<ChartType>(ChartType.BAR);\n  readonly columns = computed(() => this.data().columns);\n  readonly types = computed(() => this.data().types);\n  readonly onClose = output<ChartItem | undefined>();\n  readonly ChartType = ChartType;\n  readonly CHART_TYPES = CHART_TYPES;\n  readonly isChartItem = computed(() => [ChartType.BAR, ChartType.LINE, ChartType.SCATTER, ChartType.PIE].includes(this.chartType()));\n}\n\n@Component({\n  selector: 'etri-make-chart-dialog',\n  standalone: true,\n  imports: [\n    MakeChartDialogComponent\n  ],\n  template: `\n    <etri-make-chart-dialog_\n      [data]=\"data\"\n      (onClose)=\"dialogRef.close($event)\"\n    />\n  `\n})\nexport class MakeChartDialog {\n  readonly dialogRef = inject(DialogRef);\n  readonly data: RunQuery = inject(DIALOG_DATA);\n}\n",
+            "sourceCode": "import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';\nimport { UpperCasePipe } from '@angular/common';\nimport { Component, computed, inject, model, output } from '@angular/core';\nimport { FormsModule } from '@angular/forms';\nimport { CHART_TYPES, ChartType, DashboardItem, RunQuery } from '../../../../dto';\nimport { DialogHeaderDirective } from '../../../atoms';\nimport { ChartItemComponent } from '../../dashboard';\nimport { BaseDialogComponent } from '../base-dialog';\n\n@Component({\n  selector: 'etri-make-chart-dialog_',\n  standalone: true,\n  styleUrls: ['make-chart-dialog.component.scss'],\n  templateUrl: 'make-chart-dialog.component.html',\n  imports: [\n    BaseDialogComponent,\n    DialogHeaderDirective,\n    FormsModule,\n    UpperCasePipe,\n    ChartItemComponent\n  ]\n})\nexport class MakeChartDialogComponent {\n  fields: any = {};\n  readonly data = model.required<RunQuery>();\n  readonly chartType = model<ChartType>(ChartType.BAR);\n  readonly columns = computed(() => this.data().columns);\n  readonly types = computed(() => this.data().types);\n  readonly onClose = output<DashboardItem | undefined>();\n  readonly ChartType = ChartType;\n  readonly CHART_TYPES = CHART_TYPES;\n  readonly isChartItem = computed(() => [ChartType.BAR, ChartType.LINE, ChartType.SCATTER, ChartType.PIE].includes(this.chartType()));\n\n  changeFields(fields: any) {\n    this.fields = fields;\n  }\n\n  emitDashboardItem() {\n    this.onClose.emit({\n      type: this.chartType(),\n      ...this.fields,\n    })\n  }\n}\n\n@Component({\n  selector: 'etri-make-chart-dialog',\n  standalone: true,\n  imports: [\n    MakeChartDialogComponent\n  ],\n  template: `\n    <etri-make-chart-dialog_\n      [data]=\"data\"\n      (onClose)=\"dialogRef.close($event)\"\n    />\n  `\n})\nexport class MakeChartDialog {\n  readonly dialogRef = inject(DialogRef);\n  readonly data: RunQuery = inject(DIALOG_DATA);\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -7752,7 +8665,7 @@
             ],
             "stylesData": "",
             "extends": [],
-            "templateData": "<etri-base-dialog\n  (onClose)=\"onClose.emit(undefined)\"\n>\n  <h1 header etriDialogHeader>Add Visualization</h1>\n  <div class=\"space-y-4\">\n    <label class=\"flex items-center gap-4 w-full\">\n      <span>Select Visualization</span>\n      <select\n        [(ngModel)]=\"chartType\"\n        class=\"select select-sm select-bordered max-w-[300px] grow\"\n      >\n        @for (type of CHART_TYPES; track type) {\n          <option [ngValue]=\"ChartType.BAR\">{{ type[0] | uppercase }}{{ type.slice(1) }} Chart</option>\n        }\n      </select>\n    </label>\n\n    @if (isChartItem()) {\n      <etri-chart-item [columns]=\"columns()\" [types]=\"types()\"/>\n    }\n\n    <label class=\"flex items-center gap-4 w-full\">\n      <span>Select X-Axis</span>\n      <select\n        class=\"select select-sm select-bordered max-w-[300px] grow\"\n      >\n        @for (column of columns(); track column) {\n          <option [ngValue]=\"column\">{{ column }}</option>\n        }\n      </select>\n    </label>\n\n    <label class=\"flex items-center gap-4 w-full\">\n      <span>Select Y-Axis</span>\n      <select\n        class=\"select select-sm select-bordered max-w-[300px] grow\"\n      >\n        @for (column of columns(); track column) {\n          <option [ngValue]=\"column\">{{ column }}</option>\n        }\n      </select>\n    </label>\n\n  </div>\n  <div footer class=\"flex justify-end gap-4\">\n    <button\n      type=\"button\"\n      (click)=\"onClose.emit(undefined)\"\n      class=\"btn btn-sm w-[80px]\"\n    >취소</button>\n    <button\n      type=\"button\"\n      class=\"btn btn-sm btn-primary w-[80px]\"\n    >저장</button>\n  </div>\n</etri-base-dialog>\n"
+            "templateData": "<etri-base-dialog\n  (onClose)=\"onClose.emit(undefined)\"\n>\n  <h1 header etriDialogHeader>Add Visualization</h1>\n  <div class=\"space-y-4\">\n    <label class=\"flex items-center gap-4 w-full\">\n      <span>Select Visualization</span>\n      <select\n        [(ngModel)]=\"chartType\"\n        class=\"select select-sm select-bordered max-w-[300px] grow\"\n      >\n        @for (type of CHART_TYPES; track type) {\n          <option [ngValue]=\"type\">{{ type[0] | uppercase }}{{ type.slice(1) }} Chart</option>\n        }\n      </select>\n    </label>\n\n    @if (isChartItem()) {\n      <etri-chart-item\n        [columns]=\"columns()\"\n        [types]=\"types()\"\n        (onChange)=\"changeFields($event)\"\n      />\n    }\n  </div>\n  <div footer class=\"flex justify-end gap-4\">\n    <button\n      type=\"button\"\n      (click)=\"onClose.emit(undefined)\"\n      class=\"btn btn-sm w-[80px]\"\n    >취소</button>\n    <button\n      type=\"button\"\n      (click)=\"emitDashboardItem()\"\n      class=\"btn btn-sm btn-primary w-[80px]\"\n    >저장</button>\n  </div>\n</etri-base-dialog>\n"
         },
         {
             "name": "ModelDialog",
@@ -9343,7 +10256,7 @@
                 "OnInit",
                 "OnDestroy"
             ],
-            "templateData": "<h1>{{ id ? 'Update Query' : 'Register Query' }}</h1>\n\n<form\n  [formGroup]=\"formGroup\"\n  (ngSubmit)=\"submit()\"\n  class=\"section elevate p-8 space-y-8\"\n>\n  <div class=\"flex flex-col gap-8\">\n    <label\n      class=\"input input-bordered flex items-center gap-4\"\n    >\n      Name:\n      <input\n        formControlName=\"name\"\n        type=\"text\"\n        placeholder=\"e.g. tablegan\"\n        class=\"grow\"\n      />\n    </label>\n\n    <select\n      formControlName=\"database_id\"\n      class=\"select select-bordered\"\n    >\n      <option [ngValue]=\"null\" disabled selected>Select DBMS</option>\n      @for (database of databases(); track database) {\n        <option [ngValue]=\"database.id\">\n          {{ database.name }} ({{database.host | ipAnonymization }}:{{ database.port}})\n        </option>\n      }\n    </select>\n\n    <label class=\"textarea textarea-bordered flex flex-col\">\n      SQL:\n      <ngx-monaco-editor\n        formControlName=\"sql\"\n        [style.height]=\"'100px'\"\n        [options]=\"editorOptions\"\n      ></ngx-monaco-editor>\n    </label>\n  </div>\n\n  <div class=\"flex gap-4\">\n    <button\n      type=\"button\"\n      routerLink=\"/queries\"\n      class=\"btn grow no-underline\"\n    >Cancel\n    </button>\n    <button\n      [disabled]=\"formGroup.invalid || submitting\"\n      class=\"btn btn-primary grow text-white disabled:btn-disabled\"\n    >\n      @if (submitting) {\n        <etri-loading size=\"xs\"></etri-loading>\n      } @else {\n        Register\n      }\n    </button>\n  </div>\n</form>\n"
+            "templateData": "<h1>{{ id ? 'Update Query' : 'Register Query' }}</h1>\n\n<form\n  [formGroup]=\"formGroup\"\n  (ngSubmit)=\"submit()\"\n  class=\"section elevate p-8 space-y-8\"\n>\n  <div class=\"flex flex-col gap-8\">\n    <label\n      class=\"input input-bordered flex items-center gap-4\"\n    >\n      Name:\n      <input\n        formControlName=\"name\"\n        type=\"text\"\n        placeholder=\"e.g. test query\"\n        class=\"grow\"\n      />\n    </label>\n\n    <select\n      formControlName=\"database_id\"\n      class=\"select select-bordered\"\n    >\n      <option [ngValue]=\"null\" disabled selected>Select DBMS</option>\n      @for (database of databases(); track database) {\n        <option [ngValue]=\"database.id\">\n          {{ database.name }} ({{database.host | ipAnonymization }}:{{ database.port}})\n        </option>\n      }\n    </select>\n\n    <label class=\"textarea textarea-bordered flex flex-col\">\n      SQL:\n      <ngx-monaco-editor\n        formControlName=\"sql\"\n        [style.height]=\"'100px'\"\n        [options]=\"editorOptions\"\n      ></ngx-monaco-editor>\n    </label>\n  </div>\n\n  <div class=\"flex gap-4\">\n    <button\n      type=\"button\"\n      routerLink=\"/queries\"\n      class=\"btn grow no-underline\"\n    >Cancel\n    </button>\n    <button\n      [disabled]=\"formGroup.invalid || submitting\"\n      class=\"btn btn-primary grow text-white disabled:btn-disabled\"\n    >\n      @if (submitting) {\n        <etri-loading size=\"xs\"></etri-loading>\n      } @else {\n        Register\n      }\n    </button>\n  </div>\n</form>\n"
         },
         {
             "name": "QueryListPageComponent",
@@ -10410,6 +11323,50 @@
                 "OnInit"
             ],
             "templateData": "<etri-base-dialog\n  [hiddenFooter]=\"true\"\n  (onClose)=\"onClose.emit()\"\n>\n  <h1 header etriDialogHeader>{{ query().name }}</h1>\n  <div class=\"pb-4 text-xs\"><span class=\"text-zinc-500\">Execution Time:</span> {{ executionTime() }} sec</div>\n  <div class=\"overflow-auto min-h-[500px] h-[80vh]\">\n    <table class=\"table table-xs\">\n      <thead class=\"sticky top-0\">\n      <tr class=\"bg-white\">\n        <th class=\"border-r border-zinc-200\">#</th>\n        @for (column of columns(); track $index) {\n          <th class=\"border-r border-zinc-200 last:border-r-0\">{{ column }}</th>\n        }\n      </tr>\n      </thead>\n      <tbody>\n        @if (loading()) {\n          <tr>\n            <td [colSpan]=\"columns().length + 1\">\n              <etri-loading/>\n            </td>\n          </tr>\n        } @else {\n          @for (row of data(); track $index) {\n            <tr class=\"even:bg-zinc-50 hover:bg-zinc-100\">\n              <th class=\"text-right border-r border-zinc-200\">{{ $index + 1 | number }}</th>\n              @for (item of row; track $index; let i = $index) {\n                @if (isNumber(item)) {\n                  <td class=\"text-right border-r border-zinc-200 last:border-r-0\">{{ item | number }}</td>\n                } @else {\n                  <td class=\"border-r border-zinc-200 last:border-r-0\">{{ item }}</td>\n                }\n              }\n            </tr>\n          } @empty {\n            <tr>\n              <td class=\"text-zinc-500 text-center\" [colSpan]=\"columns().length + 1\">결과가 없습니다.</td>\n            </tr>\n          }\n        }\n      </tbody>\n    </table>\n  </div>\n</etri-base-dialog>\n"
+        },
+        {
+            "name": "ScatterChartComponent",
+            "id": "component-ScatterChartComponent-4393f35ca727862b449bcc47a54620386e9e5cb3f1e6b5226732cc57850c372b77b6d92c54523a0bc1f4653f7edd0cecf01a0f2d2172d6243f7347bfe322635c",
+            "file": "src/app/components/organisms/charts/scatter-chart/scatter-chart.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "scatter-chart",
+            "styleUrls": [
+                "./scatter-chart.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./scatter-chart.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\n\n@Component({\n  standalone: true,\n  selector: 'scatter-chart',\n  templateUrl: './scatter-chart.component.html',\n  styleUrls: ['./scatter-chart.component.scss'],\n})\nexport class ScatterChartComponent { }\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ":host {\n  @apply block w-full;\n}\n",
+                    "styleUrl": "./scatter-chart.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "extends": [],
+            "templateData": "<div #chartRef class=\"w-full h-full relative\"></div>\n"
         },
         {
             "name": "SearchInputComponent",
@@ -13130,7 +14087,7 @@
         },
         {
             "name": "TrashIconComponent",
-            "id": "component-TrashIconComponent-1af26dbfc14534628a3a464a5c41c3c2b537c29abf84c608176b716fc2914b92d5bab213f78bf22153d68be03581ab75e2bbf2583754b6f060ff485e79497e6f",
+            "id": "component-TrashIconComponent-8f8785975507449578c200f12dd2f74f20ee6436047d2babab7e17933e6543e82f594fab3a9eb27ea52be9f6b718caa03e05223b12902deb3cd01ea87780535d",
             "file": "src/app/components/atoms/icons/trash-icon/trash-icon.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -13140,7 +14097,7 @@
             "selector": "etri-trash-icon",
             "styleUrls": [],
             "styles": [],
-            "template": "@if (type() === 'solid') {\n  <svg\n    xmlns=\"http://www.w3.org/2000/svg\"\n    viewBox=\"0 0 24 24\"\n    fill=\"currentColor\"\n    [class]=\"class()\"\n  >\n    <path fill-rule=\"evenodd\" d=\"M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z\" clip-rule=\"evenodd\" />\n  </svg>\n} @else {\n  <svg\n    xmlns=\"http://www.w3.org/2000/svg\"\n    fill=\"none\"\n    viewBox=\"0 0 24 24\"\n    stroke-width=\"1.5\"\n    stroke=\"currentColor\"\n    [class]=\"class()\"\n  >\n    <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0\" />\n  </svg>\n}\n",
+            "template": "@if (type() === 'solid') {\n  <svg\n    xmlns=\"http://www.w3.org/2000/svg\"\n    viewBox=\"0 0 24 24\"\n    fill=\"currentColor\"\n    [class]=\"class()\"\n  >\n    <path fill-rule=\"evenodd\"\n          d=\"M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z\"\n          clip-rule=\"evenodd\"/>\n  </svg>\n} @else {\n  <svg\n    xmlns=\"http://www.w3.org/2000/svg\"\n    fill=\"none\"\n    viewBox=\"0 0 24 24\"\n    stroke-width=\"1.5\"\n    stroke=\"currentColor\"\n    [class]=\"class()\"\n  >\n    <path stroke-linecap=\"round\" stroke-linejoin=\"round\"\n          d=\"m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0\"/>\n  </svg>\n}\n",
             "templateUrl": [],
             "viewProviders": [],
             "hostDirectives": [],
@@ -13184,7 +14141,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\nimport { BaseIconDirective } from '../base-icon.directive';\n\n@Component({\n  selector: 'etri-trash-icon',\n  standalone: true,\n  template: `\n    @if (type() === 'solid') {\n      <svg\n        xmlns=\"http://www.w3.org/2000/svg\"\n        viewBox=\"0 0 24 24\"\n        fill=\"currentColor\"\n        [class]=\"class()\"\n      >\n        <path fill-rule=\"evenodd\" d=\"M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z\" clip-rule=\"evenodd\" />\n      </svg>\n    } @else {\n      <svg\n        xmlns=\"http://www.w3.org/2000/svg\"\n        fill=\"none\"\n        viewBox=\"0 0 24 24\"\n        stroke-width=\"1.5\"\n        stroke=\"currentColor\"\n        [class]=\"class()\"\n      >\n        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0\" />\n      </svg>\n    }\n  `\n})\nexport class TrashIconComponent extends BaseIconDirective {\n}\n",
+            "sourceCode": "import { Component } from '@angular/core';\nimport { BaseIconDirective } from '../base-icon.directive';\n\n@Component({\n  selector: 'etri-trash-icon',\n  standalone: true,\n  template: `\n    @if (type() === 'solid') {\n      <svg\n        xmlns=\"http://www.w3.org/2000/svg\"\n        viewBox=\"0 0 24 24\"\n        fill=\"currentColor\"\n        [class]=\"class()\"\n      >\n        <path fill-rule=\"evenodd\"\n              d=\"M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z\"\n              clip-rule=\"evenodd\"/>\n      </svg>\n    } @else {\n      <svg\n        xmlns=\"http://www.w3.org/2000/svg\"\n        fill=\"none\"\n        viewBox=\"0 0 24 24\"\n        stroke-width=\"1.5\"\n        stroke=\"currentColor\"\n        [class]=\"class()\"\n      >\n        <path stroke-linecap=\"round\" stroke-linejoin=\"round\"\n              d=\"m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0\"/>\n      </svg>\n    }\n  `\n})\nexport class TrashIconComponent extends BaseIconDirective {\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -13926,7 +14883,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "object",
-                "defaultValue": "{\n  production: false,\n  // apiHost: 'http://192.168.10.39:8070/api',\n  apiHost: 'http://192.168.10.39:8070/api',\n}"
+                "defaultValue": "{\n  production: false,\n  apiHost: 'http://localhost/api',\n  // apiHost: 'http://192.168.10.39/api',\n}"
             },
             {
                 "name": "environment",
@@ -13956,7 +14913,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Model[]",
-                "defaultValue": "[\n  {\n    name: 'm_tablegan',\n    modeltype: 'tablegan',\n    schema: 'instacart_small',\n    table: 'order_products',\n    columns: ['product_id', 'order_id', 'add_to_cart_order', 'reordered'],\n    table_rows: 1384617,\n    trained_rows: 1384617,\n    status: 'ENABLED',\n    server: 'http://129.254.182.64:58080/',\n    start: '2023-12-19 17:47:04.000000',\n    training_status: 'FINISHED',\n    options: { 'epochs': 1 },\n  },\n  {\n    name: 'New_Model',\n    modeltype: 'tablegan',\n    schema: 'instacart_small',\n    table: 'order_products',\n    columns: ['add_to_cart_order', 'order_id', 'product_id'],\n    table_rows: 1384617,\n    trained_rows: 1384617,\n    status: 'DISABLED',\n    server: null,\n    start: null,\n    training_status: null,\n    options: { 'epochs': 1 },\n  },\n  {\n    name: 'test_tgan',\n    modeltype: 'tablegan',\n    schema: 'instacart_small',\n    table: 'order_products',\n    columns: ['reordered', 'add_to_cart_order'],\n    table_rows: 1384617,\n    trained_rows: 1384617,\n    status: 'ENABLED',\n    server: 'http://129.254.182.64:58080/',\n    start: '2024-05-24 11:08:39.000000',\n    training_status: 'TRAINING',\n    options: { 'epochs': 1 },\n  },\n  {\n    name: 'test_rspn',\n    modeltype: 'rspn',\n    schema: 'instacart_small',\n    table: 'order_products',\n    columns: ['reordered', 'add_to_cart_order'],\n    table_rows: 1384617,\n    trained_rows: 1384617,\n    status: 'ENABLED',\n    server: 'http://129.254.182.64:58080/',\n    start: '2024-05-24 11:08:39.000000',\n    training_status: 'FINISHED',\n    options: { 'epochs': 1 },\n  },\n]"
+                "defaultValue": "[\n  {\n    name: 'm_tablegan',\n    modeltype: 'tablegan',\n    schema: 'instacart_small',\n    table: 'order_products',\n    columns: ['product_id', 'order_id', 'add_to_cart_order', 'reordered'],\n    table_rows: 1384617,\n    trained_rows: 1384617,\n    status: 'ENABLED',\n    server: 'http://192.168.0.64:58080/',\n    start: '2023-12-19 17:47:04.000000',\n    training_status: 'FINISHED',\n    options: { 'epochs': 1 },\n  },\n  {\n    name: 'New_Model',\n    modeltype: 'tablegan',\n    schema: 'instacart_small',\n    table: 'order_products',\n    columns: ['add_to_cart_order', 'order_id', 'product_id'],\n    table_rows: 1384617,\n    trained_rows: 1384617,\n    status: 'DISABLED',\n    server: null,\n    start: null,\n    training_status: null,\n    options: { 'epochs': 1 },\n  },\n  {\n    name: 'test_tgan',\n    modeltype: 'tablegan',\n    schema: 'instacart_small',\n    table: 'order_products',\n    columns: ['reordered', 'add_to_cart_order'],\n    table_rows: 1384617,\n    trained_rows: 1384617,\n    status: 'ENABLED',\n    server: 'http://192.168.0.64:58080/',\n    start: '2024-05-24 11:08:39.000000',\n    training_status: 'TRAINING',\n    options: { 'epochs': 1 },\n  },\n  {\n    name: 'test_rspn',\n    modeltype: 'rspn',\n    schema: 'instacart_small',\n    table: 'order_products',\n    columns: ['reordered', 'add_to_cart_order'],\n    table_rows: 1384617,\n    trained_rows: 1384617,\n    status: 'ENABLED',\n    server: 'http://192.168.0.64:58080/',\n    start: '2024-05-24 11:08:39.000000',\n    training_status: 'FINISHED',\n    options: { 'epochs': 1 },\n  },\n]"
             },
             {
                 "name": "MODELTYPE_LIST",
@@ -13966,7 +14923,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Modeltype[]",
-                "defaultValue": "[\n  {\n    name: 'rspn',\n    category: 'INFERENCE',\n    location: 'REMOTE',\n    className: 'RSPN',\n    uri: 'http://129.123.122.29:58080/',\n  },\n  {\n    name: 'tablegan',\n    category: 'SYNOPSIS',\n    location: 'REMOTE',\n    className: 'CTGAN',\n    uri: 'http://129.123.122.29:58080/',\n  },\n  {\n    name: 'ctgan',\n    category: 'SYNOPSIS',\n    location: 'REMOTE',\n    className: 'OCTGAN',\n    uri: 'http://129.123.122.29:58080/',\n  },\n  {\n    name: 'octgan',\n    category: 'SYNOPSIS',\n    location: 'REMOTE',\n    className: 'STASY',\n    uri: 'http://129.123.122.29:58080/',\n  },\n  {\n    name: 'stasy',\n    category: 'SYNOPSIS',\n    location: 'REMOTE',\n    className: 'TVAE',\n    uri: 'http://129.123.122.29:58080/',\n  },\n  {\n    name: 'tvae',\n    category: 'SYNOPSIS',\n    location: 'REMOTE',\n    className: 'TableGAN',\n    uri: 'http://129.123.122.29:58080/',\n  },\n  {\n    name: 'local_tvae',\n    category: 'SYNOPSIS',\n    location: 'LOCAL',\n    className: 'TableGAN',\n    uri: 'models/TableGAN.py',\n  },\n]"
+                "defaultValue": "[\n  {\n    name: 'rspn',\n    category: 'INFERENCE',\n    location: 'REMOTE',\n    className: 'RSPN',\n    uri: 'http://192.168.0.29:58080/',\n  },\n  {\n    name: 'tablegan',\n    category: 'SYNOPSIS',\n    location: 'REMOTE',\n    className: 'CTGAN',\n    uri: 'http://192.168.0.29:58080/',\n  },\n  {\n    name: 'ctgan',\n    category: 'SYNOPSIS',\n    location: 'REMOTE',\n    className: 'OCTGAN',\n    uri: 'http://192.168.0.29:58080/',\n  },\n  {\n    name: 'octgan',\n    category: 'SYNOPSIS',\n    location: 'REMOTE',\n    className: 'STASY',\n    uri: 'http://192.168.0.29:58080/',\n  },\n  {\n    name: 'stasy',\n    category: 'SYNOPSIS',\n    location: 'REMOTE',\n    className: 'TVAE',\n    uri: 'http://192.168.0.29:58080/',\n  },\n  {\n    name: 'tvae',\n    category: 'SYNOPSIS',\n    location: 'REMOTE',\n    className: 'TableGAN',\n    uri: 'http://192.168.0.29:58080/',\n  },\n  {\n    name: 'local_tvae',\n    category: 'SYNOPSIS',\n    location: 'LOCAL',\n    className: 'TableGAN',\n    uri: 'models/TableGAN.py',\n  },\n]"
             },
             {
                 "name": "monaco",
@@ -14046,7 +15003,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "FindTrainDBDto[]",
-                "defaultValue": "[\n  {\n    id: 1,\n    name: 'Etri TrainDB',\n    host: '129.123.122.29',\n    port: 58000,\n    username: null,\n    password: null,\n    created_at: new Date(),\n    updated_at: new Date(),\n  },\n  {\n    id: 2,\n    name: 'Bimatrix TrainDB',\n    host: '129.123.122.30',\n    port: 58000,\n    username: null,\n    password: null,\n    created_at: new Date(),\n    updated_at: new Date(),\n  },\n  {\n    id: 3,\n    name: 'Test TrainDB1',\n    host: '129.123.122.31',\n    port: 58000,\n    username: null,\n    password: null,\n    created_at: new Date(),\n    updated_at: new Date(),\n  },\n  {\n    id: 4,\n    name: 'Test TrainDB2',\n    host: '129.123.122.31',\n    port: 58001,\n    username: null,\n    password: null,\n    created_at: new Date(),\n    updated_at: new Date(),\n  }\n]"
+                "defaultValue": "[\n  {\n    id: 1,\n    name: 'Etri TrainDB',\n    host: '192.168.0.29',\n    port: 58000,\n    username: null,\n    password: null,\n    created_at: new Date(),\n    updated_at: new Date(),\n  },\n  {\n    id: 2,\n    name: 'Bimatrix TrainDB',\n    host: '192.168.0.30',\n    port: 58000,\n    username: null,\n    password: null,\n    created_at: new Date(),\n    updated_at: new Date(),\n  },\n  {\n    id: 3,\n    name: 'Test TrainDB1',\n    host: '192.168.0.31',\n    port: 58000,\n    username: null,\n    password: null,\n    created_at: new Date(),\n    updated_at: new Date(),\n  },\n  {\n    id: 4,\n    name: 'Test TrainDB2',\n    host: '192.168.0.31',\n    port: 58001,\n    username: null,\n    password: null,\n    created_at: new Date(),\n    updated_at: new Date(),\n  }\n]"
             },
             {
                 "name": "VALUE_ACCESSOR",
@@ -14212,7 +15169,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "object",
-                    "defaultValue": "{\n  production: false,\n  // apiHost: 'http://192.168.10.39:8070/api',\n  apiHost: 'http://192.168.10.39:8070/api',\n}"
+                    "defaultValue": "{\n  production: false,\n  apiHost: 'http://localhost/api',\n  // apiHost: 'http://192.168.10.39/api',\n }"
                 }
             ],
             "src/environments/environment.ts": [
@@ -14248,7 +15205,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Model[]",
-                    "defaultValue": "[\n  {\n    name: 'm_tablegan',\n    modeltype: 'tablegan',\n    schema: 'instacart_small',\n    table: 'order_products',\n    columns: ['product_id', 'order_id', 'add_to_cart_order', 'reordered'],\n    table_rows: 1384617,\n    trained_rows: 1384617,\n    status: 'ENABLED',\n    server: 'http://129.254.182.64:58080/',\n    start: '2023-12-19 17:47:04.000000',\n    training_status: 'FINISHED',\n    options: { 'epochs': 1 },\n  },\n  {\n    name: 'New_Model',\n    modeltype: 'tablegan',\n    schema: 'instacart_small',\n    table: 'order_products',\n    columns: ['add_to_cart_order', 'order_id', 'product_id'],\n    table_rows: 1384617,\n    trained_rows: 1384617,\n    status: 'DISABLED',\n    server: null,\n    start: null,\n    training_status: null,\n    options: { 'epochs': 1 },\n  },\n  {\n    name: 'test_tgan',\n    modeltype: 'tablegan',\n    schema: 'instacart_small',\n    table: 'order_products',\n    columns: ['reordered', 'add_to_cart_order'],\n    table_rows: 1384617,\n    trained_rows: 1384617,\n    status: 'ENABLED',\n    server: 'http://129.254.182.64:58080/',\n    start: '2024-05-24 11:08:39.000000',\n    training_status: 'TRAINING',\n    options: { 'epochs': 1 },\n  },\n  {\n    name: 'test_rspn',\n    modeltype: 'rspn',\n    schema: 'instacart_small',\n    table: 'order_products',\n    columns: ['reordered', 'add_to_cart_order'],\n    table_rows: 1384617,\n    trained_rows: 1384617,\n    status: 'ENABLED',\n    server: 'http://129.254.182.64:58080/',\n    start: '2024-05-24 11:08:39.000000',\n    training_status: 'FINISHED',\n    options: { 'epochs': 1 },\n  },\n]"
+                    "defaultValue": "[\n  {\n    name: 'm_tablegan',\n    modeltype: 'tablegan',\n    schema: 'instacart_small',\n    table: 'order_products',\n    columns: ['product_id', 'order_id', 'add_to_cart_order', 'reordered'],\n    table_rows: 1384617,\n    trained_rows: 1384617,\n    status: 'ENABLED',\n    server: 'http://192.168.0.64:58080/',\n    start: '2023-12-19 17:47:04.000000',\n    training_status: 'FINISHED',\n    options: { 'epochs': 1 },\n  },\n  {\n    name: 'New_Model',\n    modeltype: 'tablegan',\n    schema: 'instacart_small',\n    table: 'order_products',\n    columns: ['add_to_cart_order', 'order_id', 'product_id'],\n    table_rows: 1384617,\n    trained_rows: 1384617,\n    status: 'DISABLED',\n    server: null,\n    start: null,\n    training_status: null,\n    options: { 'epochs': 1 },\n  },\n  {\n    name: 'test_tgan',\n    modeltype: 'tablegan',\n    schema: 'instacart_small',\n    table: 'order_products',\n    columns: ['reordered', 'add_to_cart_order'],\n    table_rows: 1384617,\n    trained_rows: 1384617,\n    status: 'ENABLED',\n    server: 'http://192.168.0.64:58080/',\n    start: '2024-05-24 11:08:39.000000',\n    training_status: 'TRAINING',\n    options: { 'epochs': 1 },\n  },\n  {\n    name: 'test_rspn',\n    modeltype: 'rspn',\n    schema: 'instacart_small',\n    table: 'order_products',\n    columns: ['reordered', 'add_to_cart_order'],\n    table_rows: 1384617,\n    trained_rows: 1384617,\n    status: 'ENABLED',\n    server: 'http://192.168.0.64:58080/',\n    start: '2024-05-24 11:08:39.000000',\n    training_status: 'FINISHED',\n    options: { 'epochs': 1 },\n  },\n]"
                 }
             ],
             "src/app/mocks/modeltypes.ts": [
@@ -14260,7 +15217,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Modeltype[]",
-                    "defaultValue": "[\n  {\n    name: 'rspn',\n    category: 'INFERENCE',\n    location: 'REMOTE',\n    className: 'RSPN',\n    uri: 'http://129.123.122.29:58080/',\n  },\n  {\n    name: 'tablegan',\n    category: 'SYNOPSIS',\n    location: 'REMOTE',\n    className: 'CTGAN',\n    uri: 'http://129.123.122.29:58080/',\n  },\n  {\n    name: 'ctgan',\n    category: 'SYNOPSIS',\n    location: 'REMOTE',\n    className: 'OCTGAN',\n    uri: 'http://129.123.122.29:58080/',\n  },\n  {\n    name: 'octgan',\n    category: 'SYNOPSIS',\n    location: 'REMOTE',\n    className: 'STASY',\n    uri: 'http://129.123.122.29:58080/',\n  },\n  {\n    name: 'stasy',\n    category: 'SYNOPSIS',\n    location: 'REMOTE',\n    className: 'TVAE',\n    uri: 'http://129.123.122.29:58080/',\n  },\n  {\n    name: 'tvae',\n    category: 'SYNOPSIS',\n    location: 'REMOTE',\n    className: 'TableGAN',\n    uri: 'http://129.123.122.29:58080/',\n  },\n  {\n    name: 'local_tvae',\n    category: 'SYNOPSIS',\n    location: 'LOCAL',\n    className: 'TableGAN',\n    uri: 'models/TableGAN.py',\n  },\n]"
+                    "defaultValue": "[\n  {\n    name: 'rspn',\n    category: 'INFERENCE',\n    location: 'REMOTE',\n    className: 'RSPN',\n    uri: 'http://192.168.0.29:58080/',\n  },\n  {\n    name: 'tablegan',\n    category: 'SYNOPSIS',\n    location: 'REMOTE',\n    className: 'CTGAN',\n    uri: 'http://192.168.0.29:58080/',\n  },\n  {\n    name: 'ctgan',\n    category: 'SYNOPSIS',\n    location: 'REMOTE',\n    className: 'OCTGAN',\n    uri: 'http://192.168.0.29:58080/',\n  },\n  {\n    name: 'octgan',\n    category: 'SYNOPSIS',\n    location: 'REMOTE',\n    className: 'STASY',\n    uri: 'http://192.168.0.29:58080/',\n  },\n  {\n    name: 'stasy',\n    category: 'SYNOPSIS',\n    location: 'REMOTE',\n    className: 'TVAE',\n    uri: 'http://192.168.0.29:58080/',\n  },\n  {\n    name: 'tvae',\n    category: 'SYNOPSIS',\n    location: 'REMOTE',\n    className: 'TableGAN',\n    uri: 'http://192.168.0.29:58080/',\n  },\n  {\n    name: 'local_tvae',\n    category: 'SYNOPSIS',\n    location: 'LOCAL',\n    className: 'TableGAN',\n    uri: 'models/TableGAN.py',\n  },\n]"
                 }
             ],
             "src/app/config/monaco-config.ts": [
@@ -14354,7 +15311,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "FindTrainDBDto[]",
-                    "defaultValue": "[\n  {\n    id: 1,\n    name: 'Etri TrainDB',\n    host: '129.123.122.29',\n    port: 58000,\n    username: null,\n    password: null,\n    created_at: new Date(),\n    updated_at: new Date(),\n  },\n  {\n    id: 2,\n    name: 'Bimatrix TrainDB',\n    host: '129.123.122.30',\n    port: 58000,\n    username: null,\n    password: null,\n    created_at: new Date(),\n    updated_at: new Date(),\n  },\n  {\n    id: 3,\n    name: 'Test TrainDB1',\n    host: '129.123.122.31',\n    port: 58000,\n    username: null,\n    password: null,\n    created_at: new Date(),\n    updated_at: new Date(),\n  },\n  {\n    id: 4,\n    name: 'Test TrainDB2',\n    host: '129.123.122.31',\n    port: 58001,\n    username: null,\n    password: null,\n    created_at: new Date(),\n    updated_at: new Date(),\n  }\n]"
+                    "defaultValue": "[\n  {\n    id: 1,\n    name: 'Etri TrainDB',\n    host: '192.168.0.29',\n    port: 58000,\n    username: null,\n    password: null,\n    created_at: new Date(),\n    updated_at: new Date(),\n  },\n  {\n    id: 2,\n    name: 'Bimatrix TrainDB',\n    host: '192.168.0.30',\n    port: 58000,\n    username: null,\n    password: null,\n    created_at: new Date(),\n    updated_at: new Date(),\n  },\n  {\n    id: 3,\n    name: 'Test TrainDB1',\n    host: '192.168.0.31',\n    port: 58000,\n    username: null,\n    password: null,\n    created_at: new Date(),\n    updated_at: new Date(),\n  },\n  {\n    id: 4,\n    name: 'Test TrainDB2',\n    host: '192.168.0.31',\n    port: 58001,\n    username: null,\n    password: null,\n    created_at: new Date(),\n    updated_at: new Date(),\n  }\n]"
                 }
             ],
             "src/app/components/organisms/dashboard/dashboard-item-input/dashboard-item-input.component.ts": [
@@ -14756,7 +15713,7 @@
                 "linktype": "component",
                 "name": "BarChartComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/17",
+                "coverageCount": "0/19",
                 "status": "low"
             },
             {
@@ -14765,7 +15722,16 @@
                 "linktype": "component",
                 "name": "LineChartComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/17",
+                "coverageCount": "0/18",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/components/organisms/charts/scatter-chart/scatter-chart.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "ScatterChartComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
                 "status": "low"
             },
             {
@@ -14774,7 +15740,7 @@
                 "linktype": "component",
                 "name": "ChartItemComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/3",
+                "coverageCount": "0/8",
                 "status": "low"
             },
             {
@@ -14783,7 +15749,7 @@
                 "linktype": "component",
                 "name": "DashboardItemInputComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/17",
+                "coverageCount": "0/22",
                 "status": "low"
             },
             {
@@ -14794,6 +15760,24 @@
                 "name": "VALUE_ACCESSOR",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/components/organisms/dashboard/dashboard-item/dashboard-item.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "DashboardItemComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/6",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/components/organisms/dashboard/dashboard-items/dashboard-items.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "DashboardItemsComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/14",
                 "status": "low"
             },
             {
@@ -14875,7 +15859,7 @@
                 "linktype": "component",
                 "name": "MakeChartDialogComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/10",
+                "coverageCount": "0/13",
                 "status": "low"
             },
             {
@@ -15048,7 +16032,16 @@
                 "linktype": "interface",
                 "name": "BubbleChartItem",
                 "coveragePercent": 0,
-                "coverageCount": "0/5",
+                "coverageCount": "0/2",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/dto/dashboard.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "BubbleChartItemFields",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
                 "status": "low"
             },
             {
@@ -15057,7 +16050,16 @@
                 "linktype": "interface",
                 "name": "ChartItem",
                 "coveragePercent": 0,
-                "coverageCount": "0/4",
+                "coverageCount": "0/2",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/dto/dashboard.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "ChartItemFields",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
                 "status": "low"
             },
             {
@@ -15505,6 +16507,24 @@
                 "status": "low"
             },
             {
+                "filePath": "src/app/pipes/column-to-axis-data.pipe.ts",
+                "type": "pipe",
+                "linktype": "pipe",
+                "name": "ColumnToAxisDataPipe",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/pipes/column-to-index.pipe.ts",
+                "type": "pipe",
+                "linktype": "pipe",
+                "name": "ColumnToIndexPipe",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
                 "filePath": "src/app/pipes/ip-anonymization.pipe.ts",
                 "type": "pipe",
                 "linktype": "pipe",
@@ -15537,7 +16557,7 @@
                 "linktype": "component",
                 "name": "DashboardPageComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/2",
+                "coverageCount": "0/7",
                 "status": "low"
             },
             {
@@ -15546,7 +16566,7 @@
                 "linktype": "component",
                 "name": "DashboardFormPageComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/13",
+                "coverageCount": "0/15",
                 "status": "low"
             },
             {

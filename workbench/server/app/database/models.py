@@ -1,13 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import (
-    Boolean,
-    Column,
-    DateTime,
-    ForeignKey,
-    Integer,
-    String,
-)
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from .engine import Base, init_db
@@ -15,7 +8,7 @@ from .types import EncryptedString, JSONString
 
 
 class TrainDB(Base):
-    __tablename__ = 'traindbs'
+    __tablename__ = "traindbs"
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, index=True, nullable=False)
     username = Column(String)
@@ -27,7 +20,7 @@ class TrainDB(Base):
 
 
 class Database(Base):
-    __tablename__ = 'databases'
+    __tablename__ = "databases"
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, index=True, nullable=False)
     dbms = Column(String, nullable=False)
@@ -35,6 +28,7 @@ class Database(Base):
     port = Column(Integer, nullable=False)
     username = Column(String)
     password = Column(EncryptedString)
+    database = Column(String, default=None)
     traindb_id = Column(Integer, ForeignKey("traindbs.id", ondelete="CASCADE"))
     traindb = relationship("TrainDB", foreign_keys=[traindb_id])
     created_at = Column(DateTime, default=datetime.now())
@@ -42,10 +36,10 @@ class Database(Base):
 
 
 class Query(Base):
-    __tablename__ = 'queries'
+    __tablename__ = "queries"
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, index=True, nullable=False)
-    is_approximate = Column(Boolean, default=False)
+    query_type = Column(String, nullable=False)
     sql = Column(String, nullable=False)
     traindb_id = Column(Integer, ForeignKey("traindbs.id", ondelete="CASCADE"))
     traindb = relationship("TrainDB", foreign_keys=[traindb_id])
@@ -56,7 +50,7 @@ class Query(Base):
 
 
 class Dashboard(Base):
-    __tablename__ = 'dashboards'
+    __tablename__ = "dashboards"
     id = Column(Integer, primary_key=True, autoincrement=True)
     traindb_id = Column(Integer, ForeignKey("traindbs.id", ondelete="CASCADE"))
     name = Column(String, index=True, nullable=False)

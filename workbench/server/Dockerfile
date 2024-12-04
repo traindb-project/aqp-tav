@@ -12,6 +12,9 @@ RUN echo ${TZ} > /etc/timezone
 
 RUN apt-get update && \
     apt-get install -y openjdk-11-jdk && \
+    apt-get install -y locales && \
+    locale-gen ko_KR.UTF-8 && \
+    update-locale LANG=ko_KR.UTF-8 && \
     apt-get install -y python3.11 && \
     apt-get install -y python3.11-dev && \
     apt-get install -y python3-pip && \

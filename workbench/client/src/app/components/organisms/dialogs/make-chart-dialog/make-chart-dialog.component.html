@@ -3,10 +3,20 @@
 >
   <h1 header etriDialogHeader>Add Visualization</h1>
   <div class="space-y-4">
+    <label class="input input-sm input-bordered flex items-center gap-4">
+      <span>Title</span>
+      <input
+        [(ngModel)]="title"
+        type="text"
+        placeholder="Input title"
+        class="grow"
+      />
+    </label>
     <label class="flex items-center gap-4 w-full">
       <span>Select Visualization</span>
       <select
-        [(ngModel)]="chartType"
+        [ngModel]="chartType()"
+        (ngModelChange)="changeChartType($event)"
         class="select select-sm select-bordered max-w-[300px] grow"
       >
         @for (type of CHART_TYPES; track type) {
@@ -14,13 +24,68 @@
         }
       </select>
     </label>
-
-    @if (isChartItem()) {
+    @if (isTable()) {
+      <div class="flex flex-col flex-wrap gap-2">
+        @for (column of columns(); track column) {
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              [ngModel]="(fields.columns ?? []).includes(column)"
+              (ngModelChange)="changeColumns(column, $event)"
+              class="checkbox checkbox-sm"
+            />
+            <span>{{ column }}</span>
+          </label>
+        }
+      </div>
+    } @else if (isChart()) {
       <etri-chart-item
         [columns]="columns()"
-        [types]="types()"
         (onChange)="changeFields($event)"
       />
+      @if (chartType() !== ChartType.PIE) {
+        <label class="flex items-center gap-4 w-full">
+          <span>Minimum Value Of Y Axis</span>
+        <input
+          type="number"
+          [ngModel]="fields.min_y"
+          (ngModelChange)="changeMinY($event)"
+          class="input input-sm input-bordered max-w-[300px] grow text-right"
+        />
+      </label>
+      <label class="flex items-center gap-4 w-full">
+        <span>Maximum Value Of Y Axis</span>
+        <input
+          type="number"
+          [ngModel]="fields.max_y"
+          (ngModelChange)="changeMaxY($event)"
+          class="input input-sm input-bordered max-w-[300px] grow text-right"
+          />
+        </label>
+      }
+    }
+    @if (isMap()) {
+      <div class="space-y-4">
+        <etri-chart-item
+          [xAsisLabel]="'Select Label'"
+          [yAsisLabel]="'Select Count Value'"
+          [columns]="columns()"
+          (onChange)="changeFields($event)"
+        />
+        <label class="flex items-center gap-4 w-full">
+          <span>Geo Column</span>
+          <select
+            [ngModel]="fields.geo_column"
+            (ngModelChange)="changeGeoColumn($event)"
+            class="select select-sm select-bordered max-w-[300px] grow"
+          >
+            <option [ngValue]="null">선택</option>
+            @for (column of columns(); track column) {
+              <option [ngValue]="column">{{ column }}</option>
+            }
+          </select>
+        </label>
+      </div>
     }
   </div>
   <div footer class="flex justify-end gap-4">

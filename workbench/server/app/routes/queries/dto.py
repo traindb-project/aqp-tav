@@ -1,4 +1,5 @@
 from datetime import datetime
+from enum import Enum
 from typing import Any, List
 
 from pydantic import BaseModel
@@ -11,7 +12,7 @@ class Query(BaseModel):
     name: str
     traindb_id: int
     database_id: int
-    is_approximate: bool
+    query_type: str
     sql: str
 
 

@@ -13,20 +13,19 @@ import { IpAnonymizationPipe, PatternFilterPipe } from '../../../../pipes';
 import { TraindbService } from '../../../../services';
 
 @Component({
-  imports: [
-    LoadingComponent,
-    DecimalPipe,
-    RouterLink,
-    IpAnonymizationPipe,
-    PatternFilterPipe,
-    SearchInputComponent,
-    TrashIconComponent,
-    PencilSquareIconComponent
-  ],
-  selector: 'etri-traindb-list-page',
-  standalone: true,
-  styleUrls: ['traindb-list-page.component.scss'],
-  templateUrl: 'traindb-list-page.component.html'
+    imports: [
+        LoadingComponent,
+        DecimalPipe,
+        RouterLink,
+        IpAnonymizationPipe,
+        PatternFilterPipe,
+        SearchInputComponent,
+        TrashIconComponent,
+        PencilSquareIconComponent
+    ],
+    selector: 'etri-traindb-list-page',
+    styleUrls: ['traindb-list-page.component.scss'],
+    templateUrl: 'traindb-list-page.component.html'
 })
 export class TraindbListPageComponent {
   readonly traindbList: WritableSignal<FindTrainDBDto[]> = signal([]);

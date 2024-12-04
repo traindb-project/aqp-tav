@@ -11,6 +11,7 @@ class DatabaseDto(BaseModel):
     port: int
     username: str | None = None
     password: str | None = None
+    database: str | None = None
 
 
 class CreateDatabaseDto(DatabaseDto):

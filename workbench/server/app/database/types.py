@@ -1,9 +1,4 @@
-__all__ = [
-    "BcryptString",
-    "ChartType",
-    "EncryptedString",
-    "JSONString"
-]
+__all__ = ["BcryptString", "ChartType", "EncryptedString", "JSONString"]
 
 import json
 from enum import Enum
@@ -26,8 +21,7 @@ class BcryptString(TypeDecorator):
             return hashed_value
         except Exception as e:
             raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=str(e)
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
             )
 
     def process_result_value(self, value: str, dialect):
@@ -57,8 +51,9 @@ class JSONString(TypeDecorator):
 
 
 class ChartType(str, Enum):
+    TABLE = "table"
     BAR = "bar"
     LINE = "line"
     SCATTER = "scatter"
     PIE = "pie"
-    BUBBLE = "bubble"
+    MAP = "map"

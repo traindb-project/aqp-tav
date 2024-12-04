@@ -7,17 +7,16 @@ import { DialogHeaderDirective, LoadingComponent } from '../../../atoms';
 import { BaseDialogComponent } from '../base-dialog';
 
 @Component({
-  selector: 'etri-import-model-dialog_',
-  standalone: true,
-  styleUrls: ['import-model-dialog.component.scss'],
-  templateUrl: 'import-model-dialog.component.html',
   imports: [
     BaseDialogComponent,
     DialogHeaderDirective,
     ReactiveFormsModule,
     FormsModule,
     LoadingComponent
-  ]
+  ],
+  selector: 'etri-import-model-dialog_',
+  styleUrls: ['import-model-dialog.component.scss'],
+  templateUrl: 'import-model-dialog.component.html',
 })
 export class ImportModelDialogComponent {
   name: string | null = null;
@@ -65,7 +64,6 @@ export class ImportModelDialogComponent {
     ImportModelDialogComponent
   ],
   selector: 'etri-import-model-dialog',
-  standalone: true,
   template: `
     <etri-import-model-dialog_
       (onClose)="dialogRef.close($event)"

@@ -1,17 +1,85 @@
-@if (item().type === ChartType.BAR) {
+@if (item().type === ChartType.TABLE) {
+  <div class="w-full">
+    <h1 class="text-lg font-bold text-center sticky top-0 bg-white">{{ item().title ?? '' }}</h1>
+    <div class="overflow-auto max-h-[280px]">
+      @if (data().length > 0) {
+        <table class="table table-xs">
+          <thead class="sticky top-0 bg-white">
+        <tr>
+          @for (column of columns() | filterColumns:tableItem().columns; track column) {
+            <th class="border-r border-zinc-200 last:border-r-0">{{ column }}</th>
+          }
+        </tr>
+        </thead>
+        <tbody>
+          @for (row of data(); track $index) {
+            <tr class="even:bg-zinc-50 hover:bg-zinc-100">
+              @for (item of row | filterSelectedRows:columns():tableItem().columns; track $index) {
+                @if (isNumber(item)) {
+                  <td class="text-right border-r border-zinc-200 last:border-r-0">{{ item | number }}</td>
+                } @else {
+                  <td class="border-r border-zinc-200 last:border-r-0">{{ item }}</td>
+                }
+              }
+            </tr>
+          }
+          </tbody>
+        </table>
+      } @else {
+        <div class="h-[280px] flex items-center justify-center bg-gray-50">
+          <p class="text-center text-sm text-zinc-500">Execute query to see data</p>
+        </div>
+      }
+    </div>
+  </div>
+} @else if (item().type === ChartType.BAR) {
   <etri-bar-chart
     height="350px"
-    [xAxisLabel]="item().x_column"
-    [yAxisLabel]="item().y_column"
-    [x]="item().x_column | columnToAxisData:data():columns()"
-    [y]="item().y_column | columnToAxisData:data():columns()"
+    [title]="item().title ?? ''"
+    [xAxisLabel]="chartItem().x_column"
+    [yAxisLabel]="chartItem().y_column"
+    [minY]="chartItem().min_y ?? null"
+    [maxY]="chartItem().max_y ?? null"
+    [x]="chartItem().x_column | columnToAxisData:data():columns()"
+    [y]="chartItem().y_column | columnToAxisData:data():columns()"
   />
 } @else if (item().type === ChartType.LINE) {
   <etri-line-chart
     height="350px"
-    [xAxisLabel]="item().x_column"
-    [yAxisLabel]="item().y_column"
-    [x]="item().x_column | columnToAxisData:data():columns()"
-    [y]="item().y_column | columnToAxisData:data():columns()"
+    [title]="item().title ?? ''"
+    [xAxisLabel]="chartItem().x_column"
+    [yAxisLabel]="chartItem().y_column"
+    [minY]="chartItem().min_y ?? null"
+    [maxY]="chartItem().max_y ?? null"
+    [x]="chartItem().x_column | columnToAxisData:data():columns()"
+    [y]="chartItem().y_column | columnToAxisData:data():columns()"
   />
+} @else if (item().type === ChartType.SCATTER) {
+  <etri-scatter-chart
+    height="350px"
+    [title]="item().title ?? ''"
+    [xAxisLabel]="chartItem().x_column"
+    [yAxisLabel]="chartItem().y_column"
+    [minY]="chartItem().min_y ?? null"
+    [maxY]="chartItem().max_y ?? null"
+    [x]="chartItem().x_column | columnToAxisData:data():columns()"
+    [y]="chartItem().y_column | columnToAxisData:data():columns()"
+  />
+} @else if (item().type === ChartType.PIE) {
+  <etri-pie-chart
+    height="350px"
+    [title]="item().title ?? ''"
+    [xAxisLabel]="chartItem().x_column"
+    [yAxisLabel]="chartItem().y_column"
+    [x]="chartItem().x_column | columnToAxisData:data():columns()"
+    [y]="chartItem().y_column | columnToAxisData:data():columns()"
+  />
+} @else if (item().type === ChartType.MAP) {
+    <etri-map-chart
+      [title]="item().title ?? ''"
+      [wkt]="mapItem().geo_column | columnToAxisData:data():columns()"
+      [x]="mapItem().x_column | columnToAxisData:data():columns()"
+      [y]="mapItem().y_column | columnToAxisData:data():columns()"
+      height="500px"
+    />
 }

@@ -1,36 +1,29 @@
-import { JsonPipe } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { switchMap } from 'rxjs';
-import { BarChartComponent, DashboardButtonComponent, DashboardItemsComponent } from '../../../../components';
-import { LineChartComponent } from '../../../../components/organisms/charts/line-chart/line-chart.component';
+
+import { DashboardButtonComponent, DashboardItemsComponent } from '../../../../components';
 import { ChartType, FindDashboard } from '../../../../dto';
-import { ColumnToAxisDataPipe } from '../../../../pipes';
 import { DashboardService, TraindbService } from '../../../../services';
 
 @Component({
   host: {
     class: 'page',
   },
-  selector: 'etri-dashboard-page',
-  standalone: true,
-  styleUrls: ['dashboard-page.component.scss'],
-  templateUrl: 'dashboard-page.component.html',
   imports: [
     DashboardButtonComponent,
     RouterLink,
-    JsonPipe,
-    BarChartComponent,
-    ColumnToAxisDataPipe,
-    LineChartComponent,
     DashboardItemsComponent
-  ]
+  ],
+  selector: 'etri-dashboard-page',
+  styleUrls: ['dashboard-page.component.scss'],
+  templateUrl: 'dashboard-page.component.html'
 })
 export class DashboardPageComponent implements OnInit {
   readonly dashboards = signal<FindDashboard[]>([]);
+  protected readonly ChartType = ChartType;
   private readonly traindbService = inject(TraindbService);
   private readonly dashboardService = inject(DashboardService);
-  protected readonly ChartType = ChartType;
 
   deleteDashboard(id: number) {
     if (!confirm('대시보드를 삭제하시겠습니까?')) return;
@@ -40,7 +33,9 @@ export class DashboardPageComponent implements OnInit {
         return this.dashboardService.searchDashboard(traindbId);
       }),
     ).subscribe({
-      next: dashboards => this.dashboards.set(dashboards),
+      next: dashboards => {
+        this.dashboards.set(dashboards);
+      },
       error: err => {
         console.error(err);
       },
@@ -50,7 +45,13 @@ export class DashboardPageComponent implements OnInit {
   ngOnInit(): void {
     const traindbId = this.traindbService.currentId()!;
     this.dashboardService.searchDashboard(traindbId).subscribe({
-      next: dashboards => this.dashboards.set(dashboards)
-    })
+      next: dashboards => {
+        dashboards.sort((a, b) => a.updated_at > b.updated_at ? -1 : 1);
+        this.dashboards.set(dashboards);
+      },
+      error: err => {
+        console.error(err);
+      },
+    });
   }
 }

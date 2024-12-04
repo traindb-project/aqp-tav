@@ -1,12 +1,14 @@
 import {
   AfterViewInit,
-  Component, computed, effect,
+  Component,
+  computed,
+  effect,
   ElementRef,
   HostBinding,
-  HostListener,
   Input,
   input,
-  viewChild
+  OnDestroy,
+  viewChild,
 } from '@angular/core';
 import * as d3 from 'd3';
 
@@ -16,9 +18,11 @@ import * as d3 from 'd3';
   styleUrls: ['bar-chart.component.scss'],
   templateUrl: 'bar-chart.component.html',
 })
-export class BarChartComponent implements AfterViewInit {
+export class BarChartComponent implements AfterViewInit, OnDestroy {
   readonly x = input<(string | number)[]>([]);
   readonly y = input<number[]>([]);
+  readonly minY = input<number | null>(null);
+  readonly maxY = input<number | null>(null);
   readonly xAxisLabel = input<string | null>(null);
   readonly yAxisLabel = input<string | null>(null);
   readonly title = input<string | null>(null);
@@ -31,30 +35,32 @@ export class BarChartComponent implements AfterViewInit {
     });
   });
   @HostBinding('style.height') @Input() height = '500px';
-
-  constructor() {
-    effect(() => {
-      const x = this.x();
-      const y = this.y();
-      const xAxisLabel = this.xAxisLabel();
-      const yAxisLabel = this.yAxisLabel();
-      console.log(xAxisLabel, ':', x);
-      console.log(yAxisLabel, ':', y);
-      this.updateChart();
-    });
-  }
+  @HostBinding('style.width') @Input() width = '100%';
 
   private readonly MAX = 10;
   private readonly MIN = 0;
   private svg!: d3.Selection<SVGSVGElement, unknown, null, undefined>;
   private tooltip!: d3.Selection<HTMLDivElement, unknown, null, undefined>;
+  private resizeObserver: ResizeObserver;
 
-  @HostListener('window:resize') onResize() {
-    this.updateChart();
+  constructor() {
+    this.resizeObserver = new ResizeObserver(() => {
+      this.updateChart();
+    });
+
+    effect(() => {
+      const element = this.chartRef()?.nativeElement;
+      if (element) this.resizeObserver.observe(element);
+    });
   }
 
   ngAfterViewInit() {
     this.createChart();
+  }
+
+  ngOnDestroy() {
+    const element = this.chartRef()?.nativeElement;
+    if (element) this.resizeObserver.unobserve(element);
   }
 
   private createChart() {
@@ -80,6 +86,7 @@ export class BarChartComponent implements AfterViewInit {
   }
 
   private updateChart() {
+    if (!this.svg) return;
     const element = this.chartRef()!.nativeElement;
     const width = element.offsetWidth;
     const height = element.offsetHeight;
@@ -95,7 +102,7 @@ export class BarChartComponent implements AfterViewInit {
       .padding(0.1);
 
     const y = d3.scaleLinear()
-      .domain([d3.min(this.y()) ?? this.MIN, d3.max(this.y()) ?? this.MAX])
+      .domain([this.minY() ?? d3.min(this.y()) ?? this.MIN, this.maxY() ?? this.maxY() ?? d3.max(this.y()) ?? this.MAX])
       .nice()
       .range([height - margin.bottom, margin.top]);
 
@@ -142,14 +149,22 @@ export class BarChartComponent implements AfterViewInit {
     const negativeColor = d3.scaleSequential(d3.interpolateReds)
       .domain([0, (d3.min(this.y().filter(d => d < 0)) ?? this.MIN) * 0.5]); // 음수 값 더 진하게
 
-    // 막대를 나중에 그립니다.
+    this.svg.append('clipPath')
+      .attr('id', 'chart-area')
+      .append('rect')
+      .attr('x', margin.left)
+      .attr('y', margin.top)
+      .attr('width', width - margin.left - margin.right)
+      .attr('height', height - margin.top - margin.bottom);
+
     this.svg.append('g')
+      .attr('clip-path', 'url(#chart-area)') // 클리핑 적용
       .selectAll('rect')
       .data(this.y)
       .join('rect')
       .attr('x', (d, i) => x(this.X()[i])!)
-      .attr('y', y(0))
-      .attr('height', 0)
+      .attr('y', d => y(d))
+      .attr('height', d => Math.abs(y(d) - y(0)))
       .attr('width', x.bandwidth())
       .attr('fill', d => d > 0 ? positiveColor(d) : negativeColor(d))
       .transition()
@@ -185,7 +200,7 @@ export class BarChartComponent implements AfterViewInit {
         .attr('x', width / 2)
         .attr('y', margin.top / 2)
         .attr('text-anchor', 'middle')
-        .attr('class', 'chart-title')
+        .attr('class', 'chart-title text-lg font-bold')
         .text(this.title());
     }
 
@@ -195,8 +210,8 @@ export class BarChartComponent implements AfterViewInit {
           .duration(200)
           .style('opacity', .9);
         this.tooltip.html(`x: ${this.X()[this.y().indexOf(d)]}<br/>y: ${d}`)
-          .style('left', (event.pageX + 5) + 'px')
-          .style('top', (event.pageY - 5) + 'px'); // 툴팁 위치를 조정
+          .style('left', (event.offsetX + 10) + 'px')
+          .style('top', (event.offsetY - 10) + 'px'); // 마우스 커서 근처에 툴팁 표시
       })
       .on('mouseout', () => {
         this.tooltip.transition()

@@ -18,11 +18,11 @@
   </button>
 </div>
 @if (loading()) {
-  <div class="h-[350px] flex items-center justify-center">
+  <div class="h-[300px] flex items-center justify-center">
     <etri-loading/>
   </div>
 } @else {
-  <div class="grid {{gridCols()}} bg-white p-2">
+  <div class="grid {{gridCols()}} bg-white p-2 gap-4 items-center">
     @for (item of items(); track $index) {
       <etri-dashboard-item
         [item]="item"

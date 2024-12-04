@@ -1,9 +1,28 @@
+import { Column } from './column';
+
+export interface JoinColumn {
+  schema: string;
+  table: string;
+  columns: string;
+}
+
+export type ModelJoinColumn = [JoinColumn, JoinColumn];
+
+export interface ModelTable {
+  name: string;
+  columns: string[];
+}
+
+export interface ModelSchema {
+  schema: string;
+  table: ModelTable;
+}
+
 export interface Model {
   name: string;
   modeltype: string;
-  schema: string;
-  table: string;
-  columns: string[];
+  schemas: ModelSchema[];
+  on: ModelJoinColumn[];
   table_rows: number;
   trained_rows: number;
   status: string;

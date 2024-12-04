@@ -69,7 +69,7 @@
     <section class="section elevate grow">
       <h2 class="mt-0">Data Selection</h2>
       <div class="mb-4 flex gap-4 items-center">
-        <label class="flex items-center gap-4">
+        <!-- <label class="flex items-center gap-4">
           선택된 테이블:
           @if (!selected) {
             <span class="text-zinc-500">없음</span>
@@ -81,13 +81,12 @@
               <span>{{ selected.schema }}.{{ selected.table.name }}</span>
             </div>
           }
-        </label>
-        <button
+        </label> -->
+        <!-- <button
           type="button"
-          [disabled]="selectedColumns().length === 0"
           (click)="preview()"
           class="ml-auto btn btn-secondary btn-sm text-white"
-        >Preview</button>
+        >Preview</button> -->
       </div>
       <label
         class="input input-bordered flex items-center gap-4 w-full max-w-xs {{ conflictName() ? 'input-error' : '' }}"
@@ -101,14 +100,38 @@
         />
         %
       </label>
-      <etri-train-model-data
-        [columnsLoading]="columnsLoading()"
-        [columns]="columns()"
-        [selectedColumns]="selectedColumns()"
-        (selectedColumnsChange)="selectedColumns.set($event)"
-      />
+      @for (s of selected; track $index) {
+        <etri-train-model-data
+          (onPreview)="preview($event)"
+          (onSelectColumns)="changeSelectedColumns($index, $event)"
+          [databaseId]="formGroup.get('database_id')!.value"
+          [schema]="s"
+          class="mt-4"
+        />
+      }
     </section>
   </div>
+  <section class="section elevate grow">
+    <h2 class="mt-0">Selected Join Columns</h2>
+    <div class="flex items-start gap-4">
+      <etri-train-table-join-inputs
+        [schemas]="selected"
+        (onChange)="changeJoinColumns($event)"
+      ></etri-train-table-join-inputs>
+      <!-- @for (s of selected; track $index) {
+        <div class="flex items-center gap-4">
+          <span>{{ s.schema }}.{{ s.table.name }}</span>
+          <select
+            class="select select-bordered"
+          >
+            @for (c of s.table.columns; track c.name) {
+              <option [ngValue]="c">{{ c.name }}</option>
+            }
+          </select>
+        </div>
+      } -->
+    </div>
+  </section>
   <section class="section elevate grow">
     <h2 class="mt-0">Model Type & Hyper Parameter</h2>
     <div class="flex flex-col items-start gap-4">

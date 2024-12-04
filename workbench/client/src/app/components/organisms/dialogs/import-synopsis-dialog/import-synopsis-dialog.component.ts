@@ -7,16 +7,15 @@ import { DialogHeaderDirective, LoadingComponent } from '../../../atoms';
 import { BaseDialogComponent } from '../base-dialog';
 
 @Component({
-  selector: 'etri-import-synopsis-dialog_',
-  standalone: true,
-  styleUrls: ['import-synopsis-dialog.component.scss'],
-  templateUrl: 'import-synopsis-dialog.component.html',
-  imports: [
-    BaseDialogComponent,
-    DialogHeaderDirective,
-    FormsModule,
-    LoadingComponent
-  ]
+    selector: 'etri-import-synopsis-dialog_',
+    styleUrls: ['import-synopsis-dialog.component.scss'],
+    templateUrl: 'import-synopsis-dialog.component.html',
+    imports: [
+        BaseDialogComponent,
+        DialogHeaderDirective,
+        FormsModule,
+        LoadingComponent
+    ]
 })
 export class ImportSynopsisDialogComponent {
   name: string | null = null;
@@ -59,12 +58,11 @@ export class ImportSynopsisDialogComponent {
 }
 
 @Component({
-  imports: [
-    ImportSynopsisDialogComponent
-  ],
-  selector: 'etri-import-synopsis-dialog',
-  standalone: true,
-  template: `
+    imports: [
+        ImportSynopsisDialogComponent
+    ],
+    selector: 'etri-import-synopsis-dialog',
+    template: `
     <etri-import-synopsis-dialog_
       (onClose)="dialogRef.close($event)"
     />

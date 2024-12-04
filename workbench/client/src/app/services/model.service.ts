@@ -29,6 +29,10 @@ export class ModelService {
     return this.httpClient.post<void>(`${this.BASE_URL}/train`, dto);
   }
 
+  additionalTrainModel(name: string, dto: any) {
+    return this.httpClient.post<void>(`${this.BASE_URL}/${name}/additional-train`, dto);
+  }
+
   updateModel(traindb_id: number, oldName: string, dto: UpdateModel) {
     const params = { traindb_id };
     return this.httpClient.put<void>(`${this.BASE_URL}/${oldName}`, dto, { params });

@@ -1,11 +1,11 @@
 import { Dialog } from '@angular/cdk/dialog';
-import { DecimalPipe, LowerCasePipe, UpperCasePipe } from '@angular/common';
+import { DecimalPipe, UpperCasePipe } from '@angular/common';
 import { Component, computed, forwardRef, inject, input, model, Provider, Signal, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ChartItem, ChartType, DashboardItem, RunQuery } from '../../../../dto';
-import { ColumnToAxisDataPipe, ColumnToIndexPipe } from '../../../../pipes';
+import { ChartItem, ChartType, DashboardItem, MapItem, RunQuery, TableItem } from '../../../../dto';
+import { ColumnToAxisDataPipe, FilterColumnsPipe, FilterSelectedRowsPipe } from '../../../../pipes';
 import { PlusIconComponent } from '../../../atoms';
-import { BarChartComponent } from '../../charts';
+import { BarChartComponent, MapChartComponent, PieChartComponent, ScatterChartComponent } from '../../charts';
 import { LineChartComponent } from '../../charts/line-chart/line-chart.component';
 import { MakeChartDialog } from '../../dialogs';
 
@@ -20,14 +20,17 @@ const VALUE_ACCESSOR: Provider = {
     PlusIconComponent,
     DecimalPipe,
     BarChartComponent,
-    ColumnToIndexPipe,
     ColumnToAxisDataPipe,
     LineChartComponent,
+    ScatterChartComponent,
+    PieChartComponent,
+    MapChartComponent,
     UpperCasePipe,
+    FilterColumnsPipe,
+    FilterSelectedRowsPipe
   ],
   providers: [VALUE_ACCESSOR],
   selector: 'etri-dashboard-item-input',
-  standalone: true,
   styleUrls: ['dashboard-item-input.component.scss'],
   templateUrl: 'dashboard-item-input.component.html'
 })
@@ -42,6 +45,18 @@ export class DashboardItemInputComponent implements ControlValueAccessor {
     if (idx === -1) return null;
     return this.value()[idx];
   });
+  selectedTableItem = computed<TableItem | null>(() => {
+    const item = this.selectedItem();
+    return item as TableItem | null;
+  });
+  selectedChartItem = computed<ChartItem | null>(() => {
+    const item = this.selectedItem();
+    return item as ChartItem | null;
+  });
+  selectedMapItem = computed<MapItem | null>(() => {
+    const item = this.selectedItem();
+    return item as MapItem | null;
+  });
   chartType: Signal<ChartType | null> = computed(() => {
     const item = this.selectedItem();
     return item?.type ?? null;
@@ -51,6 +66,13 @@ export class DashboardItemInputComponent implements ControlValueAccessor {
   private onChange: any;
   private onTouch: any;
 
+  deleteItem(index: number) {
+    const value = this.value();
+    value.splice(index, 1);
+    this.change([...value]);
+    this.selectedIndex.set(this.selectedIndex() - 1);
+  }
+
   isNumber(item: any) {
     return !isNaN(+item);
   }
@@ -59,10 +81,8 @@ export class DashboardItemInputComponent implements ControlValueAccessor {
     const dialog = this.dialog.open<DashboardItem | undefined>(MakeChartDialog, {
       data: this.data(),
     });
-
     dialog.closed.subscribe(item => {
       if (item) {
-        console.log(item);
         this.change([...this.value() as any, item]);
         this.selectedIndex.set(this.selectedIndex() + 1);
       }

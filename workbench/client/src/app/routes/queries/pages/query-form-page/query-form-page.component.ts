@@ -4,7 +4,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { EditorComponent } from 'ngx-monaco-editor-v2';
 import { finalize, map, of, Subscription, switchMap, tap } from 'rxjs';
 import { LoadingComponent } from '../../../../components';
-import { CreateQuery, FindDatabase, UpdateQuery } from '../../../../dto';
+import { CreateQuery, FindDatabase, QueryType, UpdateQuery } from '../../../../dto';
 import { IpAnonymizationPipe } from '../../../../pipes';
 import { DatabaseService, QueryService, TraindbService } from '../../../../services';
 
@@ -18,7 +18,6 @@ import { DatabaseService, QueryService, TraindbService } from '../../../../servi
     RouterLink,
   ],
   selector: 'etri-query-form-page',
-  standalone: true,
   styleUrls: ['query-form-page.component.scss'],
   templateUrl: 'query-form-page.component.html'
 })
@@ -50,8 +49,7 @@ export class QueryFormPageComponent implements OnInit, OnDestroy {
     this.formGroup = formBuilder.group({
       name: [null, [(control: AbstractControl) => !!(control.value || '').trim() ? null : { required: true }]],
       database_id: [null, [Validators.required]],
-      sql: [null, [Validators.required, ]],
-      // sql: [null, [Validators.required, Validators.pattern(/^select\b[^;]+\bfrom\b[^;]+;\s*$/i)]],
+      sql: [null, [Validators.required, Validators.pattern(/^(incremental\s+)?select\b[^;]+\bfrom\b[^;]+;\s*$/i)]],
     });
     this.loadDatabases();
   }
@@ -60,7 +58,9 @@ export class QueryFormPageComponent implements OnInit, OnDestroy {
     const dto: CreateQuery | UpdateQuery = this.formGroup.getRawValue();
     dto.name = dto.name.trim();
     dto.traindb_id = this.traindbService.currentId()!;
-    dto.is_approximate = /^select approximate .+/i.test(dto.sql);
+    if (/^select approximate .+/i.test(dto.sql)) dto.query_type = QueryType.APPROXIMATE;
+    else if (/^incremental select .+/i.test(dto.sql)) dto.query_type = QueryType.INCREMENTAL;
+    else dto.query_type = QueryType.SQL;
 
     const observable = this.id ?
       this.queryService.updateQuery(this.id, dto) :

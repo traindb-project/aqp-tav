@@ -4,7 +4,7 @@ export const TRAINDB_LIST: FindTrainDBDto[] = [
   {
     id: 1,
     name: 'Etri TrainDB',
-    host: '129.123.122.29',
+    host: '192.168.0.29',
     port: 58000,
     username: null,
     password: null,
@@ -14,7 +14,7 @@ export const TRAINDB_LIST: FindTrainDBDto[] = [
   {
     id: 2,
     name: 'Bimatrix TrainDB',
-    host: '129.123.122.30',
+    host: '192.168.0.30',
     port: 58000,
     username: null,
     password: null,
@@ -24,7 +24,7 @@ export const TRAINDB_LIST: FindTrainDBDto[] = [
   {
     id: 3,
     name: 'Test TrainDB1',
-    host: '129.123.122.31',
+    host: '192.168.0.31',
     port: 58000,
     username: null,
     password: null,
@@ -34,7 +34,7 @@ export const TRAINDB_LIST: FindTrainDBDto[] = [
   {
     id: 4,
     name: 'Test TrainDB2',
-    host: '129.123.122.31',
+    host: '192.168.0.31',
     port: 58001,
     username: null,
     password: null,

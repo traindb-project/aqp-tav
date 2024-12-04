@@ -6,18 +6,17 @@ import { LoadingComponent } from '../../../../components';
 import { TraindbService } from '../../../../services';
 
 @Component({
-  host: {
-    class: 'page block mx-auto',
-  },
-  imports: [
-    RouterLink,
-    ReactiveFormsModule,
-    LoadingComponent
-  ],
-  selector: 'etri-traindb-form-page',
-  standalone: true,
-  styleUrls: ['traindb-form-page.component.scss'],
-  templateUrl: 'traindb-form-page.component.html'
+    host: {
+        class: 'page block mx-auto',
+    },
+    imports: [
+        RouterLink,
+        ReactiveFormsModule,
+        LoadingComponent
+    ],
+    selector: 'etri-traindb-form-page',
+    styleUrls: ['traindb-form-page.component.scss'],
+    templateUrl: 'traindb-form-page.component.html'
 })
 export class TraindbFormPageComponent implements OnInit, OnDestroy {
   id: number | null = null;

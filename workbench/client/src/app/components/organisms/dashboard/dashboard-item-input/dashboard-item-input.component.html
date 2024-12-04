@@ -1,6 +1,7 @@
 <div class="flex items-end gap-2">
   <div role="tablist" class="tabs tabs-bordered">
     <button
+      type="button"
       role="tab"
       class="tab"
       [class.tab-active]="selectedIndex() === -1"
@@ -9,11 +10,18 @@
     </button>
     @for (item of value(); track $index) {
       <button
+        type="button"
         role="tab"
         class="tab"
         [class.tab-active]="selectedIndex() === $index"
         (click)="setSelectedIndex($index)"
-      >{{ item.type[0] | uppercase }}{{ item.type.slice(1) }} Chart
+      >
+      <div class="flex items-center gap-4">
+        <span>{{ item.type[0] | uppercase }}{{ item.type.slice(1) }} Chart</span>
+        <button type="button" class="btn btn-sm btn-ghost" (click)="deleteItem($index)">
+          -
+        </button>
+      </div>
       </button>
     }
   </div>
@@ -50,20 +58,77 @@
       </table>
     </div>
   } @else {
-    @if (chartType() === ChartType.BAR) {
+    @if (chartType() === ChartType.TABLE) {
+      <div class="w-full overflow-auto max-h-[500px]">
+        <h1 class="text-center text-lg font-bold">{{ selectedChartItem()?.title ?? '' }}</h1>
+        <table class="table table-xs">
+          <thead class="sticky top-0 bg-white">
+          <tr>
+            @for (column of data().columns | filterColumns:selectedTableItem()?.columns; track column) {
+              <th class="border-r border-zinc-200 last:border-r-0">{{ column }}</th>
+            }
+          </tr>
+          </thead>
+          <tbody>
+            @for (row of data().data; track $index) {
+              <tr class="even:bg-zinc-50 hover:bg-zinc-100">
+                @for (item of row | filterSelectedRows:data().columns:selectedTableItem()?.columns; track $index) {
+                  @if (isNumber(item)) {
+                    <td class="text-right border-r border-zinc-200 last:border-r-0">{{ item | number }}</td>
+                  } @else {
+                    <td class="border-r border-zinc-200 last:border-r-0">{{ item }}</td>
+                  }
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    } @else if (chartType() === ChartType.BAR) {
       <etri-bar-chart
-        [xAxisLabel]="selectedItem()?.x_column ?? 'X'"
-        [yAxisLabel]="selectedItem()?.y_column ?? 'Y'"
-        [x]="selectedItem()?.x_column | columnToAxisData:data().data:columns()"
-        [y]="selectedItem()?.y_column | columnToAxisData:data().data:columns()"
+        [title]="selectedChartItem()?.title ?? ''"
+        [xAxisLabel]="selectedChartItem()?.x_column ?? 'X'"
+        [yAxisLabel]="selectedChartItem()?.y_column ?? 'Y'"
+        [minY]="selectedChartItem()?.min_y ?? null"
+        [maxY]="selectedChartItem()?.max_y ?? null"
+        [x]="selectedChartItem()?.x_column | columnToAxisData:data().data:columns()"
+        [y]="selectedChartItem()?.y_column | columnToAxisData:data().data:columns()"
       />
     } @else if (chartType() === ChartType.LINE) {
       <etri-line-chart
-        [xAxisLabel]="selectedItem()?.x_column ?? 'X'"
-        [yAxisLabel]="selectedItem()?.y_column ?? 'Y'"
-        [x]="selectedItem()?.x_column | columnToAxisData:data().data:columns()"
-        [y]="selectedItem()?.y_column | columnToAxisData:data().data:columns()"
+        [title]="selectedChartItem()?.title ?? ''"
+        [xAxisLabel]="selectedChartItem()?.x_column ?? 'X'"
+        [yAxisLabel]="selectedChartItem()?.y_column ?? 'Y'"
+        [minY]="selectedChartItem()?.min_y ?? null"
+        [maxY]="selectedChartItem()?.max_y ?? null"
+        [x]="selectedChartItem()?.x_column | columnToAxisData:data().data:columns()"
+        [y]="selectedChartItem()?.y_column | columnToAxisData:data().data:columns()"
       ></etri-line-chart>
+    } @else if (chartType() === ChartType.SCATTER) {
+      <etri-scatter-chart
+        [title]="selectedChartItem()?.title ?? ''"
+        [xAxisLabel]="selectedChartItem()?.x_column ?? 'X'"
+        [yAxisLabel]="selectedChartItem()?.y_column ?? 'Y'"
+        [minY]="selectedChartItem()?.min_y ?? null"
+        [maxY]="selectedChartItem()?.max_y ?? null"
+        [x]="selectedChartItem()?.x_column | columnToAxisData:data().data:columns()"
+        [y]="selectedChartItem()?.y_column | columnToAxisData:data().data:columns()"
+      ></etri-scatter-chart>
+    } @else if (chartType() === ChartType.PIE) {
+      <etri-pie-chart
+        [title]="selectedChartItem()?.title ?? ''"
+        [xAxisLabel]="selectedChartItem()?.x_column ?? 'X'"
+        [yAxisLabel]="selectedChartItem()?.y_column ?? 'Y'"
+        [x]="selectedChartItem()?.x_column | columnToAxisData:data().data:columns()"
+        [y]="selectedChartItem()?.y_column | columnToAxisData:data().data:columns()"
+      />
+    } @else if (chartType() === ChartType.MAP) {
+      <etri-map-chart
+        [title]="selectedMapItem()?.title ?? ''"
+        [x]="selectedMapItem()?.x_column | columnToAxisData:data().data:columns()"
+        [y]="selectedMapItem()?.y_column | columnToAxisData:data().data:columns()"
+        [wkt]="selectedMapItem()?.geo_column | columnToAxisData:data().data:columns()"
+      />
     }
   }
 </section>

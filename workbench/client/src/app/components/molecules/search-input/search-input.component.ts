@@ -4,15 +4,14 @@ import { distinctUntilChanged, map, Subscription } from 'rxjs';
 import { MagnifyingGlassIconComponent } from '../../atoms';
 
 @Component({
-  selector: 'etri-search-input',
-  standalone: true,
-  styleUrls: ['search-input.component.scss'],
-  templateUrl: 'search-input.component.html',
-  imports: [
-    FormsModule,
-    MagnifyingGlassIconComponent,
-    ReactiveFormsModule
-  ]
+    selector: 'etri-search-input',
+    styleUrls: ['search-input.component.scss'],
+    templateUrl: 'search-input.component.html',
+    imports: [
+        FormsModule,
+        MagnifyingGlassIconComponent,
+        ReactiveFormsModule
+    ]
 })
 export class SearchInputComponent implements OnInit, OnDestroy {
   onKeyword = output<string>();

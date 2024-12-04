@@ -1,31 +1,26 @@
-import { JsonPipe } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { finalize, map, Subscription, tap } from 'rxjs';
+import { finalize, map, Subscription } from 'rxjs';
 import {
   DashboardItemInputComponent,
   LoadingComponent,
-  PlusIconComponent,
   QuerySelectComponent
 } from '../../../../components';
 import { FindQuery, RunQuery } from '../../../../dto';
 import { DashboardService, QueryService, TraindbService } from '../../../../services';
 
 @Component({
-  selector: 'etri-dashboard-form-page',
-  standalone: true,
-  styleUrls: ['dashboard-form-page.component.scss'],
-  templateUrl: 'dashboard-form-page.component.html',
-  imports: [
-    ReactiveFormsModule,
-    QuerySelectComponent,
-    LoadingComponent,
-    RouterLink,
-    JsonPipe,
-    PlusIconComponent,
-    DashboardItemInputComponent
-  ]
+    selector: 'etri-dashboard-form-page',
+    styleUrls: ['dashboard-form-page.component.scss'],
+    templateUrl: 'dashboard-form-page.component.html',
+    imports: [
+        ReactiveFormsModule,
+        QuerySelectComponent,
+        LoadingComponent,
+        RouterLink,
+        DashboardItemInputComponent
+    ]
 })
 export class DashboardFormPageComponent implements OnInit, OnDestroy {
   submitting = false;
@@ -51,9 +46,6 @@ export class DashboardFormPageComponent implements OnInit, OnDestroy {
 
   executeQuery(query: FindQuery) {
     this.queryService.runQuery(query.id)
-      .pipe(
-        tap(res => console.log(JSON.stringify(res)))
-      )
       .subscribe({
         next: data => this.queryData.set(data),
         error: err => {

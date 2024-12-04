@@ -14,12 +14,10 @@ import {
 @Component({
   imports: [
     RouterLink,
-    NgOptimizedImage,
     NgComponentOutlet,
     ChevronLeftIconComponent
   ],
   selector: 'etri-navigator',
-  standalone: true,
   styleUrls: ['navigator.component.scss'],
   templateUrl: 'navigator.component.html'
 })

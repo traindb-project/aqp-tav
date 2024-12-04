@@ -1,5 +1,5 @@
 import { Dialog } from '@angular/cdk/dialog';
-import { DecimalPipe, JsonPipe } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { Component, computed, inject, signal, WritableSignal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -17,23 +17,21 @@ import { IpAnonymizationPipe, PatternFilterPipe } from '../../../../pipes';
 import { ModelService, TraindbService } from '../../../../services';
 
 @Component({
-  imports: [
-    RouterLink,
-    DecimalPipe,
-    LoadingComponent,
-    JsonPipe,
-    PatternFilterPipe,
-    SearchInputComponent,
-    IpAnonymizationPipe,
-    TrashIconComponent,
-    PencilSquareIconComponent,
-    DocumentMagnifyingGlassIconComponent,
-    ArrowUpTrayIconComponent,
-  ],
-  selector: 'etri-model-list-page',
-  standalone: true,
-  styleUrls: ['model-list-page.component.scss'],
-  templateUrl: 'model-list-page.component.html'
+    imports: [
+        RouterLink,
+        DecimalPipe,
+        LoadingComponent,
+        PatternFilterPipe,
+        SearchInputComponent,
+        IpAnonymizationPipe,
+        TrashIconComponent,
+        PencilSquareIconComponent,
+        DocumentMagnifyingGlassIconComponent,
+        ArrowUpTrayIconComponent,
+    ],
+    selector: 'etri-model-list-page',
+    styleUrls: ['model-list-page.component.scss'],
+    templateUrl: 'model-list-page.component.html'
 })
 export class ModelListPageComponent {
   readonly modelList: WritableSignal<Model[]> = signal([]);

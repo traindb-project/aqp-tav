@@ -5,7 +5,18 @@ module.exports = {
     './src/**/*.{html,ts}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            'pre': {
+              'background-color': theme('colors.gray.200'),
+              'color': theme('colors.gray.900'),
+            },
+          },
+        },
+      }),
+    },
   },
   daisyui: {
     themes: [

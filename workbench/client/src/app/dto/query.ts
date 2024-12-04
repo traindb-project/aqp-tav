@@ -1,11 +1,17 @@
 import { Database } from './database';
 import { TrainDB } from './traindb';
 
+export enum QueryType {
+  SQL = 'sql',
+  APPROXIMATE = 'approximate',
+  INCREMENTAL = 'incremental',
+}
+
 export interface Query {
   name: string;
   traindb_id: number;
   database_id: number;
-  is_approximate: boolean;
+  query_type: QueryType;
   sql: string;
 }
 
@@ -24,6 +30,6 @@ export interface RunQuery {
   execution_time: number;
 }
 
-export interface CreateQuery extends Query {}
+export interface CreateQuery extends Query { }
 
-export interface UpdateQuery extends Query {}
+export interface UpdateQuery extends Query { }

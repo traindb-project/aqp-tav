@@ -24,6 +24,10 @@
       <option [ngValue]="null" disabled selected>Select DBMS</option>
       <option value="mysql">MySQL</option>
       <option value="kairos">Kairos</option>
+      <!-- <option value="oracle">Oracle</option> -->
+      <option value="postgresql">PostgreSQL</option>
+      <option value="tibero">Tibero</option>
+      <option value="redshift">Redshift</option>
     </select>
     <label
       class="input input-bordered flex items-center gap-4"
@@ -63,6 +67,15 @@
         type="password"
         placeholder="e.g. database_password"
         autocomplete="off"
+        class="grow"
+      />
+    </label>
+    <label class="input input-bordered flex items-center gap-4">
+      Database:
+      <input
+        formControlName="database"
+        type="text"
+        placeholder="e.g. my_database(Optional)"
         class="grow"
       />
     </label>

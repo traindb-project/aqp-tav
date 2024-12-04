@@ -1,13 +1,8 @@
+@use 'styles/dialog' as *;
 /* You can add global styles to this file, and also import other style files */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import './styles/dialog';
-
-html, body {
-  font-size: 16px;
-}
 
 @layer components {
 
@@ -21,4 +16,17 @@ html, body {
       @apply shadow-md;
     }
   }
+
+}
+
+.ol-control {
+  @apply flex gap-1 items-center mb-1;
+}
+
+.ol-zoom-in, .ol-zoom-out {
+  @apply btn btn-xs;
+}
+
+.ol-rotate {
+  @apply hidden;
 }

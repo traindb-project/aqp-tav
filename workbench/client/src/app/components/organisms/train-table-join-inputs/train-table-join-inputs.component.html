@@ -1,0 +1,58 @@
+<button
+  type="button"
+  (click)="add()"
+  class="btn btn-primary btn-sm text-white"
+>
+  추가
+</button>
+
+
+@for (v of value(); track $index) {
+  <div class="flex items-center gap-4">
+    <select
+      class="select select-bordered select-sm"
+      [ngModel]="v[0].table"
+      (ngModelChange)="changeTable(v[0], $event)"
+    >
+      @for (schema of schemas(); track $index) {
+        <option [ngValue]="schema.table.name">{{ schema.table.name }}</option>
+      }
+    </select>
+    <select
+      class="select select-bordered select-sm"
+      [ngModel]="v[0].column"
+      (ngModelChange)="changeColumn(v[0], $event)"
+    >
+      @for (column of v[0].columns; track $index) {
+        <option [ngValue]="column">{{ column }}</option>
+      }
+    </select>
+    <span> = </span>
+    <select
+      class="select select-bordered select-sm"
+      [ngModel]="v[1].table"
+      (ngModelChange)="changeTable(v[1], $event)"
+    >
+      @for (schema of schemas(); track $index) {
+        <option [ngValue]="schema.table.name">{{ schema.table.name }}</option>
+      }
+    </select>
+    <select
+      class="select select-bordered select-sm"
+      [ngModel]="v[1].column"
+      (ngModelChange)="changeColumn(v[1], $event)"
+    >
+      @for (column of v[1].columns; track $index) {
+        <option [ngValue]="column">{{ column }}</option>
+      }
+    </select>
+    <button
+      type="button"
+      (click)="remove($index)"
+      class="btn btn-error btn-sm text-white"
+    >
+      삭제
+    </button>
+  </div>
+}
+

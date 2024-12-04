@@ -6,13 +6,12 @@ import { IpAnonymizationPipe } from '../../../pipes';
   host: {
     class: 'flex items-center gap-4 py-2 px-4 bg-white'
   },
-  selector: 'etri-traindb-banner',
-  standalone: true,
-  styleUrls: ['traindb-banner.component.scss'],
-  templateUrl: 'traindb-banner.component.html',
   imports: [
     IpAnonymizationPipe
-  ]
+  ],
+  selector: 'etri-traindb-banner',
+  styleUrls: ['traindb-banner.component.scss'],
+  templateUrl: 'traindb-banner.component.html',
 })
 export class TraindbBannerComponent {
   readonly traindb: InputSignal<FindTrainDBDto | null> = input<FindTrainDBDto | null>(null);

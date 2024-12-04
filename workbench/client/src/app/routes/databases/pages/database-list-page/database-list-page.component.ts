@@ -12,20 +12,19 @@ import { IpAnonymizationPipe, PatternFilterPipe } from '../../../../pipes';
 import { DatabaseService, TraindbService } from '../../../../services';
 
 @Component({
-  imports: [
-    DecimalPipe,
-    LoadingComponent,
-    RouterLink,
-    IpAnonymizationPipe,
-    PatternFilterPipe,
-    SearchInputComponent,
-    TrashIconComponent,
-    PencilSquareIconComponent
-  ],
-  selector: 'etri-database-list-page',
-  standalone: true,
-  styleUrls: ['database-list-page.component.scss'],
-  templateUrl: 'database-list-page.component.html'
+    imports: [
+        DecimalPipe,
+        LoadingComponent,
+        RouterLink,
+        IpAnonymizationPipe,
+        PatternFilterPipe,
+        SearchInputComponent,
+        TrashIconComponent,
+        PencilSquareIconComponent
+    ],
+    selector: 'etri-database-list-page',
+    styleUrls: ['database-list-page.component.scss'],
+    templateUrl: 'database-list-page.component.html'
 })
 export class DatabaseListPageComponent {
   readonly databaseList: WritableSignal<FindDatabase[]> = signal([]);

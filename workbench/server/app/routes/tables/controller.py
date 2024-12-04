@@ -15,10 +15,14 @@ router = APIRouter(
 
 
 @router.get("")
-async def find_tables(database_id: int, db: Session = Depends(get_system_db)) -> List[Schema]:
+async def find_tables(
+    database_id: int, db: Session = Depends(get_system_db)
+) -> List[Schema]:
     database = db.query(Database).filter(Database.id == database_id).first()
     if not database:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Database not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Database not found"
+        )
     handler = DatabaseQueryHandler(
         database.dbms,
         database.host,
@@ -39,14 +43,16 @@ async def find_tables(database_id: int, db: Session = Depends(get_system_db)) ->
 
 @router.get("/{table_name}")
 async def describe_table(
-        table_name: str,
-        database_id: int,
-        schema_name: str,
-        db: Session = Depends(get_system_db),
+    table_name: str,
+    database_id: int,
+    schema_name: str,
+    db: Session = Depends(get_system_db),
 ):
     database = db.query(Database).filter(Database.id == database_id).first()
     if not database:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Database not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Database not found"
+        )
     handler = DatabaseQueryHandler(
         database.dbms,
         database.host,
@@ -65,7 +71,9 @@ async def describe_table(
 async def preview_table(dto: TablePreviewRequest, db: Session = Depends(get_system_db)):
     database = db.query(Database).filter(Database.id == dto.database_id).first()
     if not database:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Database not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Database not found"
+        )
     handler = DatabaseQueryHandler(
         database.dbms,
         database.host,
@@ -78,4 +86,6 @@ async def preview_table(dto: TablePreviewRequest, db: Session = Depends(get_syst
     result = handler.execute_query_and_description(
         f"SELECT {', '.join(dto.columns)} FROM {dto.schema}.{dto.table} LIMIT 50"
     )
-    return TablePreviewResponse(columns=result["columns"], types=result["types"], data=result["data"])
+    return TablePreviewResponse(
+        columns=result["columns"], types=result["types"], data=result["data"]
+    )

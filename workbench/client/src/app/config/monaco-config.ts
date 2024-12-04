@@ -10,6 +10,8 @@ export const monacoConfig: NgxMonacoEditorConfig = {
     monaco.languages.setMonarchTokensProvider('sql', {
       tokenizer: {
         root: [
+          [/\bINCREMENTAL\b/, 'keyword'],
+          [/\bincremental\b/, 'keyword'],
           [/\bSELECT\b/, 'keyword'],
           [/\bselect\b/, 'keyword'],
           [/\bFROM\b/, 'keyword'],
@@ -20,16 +22,32 @@ export const monacoConfig: NgxMonacoEditorConfig = {
           [/\bapproximate\b/, 'keyword'],
           [/\bLIMIT\b/, 'keyword'],
           [/\blimit\b/, 'keyword'],
+          [/\bLEFT JOIN\b/, 'keyword'],
+          [/\bleft join\b/, 'keyword'],
+          [/\bRIGHT JOIN\b/, 'keyword'],
+          [/\bright join\b/, 'keyword'],
+          [/\bJOIN\b/, 'keyword'],
+          [/\bjoin\b/, 'keyword'],
+          [/\bON\b/, 'keyword'],
+          [/\bon\b/, 'keyword'],
+          [/\bGROUP BY\b/, 'keyword'],
+          [/\bgroup by\b/, 'keyword'],
           // Add other SQL keywords as needed
         ]
       }
     });
     const sqlKeywords = [
+      { label: 'INCREMENTAL', kind: monaco.languages.CompletionItemKind.Keyword, insertText: 'INCREMENTAL' },
       { label: 'SELECT', kind: monaco.languages.CompletionItemKind.Keyword, insertText: 'SELECT' },
       { label: 'FROM', kind: monaco.languages.CompletionItemKind.Keyword, insertText: 'FROM' },
       { label: 'WHERE', kind: monaco.languages.CompletionItemKind.Keyword, insertText: 'WHERE' },
       { label: 'APPROXIMATE', kind: monaco.languages.CompletionItemKind.Keyword, insertText: 'APPROXIMATE' },
       { label: 'LIMIT', kind: monaco.languages.CompletionItemKind.Keyword, insertText: 'LIMIT' },
+      { label: 'LEFT JOIN', kind: monaco.languages.CompletionItemKind.Keyword, insertText: 'LEFT JOIN' },
+      { label: 'RIGHT JOIN', kind: monaco.languages.CompletionItemKind.Keyword, insertText: 'RIGHT JOIN' },
+      { label: 'JOIN', kind: monaco.languages.CompletionItemKind.Keyword, insertText: 'JOIN' },
+      { label: 'ON', kind: monaco.languages.CompletionItemKind.Keyword, insertText: 'ON' },
+      { label: 'GROUP BY', kind: monaco.languages.CompletionItemKind.Keyword, insertText: 'GROUP BY' },
       // { label: 'INSERT', kind: monaco.languages.CompletionItemKind.Keyword, insertText: 'INSERT' },
       // { label: 'INTO', kind: monaco.languages.CompletionItemKind.Keyword, insertText: 'INTO' },
       // { label: 'UPDATE', kind: monaco.languages.CompletionItemKind.Keyword, insertText: 'UPDATE' },
@@ -54,12 +72,21 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 
         const suggestions = [];
 
+        if (textUntilPosition.match(/\bINCREMENTAL\s*$\b/)) {
+          suggestions.push({
+            label: 'SELECT',
+            kind: monaco.languages.CompletionItemKind.Keyword,
+            insertText: 'SELECT',
+            range
+          });
+        }
+
         if (textUntilPosition.match(/\bSELECT\s*$/)) {
           suggestions.push({
             label: 'APPROXIMATE',
             kind: monaco.languages.CompletionItemKind.Keyword,
             insertText: 'APPROXIMATE',
-            range: range
+            range
           });
         }
 

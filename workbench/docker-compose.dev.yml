@@ -17,20 +17,22 @@ services:
       - .env
     volumes:
       - ${POSTGRES_VOLUME}:/var/lib/postgresql/data
-  pgadmin:
-    image: dpage/pgadmin4
-    restart: always
-    ports:
-      - "8800:80"
-    env_file:
-      - .env
-    volumes:
-      - ${PGADMIN_VOLUME}:/var/lib/pgadmin
-    depends_on:
-      - postgres
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   restart: always
+  #   ports:
+  #     - "8800:80"
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - ${PGADMIN_VOLUME}:/var/lib/pgadmin
+  #   depends_on:
+  #     - postgres
   nginx:
     image: nginx:1.25.3
     restart: always
+    env_file:
+      - .env
     ports:
       - "${PORT}:80"
     volumes:
@@ -50,3 +52,12 @@ services:
       - redis
       - postgres
     command: uvicorn --host=0.0.0.0 --port 3000 main:app --reload
+  worker:
+    build:
+      context: ./worker
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    command: celery -A main worker --loglevel=info

@@ -8,17 +8,16 @@ import { IpAnonymizationPipe } from '../../../../pipes';
 import { DatabaseService, ModelService, ModeltypeService, SynopsisService, TraindbService } from '../../../../services';
 
 @Component({
-  selector: 'etri-synopsis-form-page',
-  standalone: true,
-  styleUrls: ['synopsis-form-page.component.scss'],
-  templateUrl: 'synopsis-form-page.component.html',
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    LoadingComponent,
-    RouterLink,
-    IpAnonymizationPipe
-  ]
+    selector: 'etri-synopsis-form-page',
+    styleUrls: ['synopsis-form-page.component.scss'],
+    templateUrl: 'synopsis-form-page.component.html',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        LoadingComponent,
+        RouterLink,
+        IpAnonymizationPipe
+    ]
 })
 export class SynopsisFormPageComponent implements OnInit, OnDestroy {
   conflictName = false;

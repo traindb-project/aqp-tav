@@ -45,8 +45,8 @@
           <td>{{ model.status }}</td>
           <td>{{ model.name }}</td>
           <td>{{ model.modeltype }}</td>
-          <td>{{ model.schema }}</td>
-          <td>{{ model.table }}</td>
+          <td>{{ model.schemas[0].schema }}</td>
+          <td>{{ model.schemas[0].table.name }}</td>
           <td>{{ (model.server | ipAnonymization) || '-' }}</td>
           <td>{{ model.trained_rows | number }} / {{ model.table_rows | number }}</td>
           <td>

@@ -6,6 +6,7 @@ import {
   HostListener,
   Input,
   input,
+  OnDestroy,
   viewChild
 } from '@angular/core';
 import * as d3 from 'd3';
@@ -16,9 +17,11 @@ import * as d3 from 'd3';
   styleUrls: ['line-chart.component.scss'],
   templateUrl: 'line-chart.component.html',
 })
-export class LineChartComponent implements AfterViewInit {
+export class LineChartComponent implements AfterViewInit, OnDestroy {
   x = input<(string | number)[]>([]);
   y = input<number[]>([]);
+  minY = input<number | null>(null);
+  maxY = input<number | null>(null);
   xAxisLabel = input<string | null>(null);
   yAxisLabel = input<string | null>(null);
   title = input<string | null>(null);
@@ -29,25 +32,26 @@ export class LineChartComponent implements AfterViewInit {
   private readonly MIN = 0;
   private svg!: d3.Selection<SVGSVGElement, unknown, null, undefined>;
   private tooltip!: d3.Selection<HTMLDivElement, unknown, null, undefined>;
+  private resizeObserver: ResizeObserver;
 
   constructor() {
-    effect(() => {
-      const x = this.x();
-      const y = this.y();
-      const xAxisLabel = this.xAxisLabel();
-      const yAxisLabel = this.yAxisLabel();
-      console.log(xAxisLabel, ':', x);
-      console.log(yAxisLabel, ':', y);
+    this.resizeObserver = new ResizeObserver(() => {
       this.updateChart();
     });
-  }
 
-  @HostListener('window:resize') onResize() {
-    this.updateChart();
+    effect(() => {
+      const element = this.chartRef()?.nativeElement;
+      if (element) this.resizeObserver.observe(element);
+    });
   }
 
   ngAfterViewInit() {
     this.createChart();
+  }
+
+  ngOnDestroy() {
+    const element = this.chartRef()?.nativeElement;
+    if (element) this.resizeObserver.unobserve(element);
   }
 
   private createChart() {
@@ -73,6 +77,8 @@ export class LineChartComponent implements AfterViewInit {
   }
 
   private updateChart() {
+    if (!this.svg) return;
+
     const element = this.chartRef()!.nativeElement;
     const width = element.offsetWidth;
     const height = element.offsetHeight;
@@ -87,7 +93,7 @@ export class LineChartComponent implements AfterViewInit {
       .range([margin.left, width - margin.right]);
 
     const y = d3.scaleLinear()
-      .domain([d3.min(this.y()) ?? this.MIN, d3.max(this.y()) ?? this.MAX])
+      .domain([this.minY() ?? d3.min(this.y()) ?? this.MIN, this.maxY() ?? d3.max(this.y()) ?? this.MAX])
       .nice()
       .range([height - margin.bottom, margin.top]);
 
@@ -132,7 +138,17 @@ export class LineChartComponent implements AfterViewInit {
       .x((d, i) => x(i))
       .y(d => y(d));
 
-    const path = this.svg.append('path')
+    this.svg.append('clipPath')
+      .attr('id', 'clip')
+      .append('rect')
+      .attr('width', width - margin.left - margin.right)
+      .attr('height', height - margin.top - margin.bottom)
+      .attr('x', margin.left)
+      .attr('y', margin.top);
+
+    const path = this.svg.append('g')
+      .attr('clip-path', 'url(#clip)')
+      .append('path')
       .datum(this.y())
       .attr('fill', 'none')
       .attr('stroke', 'steelblue')
@@ -178,11 +194,13 @@ export class LineChartComponent implements AfterViewInit {
         .attr('x', width / 2)
         .attr('y', margin.top / 2)
         .attr('text-anchor', 'middle')
-        .attr('class', 'chart-title')
+        .attr('class', 'chart-title text-lg font-bold')
         .text(this.title());
     }
 
-    this.svg.selectAll('circle')
+    this.svg.append('g')
+      .attr('clip-path', 'url(#clip)')
+      .selectAll('circle')
       .data(this.y())
       .enter()
       .append('circle')
@@ -198,8 +216,8 @@ export class LineChartComponent implements AfterViewInit {
           .duration(200)
           .style('opacity', .9);
         this.tooltip.html(`x: ${this.x()[this.y().indexOf(d)]}<br/>y: ${d}`)
-          .style('left', (event.pageX + 10) + 'px')
-          .style('top', (event.pageY - 30) + 'px');
+          .style('left', (event.offsetX + 10) + 'px')
+          .style('top', (event.offsetY - 10) + 'px'); // 마우스 커서 근처에 툴팁 표시
       })
       .on('mouseout', (event) => {
         d3.select(event.currentTarget)

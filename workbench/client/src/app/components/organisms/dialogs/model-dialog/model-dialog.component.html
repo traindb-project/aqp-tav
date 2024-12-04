@@ -18,6 +18,13 @@
             Export
           </a>
         }
+        <button
+          type="button"
+          (click)="moveToAdditionalTrain(model().name)"
+          class="btn btn-xs btn-primary rounded-none text-white"
+        >
+          Additional Training
+        </button>
       </div>
       <div class="flex gap-4 items-center text-lg">
         <span class="text-zinc-600">Status: </span>
@@ -34,24 +41,12 @@
           <th>Model Type</th>
           <td>{{ model().modeltype }}</td>
         </tr>
-        <tr>
-          <th>Schema</th>
-          <td>{{ model().schema }}</td>
-        </tr>
-        <tr>
-          <th>Table</th>
-          <td>{{ model().table }}</td>
-        </tr>
-        <tr>
-          <th>Columns</th>
-          <td>
-            <div class="flex gap-2 flex-wrap">
-              @for (col of model().columns; track col) {
-                <span class="py-px px-1 text-xs border border-zinc-300">{{ col }}</span>
-              }
-            </div>
-          </td>
-        </tr>
+        @for (schema of model().schemas; track schema; let i = $index) {
+          <tr>
+            <th>Table({{ i + 1 }})</th>
+            <td>{{ schema.schema }}.{{schema.table.name}}({{ getColumnNames(schema.table.columns) }})</td>
+          </tr>
+        }
         <tr>
           <th>Training Samples</th>
           <td>

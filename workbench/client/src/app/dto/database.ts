@@ -6,6 +6,7 @@ export interface Database {
   port: number | string;
   username: string | null;
   password: string | null;
+  database: string | null;
 }
 
 export interface FindDatabase extends Database {

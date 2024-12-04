@@ -24,9 +24,6 @@ $anim-timing: ease-out;
   animation-timing-function: $anim-timing;
 }
 
-.cdk-dialog-container {
-}
-
 @keyframes dialog-pane-anim {
   from {
     opacity: 0;

@@ -25,10 +25,12 @@
     <tbody>
       @for (query of queryList() | patternFilter:keyword():'name'; track $index) {
         <tr class="even:bg-zinc-50 hover:bg-zinc-100">
-          <th class="text-right">{{ query.id }}</th>
+          <td class="text-right">{{ query.id }}</td>
           <td>{{ query.name }}</td>
-          <td>{{ query.is_approximate ? '근사질의' : '정확질의' }}</td>
-          <td class="truncate">{{ query.sql }}</td>
+          <td class="whitespace-nowrap">{{ query.query_type | queryType }}</td>
+          <td>
+            <pre class="bg-white max-h-[150px] whitespace-pre-wrap overflow-auto w-full">{{ query.sql }}</pre>
+          </td>
           <td class="flex gap-2 py-2 px-4">
             <button
               type="button"

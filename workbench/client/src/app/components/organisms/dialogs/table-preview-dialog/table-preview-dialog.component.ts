@@ -8,16 +8,15 @@ import { DialogHeaderDirective, LoadingComponent } from '../../../atoms';
 import { BaseDialogComponent } from '../base-dialog';
 
 @Component({
-  imports: [
-    BaseDialogComponent,
-    DialogHeaderDirective,
-    LoadingComponent,
-    DecimalPipe
-  ],
-  selector: 'etri-table-preview-dialog_',
-  standalone: true,
-  styleUrls: ['table-preview-dialog.component.scss'],
-  templateUrl: 'table-preview-dialog.component.html'
+    imports: [
+        BaseDialogComponent,
+        DialogHeaderDirective,
+        LoadingComponent,
+        DecimalPipe
+    ],
+    selector: 'etri-table-preview-dialog_',
+    styleUrls: ['table-preview-dialog.component.scss'],
+    templateUrl: 'table-preview-dialog.component.html'
 })
 export class TablePreviewDialogComponent implements OnInit {
   readonly onClose = output<void>();
@@ -64,12 +63,11 @@ export class TablePreviewDialogComponent implements OnInit {
 }
 
 @Component({
-  imports: [
-    TablePreviewDialogComponent
-  ],
-  selector: 'etri-table-preview-dialog',
-  standalone: true,
-  template: `
+    imports: [
+        TablePreviewDialogComponent
+    ],
+    selector: 'etri-table-preview-dialog',
+    template: `
     <etri-table-preview-dialog_
       [databaseId]="data.database_id"
       [schema]="data.schema"

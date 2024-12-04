@@ -7,19 +7,18 @@ import { IpAnonymizationPipe, PatternFilterPipe } from '../../../../pipes';
 import { ModeltypeService, TraindbService } from '../../../../services';
 
 @Component({
-  imports: [
-    RouterLink,
-    DecimalPipe,
-    LoadingComponent,
-    PatternFilterPipe,
-    SearchInputComponent,
-    TrashIconComponent,
-    IpAnonymizationPipe
-  ],
-  selector: 'etri-modeltype-list-page',
-  standalone: true,
-  styleUrls: ['modeltype-list-page.component.scss'],
-  templateUrl: 'modeltype-list-page.component.html'
+    imports: [
+        RouterLink,
+        DecimalPipe,
+        LoadingComponent,
+        PatternFilterPipe,
+        SearchInputComponent,
+        TrashIconComponent,
+        IpAnonymizationPipe
+    ],
+    selector: 'etri-modeltype-list-page',
+    styleUrls: ['modeltype-list-page.component.scss'],
+    templateUrl: 'modeltype-list-page.component.html'
 })
 export class ModeltypeListPageComponent {
   readonly modeltypeList: WritableSignal<Modeltype[]> = signal([]);

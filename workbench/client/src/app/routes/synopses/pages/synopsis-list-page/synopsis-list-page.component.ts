@@ -16,21 +16,20 @@ import { PatternFilterPipe } from '../../../../pipes';
 import { SynopsisService, TraindbService } from '../../../../services';
 
 @Component({
-  imports: [
-    RouterLink,
-    DecimalPipe,
-    LoadingComponent,
-    PatternFilterPipe,
-    SearchInputComponent,
-    TrashIconComponent,
-    PencilSquareIconComponent,
-    ArrowUpTrayIconComponent,
-    ArrowDownTrayIconComponent
-  ],
-  selector: 'etri-synopsis-list-page',
-  standalone: true,
-  styleUrls: ['synopsis-list-page.component.scss'],
-  templateUrl: 'synopsis-list-page.component.html'
+    imports: [
+        RouterLink,
+        DecimalPipe,
+        LoadingComponent,
+        PatternFilterPipe,
+        SearchInputComponent,
+        TrashIconComponent,
+        PencilSquareIconComponent,
+        ArrowUpTrayIconComponent,
+        ArrowDownTrayIconComponent
+    ],
+    selector: 'etri-synopsis-list-page',
+    styleUrls: ['synopsis-list-page.component.scss'],
+    templateUrl: 'synopsis-list-page.component.html'
 })
 export class SynopsisListPageComponent {
   readonly synopsisList: WritableSignal<Synopsis[]> = signal([]);

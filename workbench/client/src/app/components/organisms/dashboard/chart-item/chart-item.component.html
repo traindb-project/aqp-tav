@@ -1,10 +1,11 @@
 <label class="flex items-center gap-4 w-full">
-  <span>Select X-Axis</span>
+  <span>{{ xAsisLabel() }}</span>
   <select
     [ngModel]="fields.x_column"
     (ngModelChange)="changeXColumn($event)"
     class="select select-sm select-bordered max-w-[300px] grow"
   >
+    <option [ngValue]="null">선택</option>
     @for (column of columns(); track column) {
       <option [ngValue]="column">{{ column }}</option>
     }
@@ -12,12 +13,13 @@
 </label>
 
 <label class="flex items-center gap-4 w-full">
-  <span>Select Y-Axis</span>
+  <span>{{ yAsisLabel() }}</span>
   <select
     [ngModel]="fields.y_column"
     (ngModelChange)="changeYColumn($event)"
     class="select select-sm select-bordered max-w-[300px] grow"
   >
+    <option [ngValue]="null">선택</option>
     @for (column of columns(); track column) {
       <option [ngValue]="column">{{ column }}</option>
     }

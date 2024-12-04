@@ -6,16 +6,15 @@ import { LoadingComponent } from '../../../../components';
 import { DatabaseService, TraindbService } from '../../../../services';
 
 @Component({
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    LoadingComponent,
-    RouterLink
-  ],
-  selector: 'etri-database-form-page',
-  standalone: true,
-  styleUrls: ['database-form-page.component.scss'],
-  templateUrl: 'database-form-page.component.html'
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        LoadingComponent,
+        RouterLink
+    ],
+    selector: 'etri-database-form-page',
+    styleUrls: ['database-form-page.component.scss'],
+    templateUrl: 'database-form-page.component.html'
 })
 export class DatabaseFormPageComponent implements OnInit, OnDestroy {
   id: number | null = null;
@@ -38,6 +37,7 @@ export class DatabaseFormPageComponent implements OnInit, OnDestroy {
       port: [null, [Validators.required]],
       username: [null, [Validators.required]],
       password: [null, [Validators.required]],
+      database: [null],
     });
   }
 
@@ -53,6 +53,7 @@ export class DatabaseFormPageComponent implements OnInit, OnDestroy {
       password: dto.password,
       server_host: traindb?.host ?? null,
       server_port: traindb?.port ?? null,
+      database: dto.database || null,
     }).pipe(
       delay(500)
     ).subscribe({
@@ -71,6 +72,7 @@ export class DatabaseFormPageComponent implements OnInit, OnDestroy {
     if (!traindbId) return;
 
     const dto = { ...this.formGroup.getRawValue(), traindb_id: traindbId };
+    dto.database = !(dto.database || '').trim() ? null : dto.database;
     const observable = this.id ?
       this.databaseService.updateDatabase(this.id, dto) :
       this.databaseService.createDatabase(dto);

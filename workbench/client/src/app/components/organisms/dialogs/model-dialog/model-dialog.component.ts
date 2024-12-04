@@ -2,24 +2,24 @@ import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { DatePipe, DecimalPipe, PercentPipe } from '@angular/common';
 import { Component, computed, effect, inject, input, output } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
-import { Model } from '../../../../dto';
+import { Column, Model } from '../../../../dto';
 import { TraindbService } from '../../../../services';
 import { ArrowDownTrayIconComponent, DialogHeaderDirective } from '../../../atoms';
 import { BaseDialogComponent } from '../base-dialog';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
-  imports: [
-    BaseDialogComponent,
-    DialogHeaderDirective,
-    PercentPipe,
-    DecimalPipe,
-    DatePipe,
-    ArrowDownTrayIconComponent
-  ],
-  selector: 'etri-model-dialog_',
-  standalone: true,
-  styleUrls: ['model-dialog.component.scss'],
-  templateUrl: 'model-dialog.component.html'
+    imports: [
+        BaseDialogComponent,
+        DialogHeaderDirective,
+        PercentPipe,
+        DecimalPipe,
+        DatePipe,
+        ArrowDownTrayIconComponent
+    ],
+    selector: 'etri-model-dialog_',
+    styleUrls: ['model-dialog.component.scss'],
+    templateUrl: 'model-dialog.component.html'
 })
 export class ModelDialogComponent {
   downloadLink: string | null = null;
@@ -29,6 +29,7 @@ export class ModelDialogComponent {
     return Object.keys(options).map(key => ({ name: key, value: options[key] }));
   });
   readonly onClose = output();
+  private readonly router = inject(Router);
 
   private readonly traindbService = inject(TraindbService);
 
@@ -39,16 +40,25 @@ export class ModelDialogComponent {
       if (model) this.downloadLink = environment.apiHost + `/models/${model.name}/export?traindb_id=${traindbId}`;
     });
   }
+
+  getColumnNames(columns: string[]) {
+    console.log(columns);
+    return columns.join(', ');
+  }
+
+  moveToAdditionalTrain(name: string) {
+    this.router.navigate(['/models', name, 'additional-train']);
+    this.onClose.emit();
+  }
 }
 
 
 @Component({
-  imports: [
-    ModelDialogComponent
-  ],
-  selector: 'etri-model-dialog',
-  standalone: true,
-  template: `
+    imports: [
+        ModelDialogComponent
+    ],
+    selector: 'etri-model-dialog',
+    template: `
     <etri-model-dialog_
       [model]="data"
       (onClose)="dialogRef.close()"

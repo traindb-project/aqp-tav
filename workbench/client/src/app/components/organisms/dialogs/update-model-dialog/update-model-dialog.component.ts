@@ -8,16 +8,15 @@ import { DialogHeaderDirective, LoadingComponent } from '../../../atoms';
 import { BaseDialogComponent } from '../base-dialog';
 
 @Component({
-  imports: [
-    BaseDialogComponent,
-    DialogHeaderDirective,
-    FormsModule,
-    LoadingComponent,
-  ],
-  selector: 'etri-update-model-dialog_',
-  standalone: true,
-  styleUrls: ['update-model-dialog.component.scss'],
-  templateUrl: 'update-model-dialog.component.html'
+    imports: [
+        BaseDialogComponent,
+        DialogHeaderDirective,
+        FormsModule,
+        LoadingComponent,
+    ],
+    selector: 'etri-update-model-dialog_',
+    styleUrls: ['update-model-dialog.component.scss'],
+    templateUrl: 'update-model-dialog.component.html'
 })
 export class UpdateModelDialogComponent implements OnInit {
   name: string | null = null;
@@ -65,12 +64,11 @@ export class UpdateModelDialogComponent implements OnInit {
 }
 
 @Component({
-  imports: [
-    UpdateModelDialogComponent
-  ],
-  selector: 'etri-update-model-dialog',
-  standalone: true,
-  template: `
+    imports: [
+        UpdateModelDialogComponent
+    ],
+    selector: 'etri-update-model-dialog',
+    template: `
     <etri-update-model-dialog_
       [model]="data"
       (onClose)="dialogRef.close($event)"

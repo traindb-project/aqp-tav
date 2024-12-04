@@ -1,0 +1,51 @@
+{
+  "folders": [
+    {
+      "path": ".",
+      "name": "project root"
+    },
+    {
+      "path": "client",
+      "name": "client"
+    },
+    {
+      "path": "server",
+      "name": "server"
+    }
+  ],
+  "settings": {
+    "[python]": {
+      "editor.defaultFormatter": "ms-python.black-formatter",
+      "editor.formatOnSave": true
+    },
+    "python.autoComplete.extraPaths": [
+      "${workspaceFolder:commonlib}",
+      "${workspaceFolder:dbmslib}",
+    ],
+    "python.analysis.extraPaths": [
+      "${workspaceFolder:commonlib}",
+      "${workspaceFolder:dbmslib}",
+    ],
+    "client": {
+      "eslint.enable": true,
+      "typescript.tsdk": "./frontend/node_modules/typescript/lib",
+      "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+      },
+      "editor.formatOnSave": true,
+      "eslint.validate": [
+        "javascript",
+        "typescript"
+      ],
+      "eslint.options": {
+        "extensions": [
+          ".js",
+          ".ts"
+        ]
+      }
+    },
+    "server": {
+      "python.defaultInterpreterPath": "${workspaceFolder:server}/.venv/bin/python"
+    },
+  }
+}
