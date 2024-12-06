@@ -6,11 +6,13 @@ export const SCHEMA_LIST: Schema[] = [
     tables: [
       {
         name: 'Table_1_very_very_long_name___________01',
-        type: 'TABLE'
+        type: 'TABLE',
+        columns: [],
       },
       {
         name: 'Table_2',
-        type: 'VIEW'
+        type: 'VIEW',
+        columns: [],
       },
     ],
   },
@@ -19,11 +21,13 @@ export const SCHEMA_LIST: Schema[] = [
     tables: [
       {
         name: 'Table_1',
-        type: 'TABLE'
+        type: 'TABLE',
+        columns: [],
       },
       {
         name: 'Table_2',
-        type: 'VIEW'
+        type: 'VIEW',
+        columns: [],
       },
     ],
   },
@@ -32,11 +36,13 @@ export const SCHEMA_LIST: Schema[] = [
     tables: [
       {
         name: 'Table_1',
-        type: 'TABLE'
+        type: 'TABLE',
+        columns: [],
       },
       {
         name: 'Table_2',
-        type: 'VIEW'
+        type: 'VIEW',
+        columns: [],
       },
     ],
   },
@@ -45,11 +51,13 @@ export const SCHEMA_LIST: Schema[] = [
     tables: [
       {
         name: 'Table_1',
-        type: 'TABLE'
+        type: 'TABLE',
+        columns: [],
       },
       {
         name: 'Table_2',
-        type: 'VIEW'
+        type: 'VIEW',
+        columns: [],
       },
     ],
   },
@@ -58,11 +66,13 @@ export const SCHEMA_LIST: Schema[] = [
     tables: [
       {
         name: 'Table_1',
-        type: 'TABLE'
+        type: 'TABLE',
+        columns: [],
       },
       {
         name: 'Table_2',
-        type: 'VIEW'
+        type: 'VIEW',
+        columns: [],
       },
     ],
   },
@@ -71,11 +81,13 @@ export const SCHEMA_LIST: Schema[] = [
     tables: [
       {
         name: 'Table_1',
-        type: 'TABLE'
+        type: 'TABLE',
+        columns: [],
       },
       {
         name: 'Table_2',
-        type: 'VIEW'
+        type: 'VIEW',
+        columns: [],
       },
     ],
   },
@@ -84,11 +96,13 @@ export const SCHEMA_LIST: Schema[] = [
     tables: [
       {
         name: 'Table_1',
-        type: 'TABLE'
+        type: 'TABLE',
+        columns: [],
       },
       {
         name: 'Table_2',
-        type: 'VIEW'
+        type: 'VIEW',
+        columns: [],
       },
     ],
   },
@@ -97,11 +111,13 @@ export const SCHEMA_LIST: Schema[] = [
     tables: [
       {
         name: 'Table_1',
-        type: 'TABLE'
+        type: 'TABLE',
+        columns: [],
       },
       {
         name: 'Table_2',
-        type: 'VIEW'
+        type: 'VIEW',
+        columns: [],
       },
     ],
   },
@@ -110,23 +126,27 @@ export const SCHEMA_LIST: Schema[] = [
     tables: [
       {
         name: 'Table_1',
-        type: 'TABLE'
+        type: 'TABLE',
+        columns: [],
       },
       {
         name: 'Table_2',
-        type: 'VIEW'
+        type: 'VIEW',
+        columns: [],
       },
     ],
-  },{
+  }, {
     name: 'Schema_10',
     tables: [
       {
         name: 'Table_1',
-        type: 'TABLE'
+        type: 'TABLE',
+        columns: [],
       },
       {
         name: 'Table_2',
-        type: 'VIEW'
+        type: 'VIEW',
+        columns: [],
       },
     ],
   },
@@ -135,11 +155,13 @@ export const SCHEMA_LIST: Schema[] = [
     tables: [
       {
         name: 'Table_1',
-        type: 'TABLE'
+        type: 'TABLE',
+        columns: [],
       },
       {
         name: 'Table_2',
-        type: 'VIEW'
+        type: 'VIEW',
+        columns: [],
       },
     ],
   },
@@ -148,11 +170,13 @@ export const SCHEMA_LIST: Schema[] = [
     tables: [
       {
         name: 'Table_1',
-        type: 'TABLE'
+        type: 'TABLE',
+        columns: [],
       },
       {
         name: 'Table_2',
-        type: 'VIEW'
+        type: 'VIEW',
+        columns: [],
       },
     ],
   },

@@ -51,6 +51,7 @@ async def run_query(
         query.database.password,
         query.traindb.host,
         query.traindb.port,
+        query.database.database,
     )
     query = query.sql.strip()
     query = query[:-1] if query[-1] == ";" else query

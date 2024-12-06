@@ -6,26 +6,23 @@ app = Celery(
     "tasks",
     broker=f"{REDIS_URL}/{REDIS_WORKER_INDEX}",
     backend=f"{REDIS_URL}/{REDIS_WORKER_INDEX}",
-    include=["main"]
+    include=["main"],
 )
 
-app.conf.update(
-    task_routes={
-        "task.*": {"queue": "default"}
-    }
-)
+app.conf.update(task_routes={"task.*": {"queue": "default"}})
 
 
 @app.task
 def execute_statement(dto, config):
     handler = DatabaseQueryHandler(
-        config["dbms"],
-        config["host"],
-        config["port"],
-        config["username"],
-        config["password"],
-        config["traindb"]["host"],
-        config["traindb"]["port"],
+        config.get("dbms"),
+        config.get("host"),
+        config.get("port"),
+        config.get("username"),
+        config.get("password"),
+        config.get("traindb").get("host"),
+        config.get("traindb").get("port"),
+        config.get("database"),
     )
     query = (
         f"CREATE SYNOPSIS {dto['name']} "

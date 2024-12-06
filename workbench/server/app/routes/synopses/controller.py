@@ -97,6 +97,7 @@ async def create_synopsis(
         database.password,
         database.traindb.host,
         database.traindb.port,
+        database.database,
     )
     # query = (
     #     f"CREATE SYNOPSIS {dto.name} "

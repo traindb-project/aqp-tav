@@ -31,6 +31,7 @@ async def find_tables(
         database.password,
         database.traindb.host,
         database.traindb.port,
+        database.database,
     )
     ls = handler.show_tables()
     schemas = {}
@@ -61,6 +62,7 @@ async def describe_table(
         database.password,
         database.traindb.host,
         database.traindb.port,
+        database.database,
     )
     names = ("name", "type")
     columns = handler.describe_table(schema_name, table_name)
@@ -82,6 +84,7 @@ async def preview_table(dto: TablePreviewRequest, db: Session = Depends(get_syst
         database.password,
         database.traindb.host,
         database.traindb.port,
+        database.database,
     )
     result = handler.execute_query_and_description(
         f"SELECT {', '.join(dto.columns)} FROM {dto.schema}.{dto.table} LIMIT 50"

@@ -1,22 +1,33 @@
 from typing import List
 
 import jaydebeapi
+from fastapi import HTTPException, status
 
 from env import TRAINDB_DRIVER_PATH
 
 
+def make_dbms_scheme(dbms: str):
+    if dbms == "traindb":
+        return f"jdbc:traindb"
+    elif dbms == "tibero":
+        return f"jdbc:traindb:{dbms}:thin"
+    return f"jdbc:traindb:{dbms}"
+
+
 class BaseQueryHandler(object):
     def __init__(
-            self,
-            scheme: str,
-            host: str,
-            port: int | str,
-            username: str | None,
-            password: str | None,
-            server_host: str | None = None,
-            server_port: int | str | None = None,
+        self,
+        dbms: str,
+        host: str,
+        port: int | str,
+        username: str | None,
+        password: str | None,
+        server_host: str | None = None,
+        server_port: int | str | None = None,
+        database: str | None = None,
     ):
-        self.scheme = scheme
+        self.dbms = dbms
+        self.scheme = make_dbms_scheme(dbms)
         self.host = host
         self.port = port
         self.driver_class = "traindb.jdbc.Driver"
@@ -24,6 +35,7 @@ class BaseQueryHandler(object):
         self.password = password
         self.server_host = server_host
         self.server_port = server_port
+        self.database = database
 
     def make_connect_query(self):
         queries: List[str] = []
@@ -34,7 +46,16 @@ class BaseQueryHandler(object):
         return "&".join(queries)
 
     def make_base_url(self):
-        return f"{self.scheme}://{self.host}:{self.port}"
+        base_url = ""
+        if self.dbms == "tibero":
+            base_url = f"{self.scheme}:@{self.host}:{self.port}"
+        else:
+            base_url = f"{self.scheme}://{self.host}:{self.port}"
+        if self.database:
+            base_url += (
+                f"/{self.database}" if self.dbms != "tibero" else f":{self.database}"
+            )
+        return base_url
 
     def make_connect_url(self):
         url = self.make_base_url()
@@ -46,12 +67,11 @@ class BaseQueryHandler(object):
     def connect(self):
         url = self.make_connect_url()
         print("Connecting to", url)
-        driver_args = [self.username, self.password] if self.username and self.password else None
+        driver_args = (
+            [self.username, self.password] if self.username and self.password else None
+        )
         return jaydebeapi.connect(
-            self.driver_class,
-            url,
-            driver_args,
-            str(TRAINDB_DRIVER_PATH)
+            self.driver_class, url, driver_args, str(TRAINDB_DRIVER_PATH)
         )
 
     def test_connection(self) -> bool:
@@ -70,7 +90,20 @@ class BaseQueryHandler(object):
                     cursor.execute(query)
                     return cursor.fetchall()
         except Exception as e:
-            print(e)
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+            )
+
+    def execute_cursor(self, query: str, *args, **kwargs):
+        try:
+            with self.connect() as conn:
+                with conn.cursor() as cursor:
+                    print("EXECUTE QUERY:", query)
+                    cursor.execute(query, *args, **kwargs)
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+            )
 
     def execute_query_and_fetch_one(self, query: str):
         try:
@@ -80,31 +113,46 @@ class BaseQueryHandler(object):
                     cursor.execute(query)
                     return cursor.fetchone()
         except Exception as e:
-            print(e)
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+            )
 
     def execute_query_and_description(self, query: str):
         try:
             with self.connect() as conn:
                 with conn.cursor() as cursor:
                     print("EXECUTE QUERY:", query)
+                    columns = []
+                    types = []
                     cursor.execute(query)
-                    desc = [desc[0] for desc in cursor.description]
+                    meta = cursor._rs.getMetaData()
+                    col_count = meta.getColumnCount()
+                    for i in range(1, col_count + 1):
+                        columns.append(meta.getColumnName(i))
+                        types.append(meta.getColumnTypeName(i))
                     data = cursor.fetchall()
                     return {
-                        "description": desc,
+                        "columns": columns,
+                        "types": types,
                         "data": data,
                     }
         except Exception as e:
             print(e)
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+            )
 
     def execute_statement(self, query: str, *args, **kwargs):
+        print("EXECUTE STATEMENT:::", query, args, kwargs)
         try:
             with self.connect() as conn:
                 with conn.jconn.createStatement() as stmt:
                     print(f"EXECUTE STATEMENT: {query}")
                     stmt.execute(query, *args, **kwargs)
         except Exception as e:
-            print(e)
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+            )
 
     def show_modeltypes(self):
         return self.execute_query("SHOW MODELTYPES")
@@ -132,25 +180,36 @@ class BaseQueryHandler(object):
 
 
 class TrainDBQueryHandler(BaseQueryHandler):
-    def __init__(self, host: str, port: int | str, username: str | None, password: str | None):
-        super().__init__("jdbc:traindb", host, port, username, password)
+    def __init__(
+        self, host: str, port: int | str, username: str | None, password: str | None
+    ):
+        super().__init__("traindb", host, port, username, password)
 
 
 class DatabaseQueryHandler(BaseQueryHandler):
     def __init__(
-            self,
-            dbms: str,
-            host: str,
-            port: int | str,
-            username: str | None,
-            password: str | None,
-            server_host: str | None,
-            server_port: int | str | None
+        self,
+        dbms: str,
+        host: str,
+        port: int | str,
+        username: str | None,
+        password: str | None,
+        server_host: str | None,
+        server_port: int | str | None,
+        database: str | None = None,
     ):
-        super().__init__(f"jdbc:traindb:{dbms}", host, port, username, password, server_host, server_port)
-        self.dbms = dbms
+        super().__init__(
+            dbms,
+            host,
+            port,
+            username,
+            password,
+            server_host,
+            server_port,
+            database,
+        )
 
     def make_base_url(self):
-        if self.dbms == 'kairos':
-            return super().make_base_url() + '/nam'
+        if self.dbms == "kairos":
+            return super().make_base_url() + "/nam"
         return super().make_base_url()

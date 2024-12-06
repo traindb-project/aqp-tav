@@ -13,25 +13,26 @@ import {
   UpdateModelDialog
 } from '../../../../components';
 import { Model } from '../../../../dto';
-import { IpAnonymizationPipe, PatternFilterPipe } from '../../../../pipes';
+import { IpAnonymizationPipe, PatternFilterPipe, TrainingStatusColorPipe } from '../../../../pipes';
 import { ModelService, TraindbService } from '../../../../services';
 
 @Component({
-    imports: [
-        RouterLink,
-        DecimalPipe,
-        LoadingComponent,
-        PatternFilterPipe,
-        SearchInputComponent,
-        IpAnonymizationPipe,
-        TrashIconComponent,
-        PencilSquareIconComponent,
-        DocumentMagnifyingGlassIconComponent,
-        ArrowUpTrayIconComponent,
-    ],
-    selector: 'etri-model-list-page',
-    styleUrls: ['model-list-page.component.scss'],
-    templateUrl: 'model-list-page.component.html'
+  imports: [
+    RouterLink,
+    DecimalPipe,
+    LoadingComponent,
+    PatternFilterPipe,
+    SearchInputComponent,
+    IpAnonymizationPipe,
+    TrashIconComponent,
+    PencilSquareIconComponent,
+    DocumentMagnifyingGlassIconComponent,
+    ArrowUpTrayIconComponent,
+    TrainingStatusColorPipe,
+  ],
+  selector: 'etri-model-list-page',
+  styleUrls: ['model-list-page.component.scss'],
+  templateUrl: 'model-list-page.component.html'
 })
 export class ModelListPageComponent {
   readonly modelList: WritableSignal<Model[]> = signal([]);

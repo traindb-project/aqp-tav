@@ -52,7 +52,7 @@
           <td>
             @if (model.training_status) {
               <div
-                class="badge {{ model.training_status === 'TRAINING' ? 'badge-warning' : '' }}">{{ model.training_status }}
+                class="badge {{ model.training_status | trainingStatusColor }}">{{ model.training_status }}
               </div>
             } @else {
               <span>-</span>

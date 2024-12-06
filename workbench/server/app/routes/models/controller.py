@@ -137,7 +137,7 @@ async def import_model(
     ByteArray = jpype.JArray(jpype.JByte)
     model_binary = ByteArray(binary)
     try:
-        handler.execute_cursor(f"IMPORT MODEL {name} FROM ?", [model_binary])
+        handler.execute_cursor(f'IMPORT MODEL "{name}" FROM ?', [model_binary])
     except Exception as e:
         print("ERROR:::", e)
         raise e
@@ -162,6 +162,7 @@ async def train_model(dto: TrainModelDto, db: Session = Depends(get_system_db)) 
         database.password,
         database.traindb.host,
         database.traindb.port,
+        database.database,
     )
     params = ", ".join(
         map(
@@ -177,7 +178,7 @@ async def train_model(dto: TrainModelDto, db: Session = Depends(get_system_db)) 
             status_code=status.HTTP_409_CONFLICT, detail="Model name already exists"
         )
 
-    query = f"TRAIN MODEL {dto.name} MODELTYPE {dto.modeltype} FROM {dto.schemas[0].schema}.{dto.schemas[0].table.name}({','.join(dto.schemas[0].table.columns)})"
+    query = f'TRAIN MODEL "{dto.name}" MODELTYPE {dto.modeltype} FROM {dto.schemas[0].schema}.{dto.schemas[0].table.name}({",".join(dto.schemas[0].table.columns)})'
     print("QUERY1:::", query)
     for schema in dto.schemas[1:]:
         query += f" JOIN {schema.schema}.{schema.table.name}({','.join(schema.table.columns)})"
@@ -212,6 +213,7 @@ async def additional_train_model(
         database.password,
         database.traindb.host,
         database.traindb.port,
+        database.database,
     )
     if dto.name in map(lambda x: x[0], handler.show_models()):
         raise HTTPException(
@@ -223,7 +225,7 @@ async def additional_train_model(
             filter(lambda x: bool(x.value.strip()), dto.options),
         )
     )
-    query = f"TRAIN MODEL {dto.name} UPDATE {name}"
+    query = f'TRAIN MODEL {dto.name} UPDATE "{name}"'
     if len(dto.on) > 0:
         query += f" ON {dto.on[0]}"
     for on in dto.on[1:]:

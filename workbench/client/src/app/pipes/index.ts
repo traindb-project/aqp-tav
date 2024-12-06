@@ -5,3 +5,4 @@ export * from './filter-selected-rows.pipe';
 export * from './ip-anonymization.pipe';
 export * from './patternFilter.pipe';
 export * from './query-type.pipe';
+export * from './training-status-color.pipe';
