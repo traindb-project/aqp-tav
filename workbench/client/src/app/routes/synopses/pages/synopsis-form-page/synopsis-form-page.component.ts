@@ -8,16 +8,16 @@ import { IpAnonymizationPipe } from '../../../../pipes';
 import { DatabaseService, ModelService, ModeltypeService, SynopsisService, TraindbService } from '../../../../services';
 
 @Component({
-    selector: 'etri-synopsis-form-page',
-    styleUrls: ['synopsis-form-page.component.scss'],
-    templateUrl: 'synopsis-form-page.component.html',
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        LoadingComponent,
-        RouterLink,
-        IpAnonymizationPipe
-    ]
+  selector: 'etri-synopsis-form-page',
+  styleUrls: ['synopsis-form-page.component.scss'],
+  templateUrl: 'synopsis-form-page.component.html',
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    LoadingComponent,
+    RouterLink,
+    IpAnonymizationPipe
+  ]
 })
 export class SynopsisFormPageComponent implements OnInit, OnDestroy {
   conflictName = false;
@@ -37,7 +37,7 @@ export class SynopsisFormPageComponent implements OnInit, OnDestroy {
   constructor(formBuilder: FormBuilder) {
     this.formGroup = formBuilder.group({
       name: [null, [Validators.required]],
-      database: [null, Validators.required],
+      database: [null],
       model: [null, [Validators.required]],
       limit_rows: [null, [Validators.required, Validators.pattern(/^\d+(\.\d+)?$/)]],
       is_percent: [false]
@@ -58,9 +58,10 @@ export class SynopsisFormPageComponent implements OnInit, OnDestroy {
   }
 
   submit() {
+    const traindbId = this.traindbService.currentId()!;
     this.submitting = true;
     const { database, ...dto } = this.formGroup.getRawValue();
-    this.synopsisService.createSynopsis(database, dto).pipe(
+    this.synopsisService.createSynopsis(traindbId, database, dto).pipe(
       finalize(() => this.submitting = false)
     ).subscribe({
       next: () => this.router.navigate(['/synopses']),

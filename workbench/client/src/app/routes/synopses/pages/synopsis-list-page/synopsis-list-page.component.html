@@ -78,12 +78,13 @@
               >
                 <etri-pencil-square-icon type="solid" class="size-4"/>
               </button>
-              <a
-                [href]="apiHost + '/synopses/' + synopsis.name + '/export?traindb_id=' + traindbId()"
+              <button
+                type="button"
+                (click)="exportSynopsis(synopsis)"
                 class="btn btn-info btn-xs rounded-none no-underline"
               >
                 <etri-arrow-down-tray-icon type="solid" class="size-4 text-white"/>
-              </a>
+              </button>
             </td>
           </tr>
         } @empty {

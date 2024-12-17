@@ -1,0 +1,29 @@
+<etri-base-dialog
+  (onClose)="onClose.emit(undefined)"
+>
+  <h1 header etriDialogHeader>Select Database</h1>
+
+  <select
+      [(ngModel)]="selected"
+      class="select select-bordered"
+    >
+      <option [ngValue]="null">No Database Selected</option>
+      @for (database of databases(); track database) {
+        <option [ngValue]="database">
+          {{ database.name }} ({{database.host | ipAnonymization }}:{{ database.port}})
+        </option>
+      }
+    </select>
+    <div footer class="flex justify-end items-center gap-4">
+      <button
+        type="button"
+        (click)="onClose.emit(undefined)"
+        class="btn btn-sm"
+      >Cancel</button>
+      <button
+        type="button"
+        (click)="onClose.emit(selected())"
+        class="btn btn-sm btn-primary text-white"
+      >Select</button>
+    </div>
+</etri-base-dialog>

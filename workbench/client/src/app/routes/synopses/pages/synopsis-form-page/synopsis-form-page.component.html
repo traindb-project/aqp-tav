@@ -22,7 +22,7 @@
       formControlName="database"
       class="select select-bordered"
     >
-      <option [ngValue]="null" disabled selected>Select DBMS</option>
+      <option [ngValue]="null">No Database Selected</option>
       @for (database of databases(); track database) {
         <option [ngValue]="database.id">
           {{ database.name }} ({{database.host | ipAnonymization }}:{{ database.port}})

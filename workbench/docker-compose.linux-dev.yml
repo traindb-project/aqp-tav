@@ -59,4 +59,6 @@ services:
       - .env
     depends_on:
       - redis
+    volumes:
+      - ./worker/app:/app
     command: celery -A main worker --loglevel=info

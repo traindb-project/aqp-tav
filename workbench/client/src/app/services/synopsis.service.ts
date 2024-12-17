@@ -18,13 +18,15 @@ export class SynopsisService {
     );
   }
 
-  createSynopsis(database_id: number, dto: CreateSynopsis) {
-    const params = { database_id };
+  createSynopsis(traindb_id: number, database_id: number | null, dto: CreateSynopsis) {
+    const params: any = { traindb_id };
+    if (database_id !== null) params.database_id = database_id;
     return this.httpClient.post<void>(this.BASE_URL, dto, { params });
   }
 
-  importSynopsis(traindb_id: number, name: string, file: File) {
-    const params = { traindb_id };
+  importSynopsis(traindb_id: number, database_id: number | null, name: string, file: File) {
+    const params: any = { traindb_id };
+    if (database_id !== null) params.database_id = database_id;
     const formData = new FormData();
     formData.append('file', file);
     return this.httpClient.post<void>(`${this.BASE_URL}/${name}/import`, formData, { params });
@@ -35,8 +37,9 @@ export class SynopsisService {
     return this.httpClient.put<void>(`${this.BASE_URL}/${name}`, dto, { params });
   }
 
-  deleteSynopsis(traindb_id: number, name: string) {
-    const params = { traindb_id };
+  deleteSynopsis(traindb_id: number, database_id: number | null, name: string) {
+    const params: any = { traindb_id };
+    if (database_id !== null) params.database_id = database_id;
     return this.httpClient.delete<void>(`${this.BASE_URL}/${name}`, { params });
   }
 }

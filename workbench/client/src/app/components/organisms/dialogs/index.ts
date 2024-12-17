@@ -1,4 +1,5 @@
 export * from './base-dialog';
+export * from './export-synopsis-dialog';
 export * from './import-model-dialog';
 export * from './import-synopsis-dialog';
 export * from './make-chart-dialog';

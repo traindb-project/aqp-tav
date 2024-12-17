@@ -1,7 +1,7 @@
 FROM node:20.11.0-alpine as build
 
 WORKDIR /app
-COPY ./package*.json ./
+COPY ./package*.json .
 
 RUN npm i -g npm && \
     npm ci --force

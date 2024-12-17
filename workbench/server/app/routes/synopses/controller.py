@@ -58,19 +58,39 @@ async def find_synopses(
 
 @router.get("/{name}/export")
 async def export_synopsis(
-    name: str, traindb_id: int, db: Session = Depends(get_system_db)
+    name: str,
+    traindb_id: int,
+    db: Session = Depends(get_system_db),
+    database_id: int | None = None
 ):
-    traindb = db.query(TrainDB).filter(TrainDB.id == traindb_id).first()
-    if not traindb:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="TrainDB not found"
+    if database_id is None:
+        traindb = db.query(TrainDB).filter(TrainDB.id == traindb_id).first()
+        if not traindb:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="TrainDB not found"
+            )
+        handler = TrainDBQueryHandler(
+            traindb.host,
+            traindb.port,
+            traindb.username,
+            traindb.password,
         )
-    handler = TrainDBQueryHandler(
-        traindb.host,
-        traindb.port,
-        traindb.username,
-        traindb.password,
-    )
+    else:
+        database = db.query(Database).filter(Database.id == database_id).first()
+        if not database:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="Database not found"
+            )
+        handler = DatabaseQueryHandler(
+            database.dbms,
+            database.host,
+            database.port,
+            database.username,
+            database.password,
+            database.traindb.host,
+            database.traindb.port,
+            database.database,
+        )
     response = handler.execute_query_and_fetch_one(f"EXPORT SYNOPSIS {name}")
     binary = response[0]
     return StreamingResponse(
@@ -82,44 +102,60 @@ async def export_synopsis(
 
 @router.post("")
 async def create_synopsis(
-    database_id: int, dto: CreateSynopsis, db: Session = Depends(get_system_db)
+    traindb_id: int,
+    dto: CreateSynopsis,
+    db: Session = Depends(get_system_db),
+    database_id: int | None = None,
 ):
-    database = db.query(Database).filter(Database.id == database_id).first()
-    if not database:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Database not found"
+    if database_id is None:
+        traindb = db.query(TrainDB).filter(TrainDB.id == traindb_id).first()
+        if not traindb:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="TrainDB not found"
+            )
+        handler = TrainDBQueryHandler(
+            traindb.host,
+            traindb.port,
+            traindb.username,
+            traindb.password,
         )
-    handler = DatabaseQueryHandler(
-        database.dbms,
-        database.host,
-        database.port,
-        database.username,
-        database.password,
-        database.traindb.host,
-        database.traindb.port,
-        database.database,
-    )
-    # query = (
-    #     f"CREATE SYNOPSIS {dto.name} "
-    #     f"FROM MODEL {dto.model} "
-    #     f"LIMIT {dto.limit_rows} {'PERCENT' if dto.is_percent else 'ROWS'}"
-    # )
+        config = {
+            "host": traindb.host,
+            "port": traindb.port,
+            "username": traindb.username,
+            "password": traindb.password,
+        }
+    else:
+        database = db.query(Database).filter(Database.id == database_id).first()
+        if not database:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="Database not found"
+            )
+        handler = DatabaseQueryHandler(
+            database.dbms,
+            database.host,
+            database.port,
+            database.username,
+            database.password,
+            database.traindb.host,
+            database.traindb.port,
+            database.database,
+        )
+        config = {
+          "dbms": database.dbms,
+          "host": database.host,
+          "port": database.port,
+          "username": database.username,
+          "password": database.password,
+          "traindb": {
+              "host": database.traindb.host,
+              "port": database.traindb.port,
+          },
+        }
     if dto.name in map(lambda x: x[0], handler.show_synopses()):
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT, detail="Synopsis Name already exists"
         )
-    # handler.execute_statement(query)
-    config = {
-        "dbms": database.dbms,
-        "host": database.host,
-        "port": database.port,
-        "username": database.username,
-        "password": database.password,
-        "traindb": {
-            "host": database.traindb.host,
-            "port": database.traindb.port,
-        },
-    }
     task = celery_app.send_task(
         "main.execute_statement", args=[dto.model_dump(), config]
     )
@@ -128,19 +164,40 @@ async def create_synopsis(
 
 @router.post("/{name}/import")
 async def import_synopsis(
-    name: str, traindb_id: int, file: UploadFile, db: Session = Depends(get_system_db)
+    name: str,
+    traindb_id: int,
+    file: UploadFile,
+    db: Session = Depends(get_system_db),
+    database_id: int | None = None,
 ):
-    traindb = db.query(TrainDB).filter(TrainDB.id == traindb_id).first()
-    if not traindb:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="TrainDB not found"
+    if database_id is None:
+        traindb = db.query(TrainDB).filter(TrainDB.id == traindb_id).first()
+        if not traindb:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="TrainDB not found"
+            )
+        handler = TrainDBQueryHandler(
+            traindb.host,
+            traindb.port,
+            traindb.username,
+            traindb.password,
         )
-    handler = TrainDBQueryHandler(
-        traindb.host,
-        traindb.port,
-        traindb.username,
-        traindb.password,
-    )
+    else:
+        database = db.query(Database).filter(Database.id == database_id).first()
+        if not database:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="Database not found"
+            )
+        handler = DatabaseQueryHandler(
+            database.dbms,
+            database.host,
+            database.port,
+            database.username,
+            database.password,
+            database.traindb.host,
+            database.traindb.port,
+            database.database,
+        )
     if name in map(lambda x: x[0], handler.show_synopses()):
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT, detail="Synopsis Name already exists"
@@ -180,17 +237,37 @@ async def update_synopsis(
 
 @router.delete("/{name}")
 async def delete_synopsis(
-    name: str, traindb_id: int, db: Session = Depends(get_system_db)
+    name: str,
+    traindb_id: int,
+    db: Session = Depends(get_system_db),
+    database_id: int | None = None,
 ):
-    traindb = db.query(TrainDB).filter(TrainDB.id == traindb_id).first()
-    if not traindb:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Database not found"
+    if database_id is None:
+        traindb = db.query(TrainDB).filter(TrainDB.id == traindb_id).first()
+        if not traindb:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="Database not found"
+            )
+        handler = TrainDBQueryHandler(
+            traindb.host,
+            traindb.port,
+            traindb.username,
+            traindb.password,
         )
-    handler = TrainDBQueryHandler(
-        traindb.host,
-        traindb.port,
-        traindb.username,
-        traindb.password,
-    )
+    else:
+        database = db.query(Database).filter(Database.id == database_id).first()
+        if not database:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="Database not found"
+            )
+        handler = DatabaseQueryHandler(
+            database.dbms,
+            database.host,
+            database.port,
+            database.username,
+            database.password,
+            database.traindb.host,
+            database.traindb.port,
+            database.database,
+        )
     handler.execute_statement(f"DROP SYNOPSIS {name}")
